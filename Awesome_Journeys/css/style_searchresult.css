@@ -1,0 +1,28 @@
+.viaggio {
+    border: 1px solid dodgerblue;
+    border-radius: 2em;
+    margin: 2px;
+    padding: 20px;
+    clear: both;
+    height: 204px;
+    width: border-box;
+}
+
+.viaggio:hover {
+    box-shadow: 0.20em 0.20em 0.30em #000000;
+}
+
+.viaggio > img {
+    width: 200px;
+    height: 200px;
+    border: 2px solid #000000;
+    float: left;
+    clear: left;
+    margin: 3px;
+}
+
+.viaggio > .category {
+   float: right;
+   padding: 20px;
+   border-radius: 2em;
+}

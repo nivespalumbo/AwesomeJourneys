@@ -1,0 +1,39 @@
+@font-face {
+    font-family: "Sprinklescolors";
+    src: url("../images/Sprinklescolors.eot"); /* per IE */
+    src: local("Sprinklescolors.ttf"), url("../images/Sprinklescolors.ttf") format('truetype');
+}
+
+a:link, a:hover, a:active, a:visited, a:focus {
+    color: #000000;
+    text-decoration: none;
+}
+
+body {
+    background-image: url("../images/wallpaper.png");
+    background-position: 0% 0%;
+    background-origin: border-box;
+    background-attachment: fixed;
+    background-size: cover;
+    background-clip: border-box;
+    background-repeat: no-repeat;
+}
+
+#container {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 0.15em 0.15em 0.20em #000000;
+    border-radius: 2em 8em 2em 2em;
+    overflow: hidden;
+    clear: both;
+    font-family: sans-serif;
+}
+
+#content {
+    font-family: sans-serif;
+    clear: both;
+}
