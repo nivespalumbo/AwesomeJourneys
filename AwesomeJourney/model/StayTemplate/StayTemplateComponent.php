@@ -1,0 +1,37 @@
+<?php
+
+interface StayTemplateComponent {
+    public function getId();
+    
+    public function getType();
+    
+    public function getLocation();
+    public function getStartLocation();
+    public function getEndLocation();
+    
+    public function getName();
+    public function getDescription();
+    public function getEndDate();
+    public function getStartDate();
+    
+    public function getActivities();
+    public function getAccomodation();
+    public function getTransports();
+    
+    public function isComposite();
+    
+    public function newItineraryBick();
+    
+    public function addComponent(StayTemplateComponent $component);
+    public function removeComponent($id);
+
+    public function setLocation($location);
+    public function setStartLocation($location);
+    public function setEndLocation($location);
+    
+    public function setName($name);
+    public function setDescription($description);
+    public function setEndDate($startDate);
+    public function setStartDate($endDate);
+    
+}
