@@ -13,7 +13,7 @@ abstract class ItineraryState{
     
     protected function insertInDB($creator){
         $insert1 = "INSERT INTO itinerary(creator, state";
-        $insert2 = " VALUES(".$creator.", ".$this->type;
+        $insert2 = " VALUES('".$creator."', ".$this->type."";
         
         if($this->name != NULL){
             $insert1 .= ", name";

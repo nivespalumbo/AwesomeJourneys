@@ -1,7 +1,3 @@
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,12 +10,16 @@ and open the template in the editor.
     
     <body>
         <div id='container'>
-            <div id='header'>
-                <img src="images/baloon.png" alt="baloon">
-                <h1><a href="index.php">Awesome Journeys</a></h1>
-                <p style='float:right; color: #A8A8A8; font-size: 12px;'>
-                    <a href="index.php?op=login" style='color: #A8A8A8;'>Area clienti</a> | <a href="index.php?op=register" style='color: #A8A8A8'>Registrati</a>
-                </p>
+            <header>
+                <div>
+                    <img src="images/baloon.png" alt="baloon">
+                </div>
+                <div>
+                    <h1><a href="index.php">Awesome Journeys</a></h1>
+                    <p style='float:right; color: #A8A8A8; font-size: 12px;'>
+                        <a href="index.php?op=login" style='color: #A8A8A8;'>Area clienti</a> | <a href="index.php?op=register" style='color: #A8A8A8'>Registrati</a>
+                    </p>
+                </div>
                 <div id='menu'>
                     <ul>
                         <li><a href="#">Last minute</a></li>
@@ -28,7 +28,9 @@ and open the template in the editor.
                         <li><a href="#">Crociere</a></li>
                     </ul>
                 </div>
-            </div>
+                <div class="cleaner"></div>
+            </header>
+        
             <div id='content'>
                 <h2>Le nostre offerte</h2>
                 <?php
@@ -40,6 +42,7 @@ and open the template in the editor.
                     }
                 ?>
             </div>
+            <div class="cleaner"></div>    
         </div>
     </body>
 </html>

@@ -1,3 +1,5 @@
+@import "reset.css";
+
 @font-face {
     font-family: "Sprinklescolors";
     src: url("../images/Sprinklescolors.eot"); /* per IE */
@@ -19,21 +21,39 @@ body {
     background-repeat: no-repeat;
 }
 
+h1, h2, h3, h4 {
+    font-family: "Sprinklescolors";
+}
+h1{
+    font-size: 70px;
+}
+h2{
+    font-size: 55px;
+}
+h3{
+    font-size: 40px;
+}
+h4{
+    font-size: 25px;
+}
+
+.cleaner{
+    clear: both;
+}
+
 #container {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
     margin-top: 20px;
+    margin-bottom: 20px;
     padding: 10px;
     background-color: #FFFFFF;
     box-shadow: 0.15em 0.15em 0.20em #000000;
     border-radius: 2em 8em 2em 2em;
-    overflow: hidden;
-    clear: both;
     font-family: sans-serif;
 }
 
 #content {
     font-family: sans-serif;
-    clear: both;
 }

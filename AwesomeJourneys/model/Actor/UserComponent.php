@@ -15,6 +15,7 @@ abstract class UserComponent{
             else
                 return self::travelAgent(session_id (), $us->mail, $us->name, $us->surname, $us->address, $us->telephone);
         } 
+        return FALSE;
     }
     
     public static function register($name, $surname, $address, $tel, $mail, $pass, $passBis) {

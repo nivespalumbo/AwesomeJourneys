@@ -41,7 +41,7 @@ else {
                     <ul>
                         <li><a href="#">I miei dati</a></li>
                         <li><a href="<?php echo $_SERVER['PHP_SELF']."?op=itiner"?>">I miei viaggi</a></li>
-                        <li><a href="<?php echo $_SERVER['PHP_SELF']."?op=newItiner"?>">I miei viaggi</a></li>
+                        <li><a href="<?php echo $_SERVER['PHP_SELF']."?op=newItiner"?>">Nuovo itinerario</a></li>
                     </ul>
                 </div>
                 <div> 
@@ -50,7 +50,7 @@ else {
                         <tr><td>Nome:</td><td><input type="text" name="name" required/></td></tr>
                         <tr><td>Descrizione:</td><td><input type="text" name="description" required/></td></tr>
                     </table>
-                    <p><button type="submit" name="op" value="newItiner">Login</button><button type="reset" name="annulla">Annulla</button></p>
+                    <p><button type="submit" name="op" value="newItiner">Crea</button><button type="reset" name="annulla">Annulla</button></p>
                     </form>
                 </div>
             </div>

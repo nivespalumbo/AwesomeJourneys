@@ -21,12 +21,16 @@ else {
     
     <body>
         <div id='container'>
-            <div id='header'>
-                <img src="images/baloon.png" alt="baloon">
-                <h1><a href="index.php">Awesome Journeys</a></h1>
-                <p style='float:right; color: #A8A8A8; font-size: 12px;'>
-                    <?php echo $user->getRole()." profile"; ?> | <a href="<?php echo $_SERVER['PHP_SELF']."?op=logout"; ?>" style='color: #A8A8A8'>Logout</a>
-                </p>
+            <header>
+                <div>
+                    <img src="images/baloon.png" alt="baloon">
+                </div>
+                <div>
+                    <h1><a href="index.php">Awesome Journeys</a></h1>
+                    <p style='float:right; color: #A8A8A8; font-size: 12px;'>
+                        <?php echo $user->getRole() ?> profile | <a href="index.php?op=logout" style='color: #A8A8A8'>Logout</a>
+                    </p>
+                </div>
                 <div id='menu'>
                     <ul>
                         <li><a href="#">Last minute</a></li>
@@ -35,7 +39,9 @@ else {
                         <li><a href="#">Crociere</a></li>
                     </ul>
                 </div>
-            </div>
+                <div class="cleaner"></div>
+            </header>
+            
             <div id='content'>
                 <div id="menu_personale">
                     <p><?php echo "Benvenuto/a,<br/>";$user->getName()."!"; ?></p>
@@ -46,6 +52,7 @@ else {
                     </ul>
                 </div>
             </div>
+            <div class="cleaner"></div>
         </div>
     </body>
 </html>

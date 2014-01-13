@@ -71,8 +71,10 @@ class NavigationController {
     public function login(){
         $c = new LogRegisterController();
         //$this->model = $c->login($_POST['mail'], $_POST['pass']);
-        $_SESSION['utente'] = serialize($c->login($_POST['mail'], $_POST['pass']));
-        
+        $u = $c->login($_POST['mail'], $_POST['pass']);
+        if($u){
+            $_SESSION['utente'] = serialize($u);
+        }
         require_once("view/area_riservata.php");
     }
     
@@ -83,7 +85,8 @@ class NavigationController {
             require_once("view/area_riservata.php");
         }
         else{
-            return "An error occured";
+            $this->model = "REGISTRAZIONE FALLITA";
+            require_once("view/error.php");
         }
     }
     
