@@ -28,6 +28,10 @@ class NavigationController {
                 break;
             case 'newItiner' :
                 $this->newItinerary();
+                break;
+            case 'personalData' :
+                $this->getPersonalData();
+                break;
         }
     }
 
@@ -101,11 +105,21 @@ class NavigationController {
             $ris = $c->createItinerary($user);
 
             if($ris == FALSE){
-                $this->model = FALSE;
+                $this->model = "An error occured";
                 require_once("view/error.php");
             }else{
                 require_once("view/new_itinerary.php");
             }
+        }
+    }
+    
+    public function getPersonalData(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INSISTENTE";
+            require_once("view/error.php");
+        }else{
+            require_once 'view/manage_account.php';
         }
     }
     

@@ -41,6 +41,7 @@ else {
                 </div>
                 <div class="cleaner"></div>
             </header>
+            
             <div id='content'>
                 <div id="menu_personale">
                     <ul>
@@ -49,18 +50,20 @@ else {
                         <li><a href="<?php echo $_SERVER['PHP_SELF']."?op=newItiner"?>">Nuovo itinerario</a></li>
                     </ul>
                 </div>
-                <div> 
-                    <form action="index.php" method="POST">
+                <div>
+                    <h2>I miei dati</h2>
                     <table>
-                        <tr><td>Nome:</td><td><input type="text" name="name" required/></td></tr>
-                        <tr><td>Descrizione:</td><td><input type="text" name="description" required/></td></tr>
+                        <tr><td><b>Nome</b></td><td><?php echo $user->getName() ?></td></tr>
+                        <tr><td><b>Cognome</b></td><td><?php echo $user->getSurname() ?></td></tr>
+                        <tr><td><b>Indirizzo</b></td><td><?php echo $user->getAddress() ?></td></tr>
+                        <tr><td><b>Telefono</b></td><td><?php echo $user->getTelephone() ?></td></tr>
+                        <tr><td><b>E-mail</b></td><td><?php echo $user->getMail() ?></td></tr>
                     </table>
-                    <p><button type="submit" name="op" value="newItiner">Crea</button><button type="reset" name="annulla">Annulla</button></p>
-                    </form>
+                    <button type="button">Cambia</button>
                 </div>
                 <div class="cleaner"></div>
             </div>
+            <div class="cleaner"></div>
         </div>
     </body>
 </html>
-

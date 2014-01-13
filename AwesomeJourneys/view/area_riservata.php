@@ -28,7 +28,7 @@ else {
                 <div>
                     <h1><a href="index.php">Awesome Journeys</a></h1>
                     <p style='float:right; color: #A8A8A8; font-size: 12px;'>
-                        <?php echo $user->getRole() ?> profile | <a href="index.php?op=logout" style='color: #A8A8A8'>Logout</a>
+                        <?php echo $user->getRole()." profile"; ?> | <a href="<?php echo $_SERVER['PHP_SELF']."?op=logout"; ?>" style='color: #A8A8A8'>Logout</a>
                     </p>
                 </div>
                 <div id='menu'>
@@ -44,13 +44,13 @@ else {
             
             <div id='content'>
                 <div id="menu_personale">
-                    <p><?php echo "Benvenuto/a,<br/>";$user->getName()."!"; ?></p>
                     <ul>
-                        <li><a href="#">I miei dati</a></li>
+                        <li><a href="<?php echo $_SERVER['PHP_SELF']."?op=personalData"?>"><?php echo $user->getName() ?></a></li>
                         <li><a href="<?php echo $_SERVER['PHP_SELF']."?op=itiner"?>">I miei viaggi</a></li>
                         <li><a href="<?php echo $_SERVER['PHP_SELF']."?op=newItiner"?>">Nuovo itinerario</a></li>
                     </ul>
                 </div>
+                <div class="cleaner"></div>
             </div>
             <div class="cleaner"></div>
         </div>
