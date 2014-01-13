@@ -78,9 +78,13 @@ class NavigationController {
     
     public function register(){
         $c = new LogRegisterController();
-        $c->register($_POST['name'], $_POST['surname'], $_POST['address'], $_POST['telephone'], $_POST['mail'], $_POST['pass']);
         
-        require_once("view/area_riservata.php");
+        if($c->register($_POST['name'], $_POST['surname'], $_POST['address'], $_POST['telephone'], $_POST['mail'], $_POST['pass'], $_POST['passBis'])){
+            require_once("view/area_riservata.php");
+        }
+        else{
+            return "An error occured";
+        }
     }
     
     public function newItinerary(){

@@ -12,16 +12,15 @@
  */
 class ManagementController {
     public function createItinerary($user){
-        
         $user->createItinerary();
         return TRUE;
     }
     
-    public function privideBasicInfo($itName, $itDesc, $itTagList, $itCategory){
+    public function provideBasicInfo($itName, $itDesc, $itTagList, $itCategory){
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);
-        $user->privideBasicInfo($itName, $itDesc, $itTagList, $itCategory);
+        $user->provideBasicInfo($itName, $itDesc, $itTagList, $itCategory);
         return TRUE;
     }
     

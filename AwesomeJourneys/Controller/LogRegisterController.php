@@ -21,8 +21,8 @@ class LogRegisterController {
         UserComponent::logout();
     }
     
-    public function register($name, $surname, $address, $tel, $mail, $pass){
-        return UserComponent::register($name, $surname, $address, $tel, $mail, $pass);
+    public function register($name, $surname, $address, $tel, $mail, $pass, $passBis){
+        return UserComponent::register($name, $surname, $address, $tel, $mail, $pass, $passBis);
     }
 }
 

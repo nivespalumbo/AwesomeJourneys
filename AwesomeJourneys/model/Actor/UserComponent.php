@@ -17,14 +17,19 @@ abstract class UserComponent{
         } 
     }
     
-    public static function register($name, $surname, $address, $tel, $mail, $pass) {
+    public static function register($name, $surname, $address, $tel, $mail, $pass, $passBis) {
         $conn = new Connection();
-        $rx = $conn->registra($name, $surname, $address, $tel, sha1($mail));
-        if($rx){
-            $conn->newCreator ($mail, $pass);
-            self::login ($mail, $pass);
-        } else
+        if($pass === $passBis){
+            $rx = $conn->registra($name, $surname, $address, $tel, $mail);
+            if($rx){
+                $conn->newCreator ($mail, sha1($pass));
+                self::login ($mail, sha1($pass));
+            } else {
+                return FALSE;
+            }
+        } else {
             return FALSE;
+        }
     }
     
     private static function concreteUserComponent($id, $mail, $name, $surname, $address, $telephone){

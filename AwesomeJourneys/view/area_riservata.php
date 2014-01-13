@@ -1,13 +1,13 @@
 <?php
 include_once 'model/Actor/UserComponent.php';
 
-/*if(!isset($_SESSION['utente']))
+if(!isset($_SESSION['utente']))
     header("Location:index.php?op=login");
 else {
-    //$user = unserialize($_SESSION['utente']);
+    $user = unserialize($_SESSION['utente']);
     /*if($user->getRole() == 'Customer')
-        header("Location:index.php?op=errore&tipo=accesso");
-}*/
+        header("Location:index.php?op=errore&tipo=accesso");*/
+}
 ?>
 
 <html>
@@ -25,7 +25,7 @@ else {
                 <img src="images/baloon.png" alt="baloon">
                 <h1><a href="index.php">Awesome Journeys</a></h1>
                 <p style='float:right; color: #A8A8A8; font-size: 12px;'>
-                    <?php //echo $user->getRole()." profile"; ?> | <a href="<?php echo $_SERVER['PHP_SELF']."?op=logout"; ?>" style='color: #A8A8A8'>Logout</a>
+                    <?php echo $user->getRole()." profile"; ?> | <a href="<?php echo $_SERVER['PHP_SELF']."?op=logout"; ?>" style='color: #A8A8A8'>Logout</a>
                 </p>
                 <div id='menu'>
                     <ul>
@@ -38,7 +38,7 @@ else {
             </div>
             <div id='content'>
                 <div id="menu_personale">
-                    <p><?php echo "Benvenuto/a,<br/>";//$user->getName()."!"; ?></p>
+                    <p><?php echo "Benvenuto/a,<br/>";$user->getName()."!"; ?></p>
                     <ul>
                         <li><a href="#">I miei dati</a></li>
                         <li><a href="<?php echo $_SERVER['PHP_SELF']."?op=itiner"?>">I miei viaggi</a></li>

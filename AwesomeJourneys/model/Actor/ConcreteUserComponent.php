@@ -38,7 +38,7 @@ class ConcreteUserComponent extends UserComponent{
     
     public function privideBasicInfo($itName, $itDesc){
         $itinerary = $this->itineraryContext->getItinerary();
-        $itinerary->privideBasicInfo($itName, $itDesc);
+        $itinerary->provideBasicInfo($itName, $itDesc);
     }
     
     public function createItinerary(){
