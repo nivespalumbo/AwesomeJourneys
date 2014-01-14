@@ -33,9 +33,14 @@ else {
                         <?php
                         include_once 'Oggetti/ItineraryInHTML.php';
 
-                        while($itinerary = $this->model['itineraries']->fetch_object()){
-                           $view = new ItineraryInHTML($itinerary);
-                           $view->getItinerary();
+                        if($this->model['itineraries'] != NULL){
+                            while($itinerary = $this->model['itineraries']->fetch_object()){
+                                $view = new ItineraryInHTML($itinerary);
+                                $view->getItinerary();
+                            }
+                        }
+                        else{
+                            echo "<p>Nessun itinerario creato</p>";
                         }
                         ?>
                     </div>
@@ -44,9 +49,14 @@ else {
                         <?php
                         include_once 'Oggetti/JourneyInHTML.php';
 
-                        while($journey = $this->model['journeys']->fetch_object()){
-                           $view = new JourneyInHTML($journey);
-                           $view->get_journey();
+                        if($this->model['journeys'] != NULL){
+                            while($journey = $this->model['journeys']->fetch_object()){
+                               $view = new JourneyInHTML($journey);
+                               $view->get_journey();
+                            }
+                        }
+                        else{
+                            echo "<p>Nessun viaggio creato</p>";
                         }
                         ?>
                     </div>

@@ -49,10 +49,6 @@ class NavigationController {
     }
 
     public function form_login(){
-        $c = new SearchController();
-        
-        $this->model = $c->home_sito();
-
         require_once("view/form_login.php");
     }
     
@@ -135,13 +131,17 @@ class NavigationController {
             require_once 'view/error.php';
         }
         else{
-            $user = unserialize($_SESSION['utente']);
-            $user->setSearchResultItineraryOrJourney();
-            $this->model = array();
-            $this->model['journeys'] = $user->searchJourneys();
-            $this->model['itineraries'] = $user->searchItineraries();
-                
-            require_once 'view/my_itineraries.php';
+            $c = new SearchController();
+            if($user = $c->apriRicerca()){
+                $this->model['journeys'] = $user->searchJourneys();
+                $this->model['itineraries'] = $user->searchItineraries();
+            
+                require_once 'view/my_itineraries.php';
+            }
+            else{
+                $this->model = "an error occured";
+                require_once 'view/error.php';
+            }
         }
     }
     

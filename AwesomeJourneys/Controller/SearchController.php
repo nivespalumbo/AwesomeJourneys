@@ -31,7 +31,7 @@ class SearchController {
             return FALSE;
         $user = unserialize($_SESSION['utente']);
         $user->setSearchResultItineraryOrJourney();
-        return TRUE;
+        return $user;
     }
     
     public function search(){
