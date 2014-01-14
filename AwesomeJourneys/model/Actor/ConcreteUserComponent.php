@@ -36,7 +36,7 @@ class ConcreteUserComponent extends UserComponent{
         return "Customer";
     }
     
-    public function privideBasicInfo($itName, $itDesc){
+    public function provideBasicInfo($itName, $itDesc){
         $itinerary = $this->itineraryContext->getItinerary();
         $itinerary->provideBasicInfo($itName, $itDesc);
     }
@@ -97,6 +97,15 @@ class ConcreteUserComponent extends UserComponent{
     
     public function setTelephone($newTelephone) {
        # TODO
+    }
+    
+    public function searchItineraries($query = NULL){
+        return $this->searchResultItineraryOrJourney->searchItinerary($query);
+    }
+    
+    public function searchJourneys($query = NULL){
+        $this->searchResultItineraryOrJourney->searchJourney($query);
+        return $this->searchResultItineraryOrJourney;
     }
     
     public function __sleep() {

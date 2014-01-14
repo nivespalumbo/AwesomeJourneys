@@ -7,22 +7,22 @@ abstract class ItineraryState{
     protected $photo;
     protected $numBrick;
     protected $newBrick;
-    protected $itineraryBrikc;
+    protected $itineraryBrick;
     protected $type;
     
     
     protected function insertInDB($creator){
         $insert1 = "INSERT INTO itinerary(creator, state";
-        $insert2 = " VALUES('".$creator."', ".$this->type."";
+        $insert2 = " VALUES('".$creator."', '".$this->type."'";
         
         if($this->name != NULL){
             $insert1 .= ", name";
-            $insert2 .= ", ".$this->name;
+            $insert2 .= ", '".$this->name."'";
         }
         
         if($this->description != NULL){
             $insert1 .= ", descrpiption";
-            $insert2 .= ", ".$this->description;
+            $insert2 .= ", '".$this->description."'";
         }
         
         $insert1 .= ")";
@@ -55,7 +55,7 @@ abstract class ItineraryState{
     }
     public function saveNewBrick(){
         if($this->newBrick->save()){
-            $this->itineraryBrikc[] = $this->newBrick;
+            $this->itineraryBrick[] = $this->newBrick;
             $this->numBrick++;
         }
     }
@@ -103,23 +103,23 @@ abstract class ItineraryState{
     }
     
     public function getItineraryBrick(){
-        return $this->itineraryBrikc;
+        return $this->itineraryBrick;
     }
 
     public function setItineraryBrick($itineraryBrick){
-        $this->itineraryBrikc = $itineraryBrick;
-        $this->numBrick = count($this->itineraryBrikc);
+        $this->itineraryBrick = $itineraryBrick;
+        $this->numBrick = count($this->itineraryBrick);
     }
 
     protected function updateInDB(){
-        $sql = "UPDATE itinerary SET state = ".$this->type;
+        $sql = "UPDATE itinerary SET state = '".$this->type."'";
         
         if($this->name != NULL){
-            $sql .= ", name = ".$this->name;
+            $sql .= ", name = '".$this->name."'";
         }
         
         if($this->descrpiption){
-            $sql .= ", descrpiption = ".$this->description;
+            $sql .= ", description = '".$this->description."'";
         }
         
         $sql .= " WHERE ID = ".$this->id.";";

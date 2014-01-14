@@ -45,7 +45,7 @@ class CompleteItinerary extends ItineraryState{
     }
     
     public function save(ItineraryContext $itineraryContext) {
-        if(count($this->itineraryBrikc) == 0){
+        if(count($this->itineraryBrick) == 0){
             return $this->stateChangeAndSave($itineraryContext, $creatorUserName, PARTIAL);
         }
         

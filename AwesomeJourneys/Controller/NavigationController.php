@@ -32,6 +32,11 @@ class NavigationController {
             case 'personalData' :
                 $this->getPersonalData();
                 break;
+            case 'myItiner':
+                $this->myItineraries();
+                break;
+            case 'searchItiner':
+                break;
         }
     }
 
@@ -97,7 +102,7 @@ class NavigationController {
     public function newItinerary(){
         session_start();
         if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INSISTENTE";
+            $this->model = "SESSIONE INESISTENTE";
             require_once("view/error.php");
         }else{
             $user = unserialize($_SESSION['utente']);
@@ -116,10 +121,27 @@ class NavigationController {
     public function getPersonalData(){
         session_start();
         if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INSISTENTE";
+            $this->model = "SESSIONE INESISTENTE";
             require_once("view/error.php");
         }else{
             require_once 'view/manage_account.php';
+        }
+    }
+    
+    public function myItineraries(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INESISTENTE";
+            require_once 'view/error.php';
+        }
+        else{
+            $user = unserialize($_SESSION['utente']);
+            $user->setSearchResultItineraryOrJourney();
+            $this->model = array();
+            $this->model['journeys'] = $user->searchJourneys();
+            $this->model['itineraries'] = $user->searchItineraries();
+                
+            require_once 'view/my_itineraries.php';
         }
     }
     
