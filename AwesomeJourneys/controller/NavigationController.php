@@ -12,16 +12,16 @@ class NavigationController {
         else if(isset($_POST['op']))
             $this->gestionePOST();
         else
-            $this->home_sito();
+            $this->home();
     }
 
     public function gestioneGET(){
         switch ($_GET['op']){
             case 'register' :
-                $this->form_register();
+                $this->openFormRegister();
                 break;
             case 'login' :
-                $this->form_login();
+                $this->openFormLogin();
                 break;
             case 'logout' :
                 $this->logout();
@@ -33,14 +33,17 @@ class NavigationController {
                 $this->getPersonalData();
                 break;
             case 'myItiner':
-                $this->myItineraries();
+                $this->searchMyItinerariesOrJourneys();
                 break;
             case 'searchItiner':
+                $this->openSearch();
+                break;
+            case 'search' :
                 break;
         }
     }
 
-    public function home_sito(){
+    public function home(){
         $c = new SearchController();
         
         $this->model = $c->home_sito();
@@ -48,17 +51,17 @@ class NavigationController {
         require_once("view/home_sito.php");
     }
 
-    public function form_login(){
+    public function openFormLogin(){
         require_once("view/form_login.php");
     }
     
     public function logout(){
         $c = new LogRegisterController();
         $c->logout();
-        $this->home_sito();
+        $this->home();
     }
 
-    public function form_register(){
+    public function openFormRegister(){
        require_once("view/form_register.php"); 
     }
 
@@ -124,7 +127,7 @@ class NavigationController {
         }
     }
     
-    public function myItineraries(){
+    public function searchMyItinerariesOrJourneys(){
         session_start();
         if(!isset($_SESSION['utente'])){
             $this->model = "SESSIONE INESISTENTE";
@@ -132,17 +135,16 @@ class NavigationController {
         }
         else{
             $c = new SearchController();
-            if($user = $c->apriRicerca()){
-                $this->model['journeys'] = $user->searchJourneys();
-                $this->model['itineraries'] = $user->searchItineraries();
+            $this->model = array();
+            $this->model['itineraries'] = $c->searchMyItineraries();
+            $this->model['journeys'] = $c->searchMyJourneys();
             
-                require_once 'view/my_itineraries.php';
-            }
-            else{
-                $this->model = "an error occured";
-                require_once 'view/error.php';
-            }
+            require_once 'view/my_itineraries.php';
         }
+    }
+    
+    public function openSearch(){
+        require_once 'search.php';
     }
     
 }

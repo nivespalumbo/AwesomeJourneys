@@ -1,6 +1,6 @@
 <header>
     <div>
-        <img src="images/baloon.png" alt="baloon">
+        <img src="images/baloon.png" alt="baloon" style="max-height: 80px; max-width: 80px;">
     </div>
     <div>
         <h1><a href="index.php">Awesome Journeys</a></h1>

@@ -15,8 +15,10 @@ else {
         <title>Awesome Journeys</title>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <link rel="stylesheet" type="text/css" href="css/style_layout.css" />
-        <link rel="stylesheet" type="text/css" href="css/style_header.css" />
-        <link rel="stylesheet" type="text/css" href="css/style_areariservata.css" />
+        <script type="text/javascript" src="scripts/lib/jquery/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="scripts/lib/jqueryui/jquery-ui-1.10.3.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="css/themes/start/jquery-ui-1.10.3.css" />
     </head>
     
     <body>
@@ -31,7 +33,7 @@ else {
                 </div>
                 <div class="cleaner"></div>
             </div>
-            <div class="cleaner"></div>
+            <?php include_once '_footer.php';?>
         </div>
     </body>
 </html>

@@ -9,21 +9,6 @@ else {
         header("Location:index.php?op=errore&tipo=accesso");*/
 }
 ?>
-
-<html>
-    <head>
-        <title>Awesome Journeys</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-        <link rel="stylesheet" type="text/css" href="css/style_layout.css" />
-        <link rel="stylesheet" type="text/css" href="css/style_header.css" />
-        <link rel="stylesheet" type="text/css" href="css/style_areariservata.css" />
-    </head>
-    
-    <body>
-        <div id='container'>
-            <?php include_once '_header.php' ?>
-            
-            <div id='content'>
                 <?php include_once '_personalmenu.php' ?>
                 
                 <div> 
@@ -35,9 +20,4 @@ else {
                     <p><button type="submit" name="op" value="newItiner">Crea</button><button type="reset" name="annulla">Annulla</button></p>
                     </form>
                 </div>
-                <div class="cleaner"></div>
-            </div>
-        </div>
-    </body>
-</html>
-
+                

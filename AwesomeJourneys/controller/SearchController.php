@@ -26,6 +26,22 @@ class SearchController {
         return TRUE;
     }
     
+    public function searchMyItineraries(){
+        if(!isset($_SESSION['utente']))
+            return FALSE;
+        $user = unserialize($_SESSION['utente']);
+        $user->setSearchResultItineraryOrJourney();
+        return $user->searchItineraries();
+    }
+    
+    public function searchMyJourneys(){
+        if(!isset($_SESSION['utente']))
+            return FALSE;
+        $user = unserialize($_SESSION['utente']);
+        $user->setSearchResultItineraryOrJourney();
+        return $user->searchJourneys();
+    }
+    
     public function apriRicerca(){
         if(!isset($_SESSION['utente']))
             return FALSE;

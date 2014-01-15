@@ -25,16 +25,16 @@ h1, h2, h3, h4 {
     font-family: "Sprinklescolors";
 }
 h1{
-    font-size: 70px;
+    font-size: 50px;
 }
 h2{
-    font-size: 55px;
-}
-h3{
     font-size: 40px;
 }
+h3{
+    font-size: 30px;
+}
 h4{
-    font-size: 25px;
+    font-size: 20px;
 }
 
 td{
@@ -91,7 +91,7 @@ button:active {
     clear: both;
 }
 
-#container {
+/*#container {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
@@ -106,4 +106,20 @@ button:active {
 
 #content {
     font-family: sans-serif;
+}*/
+
+header, footer{
+    clear: both;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 10px;
+    background-color: #FFFFFF;
+}
+header{
+    border-radius: 2em 8em 0.5em 0.5em;
+}
+
+footer{
+    border-radius: 0.5em 0.5em 2em 2em;
 }
