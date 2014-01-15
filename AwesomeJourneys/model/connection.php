@@ -2,7 +2,7 @@
 
 define('HOST', 'localhost');
 define('UTENTE', 'root');
-define('PASS', 'root');
+define('PASS', '');
 define('DB', 'awesome_journeys');
 
 class Connection {
