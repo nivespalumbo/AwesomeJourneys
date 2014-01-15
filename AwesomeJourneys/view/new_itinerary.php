@@ -9,15 +9,16 @@ else {
         header("Location:index.php?op=errore&tipo=accesso");*/
 }
 ?>
-                <?php include_once '_personalmenu.php' ?>
+
+<?php include_once '_personalmenu.php' ?>
                 
-                <div> 
-                    <form action="index.php" method="POST">
-                    <table>
-                        <tr><td>Nome:</td><td><input type="text" name="name" required/></td></tr>
-                        <tr><td>Descrizione:</td><td><input type="text" name="description" required/></td></tr>
-                    </table>
-                    <p><button type="submit" name="op" value="newItiner">Crea</button><button type="reset" name="annulla">Annulla</button></p>
-                    </form>
-                </div>
+<div> 
+    <form action="index.php" method="POST">
+    <table>
+        <tr><td>Nome:</td><td><input type="text" name="name" required/></td></tr>
+        <tr><td>Descrizione:</td><td><input type="text" name="description" required/></td></tr>
+    </table>
+    <p><button type="submit" name="op" value="newItiner">Crea</button><button type="reset" name="annulla">Annulla</button></p>
+    </form>
+</div>
                 

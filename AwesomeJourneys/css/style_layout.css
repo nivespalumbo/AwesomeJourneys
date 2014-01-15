@@ -91,28 +91,26 @@ button:active {
     clear: both;
 }
 
-/*#container {
+#container {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
     margin-top: 20px;
     margin-bottom: 20px;
-    padding: 10px;
+/*    padding: 10px;
     background-color: #FFFFFF;
     box-shadow: 0.15em 0.15em 0.20em #000000;
     border-radius: 2em 8em 2em 2em;
-    font-family: sans-serif;
+    font-family: sans-serif;*/
 }
 
 #content {
     font-family: sans-serif;
-}*/
+}
 
 header, footer{
     clear: both;
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
+    width: 100%;
     padding: 10px;
     background-color: #FFFFFF;
 }

@@ -32,10 +32,10 @@ class NavigationController {
             case 'personalData' :
                 $this->getPersonalData();
                 break;
-            case 'myItiner':
+            case 'myItinerariesOrJourneys':
                 $this->searchMyItinerariesOrJourneys();
                 break;
-            case 'searchItiner':
+            case 'searchItineraryOrJourney':
                 $this->openSearch();
                 break;
             case 'search' :
