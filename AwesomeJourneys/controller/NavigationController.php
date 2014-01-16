@@ -79,9 +79,9 @@ class NavigationController {
     public function login(){
         $c = new LogRegisterController();
         //$this->model = $c->login($_POST['mail'], $_POST['pass']);
-        $u = $c->login($_POST['mail'], $_POST['pass']);
-        if($u){
-            $_SESSION['utente'] = serialize($u);
+        $user = $c->login($_POST['mail'], $_POST['pass']);
+        if($user){
+            $_SESSION['utente'] = serialize($user);
         }
         require_once("view/area_riservata.php");
     }

@@ -1,4 +1,4 @@
-<div id="menu_personale" class="accordion">
+<!--<div id="menu_personale" class="accordion">
     <h3><?php echo $user->getName() ?></h3>
     <div>
         <a href="<?php echo $_SERVER['PHP_SELF']."?op=personalData"?>">Account</a>
@@ -22,11 +22,31 @@
 
 <script type="text/javascript">
     $(".accordion").accordion();
-</script>
+</script>-->
 
-<style>
-    #menu_personale{
-        width: 35%;
-        float: right;
-    }
-</style>
+<div id="menu_personale">
+    <ul  class="menu">
+        <li><a href='#'><?php echo $user->getName() ?></a>
+            <ul>
+                <li><a href="index.php?op=personalData">Account</a></li>
+            </ul>
+        </li>
+        <li><a href='#'>Viaggi</a>
+            <ul>
+                <li><a href="index.php?op=myItinerariesOrJourneys">I miei viaggi</a></li>
+                <li><a href="index.php?op=newItiner">Crea un nuovo itinerario</a></li>
+                <li><a href="#">Prenota un viaggio</a></li>
+            </ul>
+        </li>
+        <li><a href='#'>Cerca</a>
+            <ul>
+                <li><a href="index.php?op=searchItiner">Cerca itinerari</a></li>
+                <li><a href="index.php?op=searchJourney">Cerca viaggi</a></li>
+            </ul>
+        </li>
+    </ul>    
+</div>
+
+<script type="text/javascript">
+    $(".menu").menu();
+</script>

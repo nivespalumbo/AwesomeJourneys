@@ -104,8 +104,19 @@ button:active {
     font-family: sans-serif;*/
 }
 
-#content {
+#content-wrapper {
     font-family: sans-serif;
+    margin: 3px 0px 3px 0px;
+}
+
+#menu_personale{
+    float: left;
+    width: 20%;
+}
+
+#content{
+    float: left;
+    width: 80%;
 }
 
 header, footer{

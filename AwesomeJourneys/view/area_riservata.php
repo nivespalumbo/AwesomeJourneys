@@ -11,3 +11,9 @@ else {
 ?>
 
 <?php include_once '_personalmenu.php'; ?>
+
+<div>
+    <p>Contenuto prima pagina dell'area riservata</p>
+</div>
+
+
