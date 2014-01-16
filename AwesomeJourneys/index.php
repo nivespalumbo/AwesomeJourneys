@@ -9,6 +9,7 @@
         
         <script type="text/javascript" src="scripts/lib/jquery/jquery-2.0.3.min.js"></script>
         <script type="text/javascript" src="scripts/lib/jqueryui/jquery-ui-1.10.3.min.js"></script>
+        <script type="text/javascript" src="scripts/lib/slider/slider.js"></script>
     </head>
     
     <body>
@@ -26,6 +27,17 @@
             
             <?php include_once 'view/_footer.php' ?>   
         </div>
+        
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $( ".datepicker" ).datepicker();
+            $( ".tabs" ).tabs();
+            $( ".menu" ).menu();
+            $('#s3slider').s3Slider({
+                timeOut: 4000
+            });
+        });
+        </script>
     </body>
 </html>
             

@@ -5,16 +5,6 @@
         </span>
         <span style="float: left; line-height: 80px;">
             <h1><a href="index.php">Awesome Journeys</a></h1>
-    <!--        <p style='float:right; color: #A8A8A8; font-size: 12px;'>
-                //<?php 
-    //            if(isset($user)){
-    //                echo $user->getRole()." profile | <a href='".$_SERVER['PHP_SELF']."?op=logout' style='color: #A8A8A8'>Logout</a>";
-    //            }
-    //            else{
-    //                echo "<a href='index.php?op=login' style='color: #A8A8A8;'>Area clienti</a> | <a href='index.php?op=register' style='color: #A8A8A8'>Registrati</a>";
-    //            }
-    //            ?>
-            </p>-->
         </span>
     </div>
 <!--    <div id='menu'>
@@ -25,5 +15,5 @@
             <li><a href="#">Crociere</a></li>
         </ul>
     </div>-->
-    <div class="cleaner"></div>
+    <div class="clear"></div>
 </header>
