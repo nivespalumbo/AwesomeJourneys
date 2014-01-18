@@ -16,7 +16,8 @@ class ConcreteUserComponent extends UserComponent{
     private $itinerary;
     private $searchResultStay;
     private $searchResultActivity;
-    private $searchResultItineraryOrJourney;
+    private $searchResultJourney;
+    private $searchResultItinerary;
 
 
     public function __construct($id, $mail, $name, $surname, $address, $telephone) {
@@ -28,7 +29,8 @@ class ConcreteUserComponent extends UserComponent{
         $this->telephone = $telephone;
         $this->searchResultStay = NULL;
         $this->searchResultActivity = NULL;
-        $this->searchResultItineraryOrJourney = NULL;
+        $this->searchResultItinerary = NULL;
+        $this->searchResultJourney = NULL;
         $this->itineraryContext = NULL;
         $this->itinerary = NULL;
     }
@@ -65,8 +67,12 @@ class ConcreteUserComponent extends UserComponent{
         $this->itineraryContext->nuovaTappa($stayTemplate);
     }
     
-    public function setSearchResultItineraryOrJourney(){
-        $this->searchResultItineraryOrJourney = new JourneySearchResult();
+    public function setSearchResultJourney(){
+        $this->searchResultJourney = new JourneySearchResult();
+    }
+    
+    public function setSearchResultItinerary(){
+        $this->searchResultItinerary = new ItinerarySearchResult();
     }
     
     public function configureStayParameter($optId, $valId){
@@ -100,16 +106,15 @@ class ConcreteUserComponent extends UserComponent{
     }
     
     public function searchItineraries($query = NULL){
-        return $this->searchResultItineraryOrJourney->searchItinerary($query);
+        return $this->searchResultItinerary->searchItinerary($query);
     }
     
     public function searchJourneys($query = NULL){
-        $this->searchResultItineraryOrJourney->searchJourney($query);
-        return $this->searchResultItineraryOrJourney;
+        return $this->searchResultJourney->searchJourney($query);
     }
     
     public function __sleep() {
-        return array('session_id', 'mail', 'name', 'surname', 'address', 'telephone', 'searchResultStay', 'searchResultActivity', 'searchResultItineraryOrJourney', 'itineraryContext', 'itinerary');
+        return array('session_id', 'mail', 'name', 'surname', 'address', 'telephone', 'searchResultStay', 'searchResultActivity', 'searchResultItinerary', 'searchResultJourney', 'itineraryContext', 'itinerary');
     }
     
     public function __wakeup() {

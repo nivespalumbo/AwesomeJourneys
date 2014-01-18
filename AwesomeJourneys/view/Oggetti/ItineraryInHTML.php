@@ -24,7 +24,7 @@ class ItineraryInHTML {
     
     public function getAllItinerary(){
         $ris = "";
-        while($this->Itinerary = $this->model->fetch_object()){
+        while($this->Itinerary = $this->model->fetchObject()){
             $ris = $ris.$this->getItinerary();
         }
         return $ris;

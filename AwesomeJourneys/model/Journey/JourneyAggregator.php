@@ -5,6 +5,6 @@ include_once 'JourneyIterator.php';
 
 interface JourneyAggregator {
     public function createIterator();
-    public function add($object);
+    public function add(Journey $object);
 }
 ?>

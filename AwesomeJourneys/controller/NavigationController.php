@@ -39,6 +39,7 @@ class NavigationController {
                 $this->openSearch();
                 break;
             case 'search' :
+                $this->search();
                 break;
         }
     }
@@ -46,7 +47,7 @@ class NavigationController {
     public function home(){
         $c = new SearchController();
         
-        $this->model = $c->home_sito();
+        $this->model = $c->home();
 
         require_once("view/home_sito.php");
     }
@@ -144,7 +145,13 @@ class NavigationController {
     }
     
     public function openSearch(){
-        require_once 'search.php';
+        require_once 'view/search.php';
+    }
+    
+    public function search(){
+        $c = new SearchController();
+        $this->model = $c->search();
+        require_once 'view/search.php';
     }
     
 }

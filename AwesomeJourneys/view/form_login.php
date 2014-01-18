@@ -1,12 +1,3 @@
-<?php 
-    if(isset($user)){
-        echo $user->getRole()." profile | <a href='index.php?op=logout'>Logout</a>";
-    }
-    else{
-        echo "<a href='index.php?op=login'>Area clienti</a> | <a href='index.php?op=register'>Registrati</a>";
-    }
-?>
-
 <h2>Login</h2>
 <form action="index.php" method="POST" onreset="window.location='index.php';">
     <table>

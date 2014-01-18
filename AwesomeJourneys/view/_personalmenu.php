@@ -29,6 +29,7 @@
         <li><a href='#'><?php echo $user->getName() ?></a>
             <ul>
                 <li><a href="index.php?op=personalData">Account</a></li>
+                <li><a href="#">Impostazioni privacy</a></li>
             </ul>
         </li>
         <li><a href='#'>Viaggi</a>
@@ -38,11 +39,6 @@
                 <li><a href="#">Prenota un viaggio</a></li>
             </ul>
         </li>
-        <li><a href='#'>Cerca</a>
-            <ul>
-                <li><a href="index.php?op=searchItiner">Cerca itinerari</a></li>
-                <li><a href="index.php?op=searchJourney">Cerca viaggi</a></li>
-            </ul>
-        </li>
+        <li><a href='index.php?op=searchItineraryOrJourney'>Cerca</a></li>
     </ul>    
 </div>

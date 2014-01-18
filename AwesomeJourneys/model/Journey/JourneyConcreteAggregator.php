@@ -8,7 +8,7 @@ class JourneyConcreteAggregator implements JourneyAggregator{
         return new JourneyConcreteIterator($this->list);
     }
     
-    public function add($object) {
+    public function add(Journey $object) {
         $this->list[] = $object;
     }
 }

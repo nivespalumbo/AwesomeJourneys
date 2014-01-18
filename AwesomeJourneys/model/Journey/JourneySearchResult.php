@@ -5,7 +5,6 @@ include_once 'model/Journey/JourneyConcreteIterator.php';
 include_once 'model/Journey/Journey.php';
 include_once 'model/Journey/PublishedJourney.php';
 include_once 'model/Itinerary/CompleteItinerary.php';
-include_once 'model/Itinerary/PartialItinerary.php';
 
 class JourneySearchResult {
     private $aggregator;
@@ -43,36 +42,36 @@ class JourneySearchResult {
         $this->iterator = $this->aggregator->createIterator(); 
     }
     
-     public function searchItinerary($query){
-        $c = new Connection();
-        
-        if($query == null)
-            $query = "SELECT * FROM itinerary;";
-        
-        if($c){
-            $table = $c->fetch_query($query);
-            $c->close();
-            if($table){
-                $numRows = count($table,COUNT_NORMAL);
-                for($i=0; $i<$numRows; $i++){
-                   if($table[$i]->state == 1){
-                       $itinerary = new CompleteItineraryary($table[$i]->creator, $table[$i]->ID, $table[$i]->name, $table[$i]->description);
-                       $itinerary->setPhoto($table[$i]->photo);
-                      $this->aggregator->add($itinerary);
-                   }
-                   else{
-                       $itinerary = new PartialItinerary($table[$i]->creator, $table[$i]->ID, $table[$i]->name, $table[$i]->description);
-                       $itinerary->setPhoto($table[$i]->photo);
-                      $this->aggregator->add($itinerary);
-                   }
-                }
-            }
-        }
-        
-        $this->iterator = $this->aggregator->createIterator(); 
-    }
+//     public function searchItinerary($query){
+//        $c = new Connection();
+//        
+//        if($query == null)
+//            $query = "SELECT * FROM itinerary;";
+//        
+//        if($c){
+//            $table = $c->fetch_query($query);
+//            $c->close();
+//            if($table){
+//                $numRows = count($table,COUNT_NORMAL);
+//                for($i=0; $i<$numRows; $i++){
+//                   if($table[$i]->state == 1){
+//                       $itinerary = new CompleteItinerary($table[$i]->creator, $table[$i]->ID, $table[$i]->name, $table[$i]->description);
+//                       $itinerary->setPhoto($table[$i]->photo);
+//                      $this->aggregator->add($itinerary);
+//                   }
+//                   else{
+//                       $itinerary = new PartialItinerary($table[$i]->creator, $table[$i]->ID, $table[$i]->name, $table[$i]->description);
+//                       $itinerary->setPhoto($table[$i]->photo);
+//                      $this->aggregator->add($itinerary);
+//                   }
+//                }
+//            }
+//        }
+//        
+//        $this->iterator = $this->aggregator->createIterator(); 
+//    }
     
-    public function fetch_object() {
+    public function fetchObject() {
         if ($this->iterator->hasNext())
             return $this->iterator->next();
         else

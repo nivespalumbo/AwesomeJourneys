@@ -1,16 +1,9 @@
-<?php 
-    if(isset($user)){
-        echo $user->getRole()." profile | <a href='index.php?op=logout'>Logout</a>";
-    }
-    else{
-        echo "<a href='index.php?op=login'>Area clienti</a> | <a href='index.php?op=register'>Registrati</a>";
-    }
-?>
+<?php include_once '_login.php'; ?>
 
 <div id="s3slider">
     <ul id="s3sliderContent">
         <?php
-            while($journey = $this->model->fetch_object()){
+            while($journey = $this->model->fetchObject()){
                 $itinerary = $journey->getItinerary();
                 echo "<li class='s3sliderImage'>
                         <img src='journeys/".$itinerary->getPhoto()."'>
