@@ -25,8 +25,7 @@ class SearchController {
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);
-        $user->setStaySearchResult();
-        return TRUE;
+        return $user->searchStay();
     }
     
     /**
@@ -38,7 +37,6 @@ class SearchController {
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);
-        $user->setSearchResultItinerary();
         return $user->searchItineraries("SELECT * FROM itinerary WHERE creator='".$user->getMail()."'");
     }
     
@@ -51,27 +49,10 @@ class SearchController {
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);
-        $user->setSearchResultJourney();
         return $user->searchJourneys("SELECT * FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE journey.creator='".$user->getMail()."' ORDER BY start_date;");
     }
     
-//    public function apriRicerca(){
-//        if(!isset($_SESSION['utente']))
-//            return FALSE;
-//        $user = unserialize($_SESSION['utente']);
-//        $user->setSearchResultItineraryOrJourney();
-//        return $user;
-//    }
-    
-    // #TODO
     public function search(){
-//        if(!isset($_SESSION['utente']))
-//            return FALSE;
-//        $user = unserialize($_SESSION['utente']);
-//        /*DA RICAVARE TRAMITE VISTA I PARAMETRI DELLE RICERCH CON METODO POST O
-//         * GET E SPEDIRLI A $user 
-//         */
-//        return TRUE;
         $location = ""; $startDate = "";
         if(isset($_GET['location']) && $_GET['location'] != ""){
             $location = "AND location='".$_GET['location']."'";
