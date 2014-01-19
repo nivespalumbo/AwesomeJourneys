@@ -19,7 +19,7 @@ class ItineraryContext {
             $this->itinerary = $itinerary;
         }
         else{
-            $this->itinerary = new PartialItinerary($creator);
+            $this->itinerary = new PartialItinerary($creator, NULL, $_POST['name'], $_POST['description']);
         }
     }
     

@@ -28,7 +28,7 @@ class ItinerarySearchResult {
         $c = new Connection();
         
         if($query == null)
-            $query = "SELECT * FROM itinerary;";
+            $query = "SELECT * FROM itinerary WHERE published=1;";
         
         if($c){
             $table = $c->fetch_query($query);

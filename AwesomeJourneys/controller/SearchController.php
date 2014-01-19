@@ -39,7 +39,7 @@ class SearchController {
             return FALSE;
         $user = unserialize($_SESSION['utente']);
         $user->setSearchResultItinerary();
-        return $user->searchItineraries();
+        return $user->searchItineraries("SELECT * FROM itinerary WHERE creator='".$user->getMail()."'");
     }
     
     /**
@@ -86,11 +86,11 @@ class SearchController {
         
         $queryJourney = "SELECT * "
                       . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
-                      . "WHERE published=1 $location $startDate ORDER BY start_date;";
+                      . "WHERE journey.published=1 $location $startDate ORDER BY start_date;";
         $journeySearchResult->searchJourney($queryJourney);
         $risultati['journeys'] = $journeySearchResult;
         
-        $queryItinerary = NULL;
+        $queryItinerary = "SELECT * FROM itinerary WHERE published=1;";
         $itinerarySearchResult->searchItinerary($queryItinerary);
         $risultati['itineraries'] = $itinerarySearchResult;
         

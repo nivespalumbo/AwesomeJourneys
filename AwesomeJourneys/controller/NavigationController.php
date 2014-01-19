@@ -27,7 +27,7 @@ class NavigationController {
                 $this->logout();
                 break;
             case 'newItiner' :
-                $this->newItinerary();
+                $this->openFormNewItinerary();
                 break;
             case 'personalData' :
                 $this->getPersonalData();
@@ -46,7 +46,6 @@ class NavigationController {
 
     public function home(){
         $c = new SearchController();
-        
         $this->model = $c->home();
 
         require_once("view/home_sito.php");
@@ -74,6 +73,9 @@ class NavigationController {
             case 'register' :
                 $this->register();
                 break;
+            case 'basicInfoItinerary' :
+                $this->provideBasicInfo();
+                break;
         }
     }
     
@@ -99,7 +101,27 @@ class NavigationController {
         }
     }
     
-    public function newItinerary(){
+    public function openFormNewItinerary(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INESISTENTE";
+            require_once("view/error.php");
+        }else{
+//            $user = unserialize($_SESSION['utente']);
+//            $c = new ManagementController();
+//            $ris = $c->createItinerary($user);
+//
+//            if($ris == FALSE){
+//                $this->model = "An error occured";
+//                require_once("view/error.php");
+//            }else{
+//                require_once("view/new_itinerary.php");
+//            }
+            require_once("view/new_itinerary.php");
+        }
+    }
+    
+    public function provideBasicInfo(){
         session_start();
         if(!isset($_SESSION['utente'])){
             $this->model = "SESSIONE INESISTENTE";
@@ -113,7 +135,8 @@ class NavigationController {
                 $this->model = "An error occured";
                 require_once("view/error.php");
             }else{
-                require_once("view/new_itinerary.php");
+                $this->model = $user->getItineraryContext()->getItinerary();
+                require_once("view/itinerary.php");
             }
         }
     }

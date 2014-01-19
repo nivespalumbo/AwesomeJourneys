@@ -21,7 +21,7 @@ class JourneySearchResult {
         $c = new Connection();
         
         if($query == null)
-            $query = "SELECT * FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE published=1 ORDER BY start_date;";
+            $query = "SELECT * FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE journey.published=1 ORDER BY start_date;";
         
         if($c){
             $table = $c->fetch_query($query);

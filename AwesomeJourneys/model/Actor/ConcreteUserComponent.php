@@ -46,6 +46,9 @@ class ConcreteUserComponent extends UserComponent{
     public function createItinerary(){
         $this->itineraryContext = new ItineraryContext($this->mail);
     }
+    public function getItineraryContext(){
+        return $this->itineraryContext;
+    }
 
     public function getName(){ return $this->name; }
     public function getSurname() {return $this->surname; }
@@ -106,11 +109,13 @@ class ConcreteUserComponent extends UserComponent{
     }
     
     public function searchItineraries($query = NULL){
-        return $this->searchResultItinerary->searchItinerary($query);
+        $this->searchResultItinerary->searchItinerary($query);
+        return $this->searchResultItinerary;
     }
     
     public function searchJourneys($query = NULL){
-        return $this->searchResultJourney->searchJourney($query);
+        $this->searchResultJourney->searchJourney($query);
+        return $this->searchResultJourney;
     }
     
     public function __sleep() {

@@ -21,7 +21,7 @@ abstract class ItineraryState{
         }
         
         if($this->description != NULL){
-            $insert1 .= ", descrpiption";
+            $insert1 .= ", description";
             $insert2 .= ", '".$this->description."'";
         }
         
