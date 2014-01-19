@@ -90,13 +90,17 @@ button:active {
 #div_login{
      margin-top: 8px;
      margin-left: 80%;
-     width: 100%;
-     position:inherit;   
+     width: auto;
+     position:initial;
     font-family: sans-serif;
     font-weight: bold;
 }
-
+#div_login > p{
+   
+    width:auto;
+}
 #div_login > p > a{
+     background-color: #FFF;
     padding: 5px 10px 5px 10px;
     font-weight: bold;
     border-radius: 2em 2em 3em 3em;
@@ -166,6 +170,7 @@ button:active {
 }
 
 #content-wrapper {
+    background-color: rgba(255, 255, 255, 0.7);
     font-family: sans-serif;
     margin: 3px 0px 3px 0px;
 }
