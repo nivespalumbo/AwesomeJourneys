@@ -67,6 +67,7 @@ class StaySearchResult {
                 for($i=0; $i<$numRows; $i++){
                     $template = new StayTemplate($table[$i]->ID, $table[$i]->description, $table[$i]->category, $table[$i]->tag, $table[$i]->photo, $table[$i]->creator);
                     $this->insertActivity($template);
+                    $this->insertAccomodation($template);
                     $this->aggregator->add($template);
                 }     
             }

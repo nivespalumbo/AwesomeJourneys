@@ -10,10 +10,11 @@ abstract class UserComponent{
         $conn->close();
         if($us != FALSE){
             session_start();
-            if($us->role == 'customer')
+            if($us->role == 'customer'){
                 return self::concreteUserComponent(session_id (), $us->mail, $us->name, $us->surname, $us->address, $us->telephone);
-            else
+            } else {
                 return self::travelAgent(session_id (), $us->mail, $us->name, $us->surname, $us->address, $us->telephone);
+            }
         } 
         return FALSE;
     }
@@ -45,8 +46,6 @@ abstract class UserComponent{
         @session_destroy();
     }
     
-    abstract function setStaySearchResult();
-    abstract function getStaySearchResult();
     abstract function getRole();
     abstract function getName();
     abstract function getSurname();

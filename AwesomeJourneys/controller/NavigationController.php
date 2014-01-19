@@ -41,28 +41,10 @@ class NavigationController {
             case 'search' :
                 $this->search();
                 break;
+            case 'searchStay' :
+                $this->searchStay();
+                break;
         }
-    }
-
-    public function home(){
-        $c = new SearchController();
-        $this->model = $c->home();
-
-        require_once("view/home_sito.php");
-    }
-
-    public function openFormLogin(){
-        require_once("view/form_login.php");
-    }
-    
-    public function logout(){
-        $c = new LogRegisterController();
-        $c->logout();
-        $this->home();
-    }
-
-    public function openFormRegister(){
-       require_once("view/form_register.php"); 
     }
 
     public function gestionePOST(){
@@ -79,14 +61,34 @@ class NavigationController {
         }
     }
     
+    public function home(){
+        $c = new SearchController();
+        $this->model = $c->home();
+
+        require_once("view/home_sito.php");
+    }
+
+    public function openFormLogin(){
+        require_once("view/form_login.php");
+    }
+    
+    public function openFormRegister(){
+       require_once("view/form_register.php"); 
+    }
+    
     public function login(){
         $c = new LogRegisterController();
-        //$this->model = $c->login($_POST['mail'], $_POST['pass']);
         $user = $c->login($_POST['mail'], $_POST['pass']);
         if($user){
             $_SESSION['utente'] = serialize($user);
         }
         require_once("view/area_riservata.php");
+    }
+    
+    public function logout(){
+        $c = new LogRegisterController();
+        $c->logout();
+        $this->home();
     }
     
     public function register(){
@@ -106,17 +108,7 @@ class NavigationController {
         if(!isset($_SESSION['utente'])){
             $this->model = "SESSIONE INESISTENTE";
             require_once("view/error.php");
-        }else{
-//            $user = unserialize($_SESSION['utente']);
-//            $c = new ManagementController();
-//            $ris = $c->createItinerary($user);
-//
-//            if($ris == FALSE){
-//                $this->model = "An error occured";
-//                require_once("view/error.php");
-//            }else{
-//                require_once("view/new_itinerary.php");
-//            }
+        } else {
             require_once("view/new_itinerary.php");
         }
     }
@@ -135,7 +127,7 @@ class NavigationController {
                 $this->model = "An error occured";
                 require_once("view/error.php");
             }else{
-                $this->model = $user->getItineraryContext()->getItinerary();
+                $this->model = $user->getItinerary();
                 require_once("view/itinerary.php");
             }
         }
@@ -175,6 +167,12 @@ class NavigationController {
         $c = new SearchController();
         $this->model = $c->search();
         require_once 'view/search.php';
+    }
+    
+    public function searchStay(){
+        $c = new SearchController();
+        $this->model = $c->searchStay();
+        require_once 'view/stay_list.php';
     }
     
 }

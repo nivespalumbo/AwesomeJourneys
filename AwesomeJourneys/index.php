@@ -23,6 +23,7 @@
             $navController = new NavigationController();
             $navController->invoke();
             ?>
+                <div class="clear"></div>
             </div>
             
             <?php include_once 'view/_footer.php' ?>   

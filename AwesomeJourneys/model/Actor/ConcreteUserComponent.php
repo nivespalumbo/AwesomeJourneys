@@ -14,10 +14,10 @@ class ConcreteUserComponent extends UserComponent{
     private $telephone;
     private $itineraryContext;
     private $itinerary;
-    private $searchResultStay;
-    private $searchResultActivity;
-    private $searchResultJourney;
-    private $searchResultItinerary;
+    private $searchResultStay = NULL;
+    private $searchResultActivity = NULL;
+    private $searchResultJourney = NULL;
+    private $searchResultItinerary = NULL;
 
 
     public function __construct($id, $mail, $name, $surname, $address, $telephone) {
@@ -27,15 +27,21 @@ class ConcreteUserComponent extends UserComponent{
         $this->surname = $surname;
         $this->address = $address;
         $this->telephone = $telephone;
-        $this->searchResultStay = NULL;
-        $this->searchResultActivity = NULL;
-        $this->searchResultItinerary = NULL;
-        $this->searchResultJourney = NULL;
         $this->itineraryContext = NULL;
         $this->itinerary = NULL;
     }
-    public function getRole(){
-        return "Customer";
+    
+    public function getRole(){ return "Customer"; }
+    public function getName(){ return $this->name; }
+    public function getSurname() {return $this->surname; }
+    public function getAddress() {return $this->address; }
+    public function getTelephone() {return $this->telephone; }
+    public function getMail() {return $this->mail; }
+    public function setAddress($newAddress) {
+       # TODO
+    }
+    public function setTelephone($newTelephone) {
+       # TODO
     }
     
     public function provideBasicInfo($itName, $itDesc){
@@ -46,47 +52,57 @@ class ConcreteUserComponent extends UserComponent{
     public function createItinerary(){
         $this->itineraryContext = new ItineraryContext($this->mail);
     }
-    public function getItineraryContext(){
-        return $this->itineraryContext;
-    }
-
-    public function getName(){ return $this->name; }
-    public function getSurname() {return $this->surname; }
-    public function getAddress() {return $this->address; }
-    public function getTelephone() {return $this->telephone; }
-    public function getMail() {return $this->mail; }
-    public function getStaySearchResult(){return $this->searchResultStay;}
-    public function setAddress($newAddress) {
-       # TODO
+    
+    public function getItinerary(){
+        return $this->itineraryContext->getItinerary();
     }
     
-    public function setStaySearchResult(){
+    public function searchStay(){
         $this->searchResultStay = new StaySearchResult();
-        $this->searchResultStay->search(null);
+        $this->searchResultStay->search();
+        return $this->searchResultStay;
     }
+    
+    public function searchActivity($query = NULL){
+        $this->searchResultActivity = new ActivitySearchResult();
+        $this->searchResultActivity->search($query);
+        return $this->searchResultActivity;
+    }
+    
+    public function searchItineraries($query = NULL){
+        $this->searchResultItinerary = new ItinerarySearchResult();
+        $this->searchResultItinerary->searchItinerary($query);
+        return $this->searchResultItinerary;
+    }
+    
+    public function searchJourneys($query = NULL){
+        $this->searchResultJourney = new JourneySearchResult();
+        $this->searchResultJourney->searchJourney($query);
+        return $this->searchResultJourney;
+    }
+//    public function setStaySearchResult(){
+//        $this->searchResultStay = new StaySearchResult();
+//        $this->searchResultStay->search(null);
+//    }
     
     public function selectStay($id){
         $stayTemplate = $this->searchResultStay->selectStay($id);
         $this->itineraryContext->nuovaTappa($stayTemplate);
     }
     
-    public function setSearchResultJourney(){
-        $this->searchResultJourney = new JourneySearchResult();
-    }
-    
-    public function setSearchResultItinerary(){
-        $this->searchResultItinerary = new ItinerarySearchResult();
-    }
+//    public function setSearchResultJourney(){
+//        $this->searchResultJourney = new JourneySearchResult();
+//    }
+//    
+//    public function setSearchResultItinerary(){
+//        $this->searchResultItinerary = new ItinerarySearchResult();
+//    }
     
     public function configureStayParameter($optId, $valId){
         $this->itineraryContext->configureStayParameter($optId, $valId);
     }
     
-    public function searchActivity(){
-        $this->searchResultActivity = new ActivitySearchResult();
-        $this->searchResultActivity->search();
-        return $this->searchResultActivity;
-    }
+    
     
     public function removeActivity($idList){
         $this->itineraryContext->itineraryContext->removeActivity($idList);
@@ -104,19 +120,9 @@ class ConcreteUserComponent extends UserComponent{
         $this->context->saveStay($this->stay);
     }
     
-    public function setTelephone($newTelephone) {
-       # TODO
-    }
     
-    public function searchItineraries($query = NULL){
-        $this->searchResultItinerary->searchItinerary($query);
-        return $this->searchResultItinerary;
-    }
     
-    public function searchJourneys($query = NULL){
-        $this->searchResultJourney->searchJourney($query);
-        return $this->searchResultJourney;
-    }
+    
     
     public function __sleep() {
         return array('session_id', 'mail', 'name', 'surname', 'address', 'telephone', 'searchResultStay', 'searchResultActivity', 'searchResultItinerary', 'searchResultJourney', 'itineraryContext', 'itinerary');
