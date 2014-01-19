@@ -86,10 +86,11 @@ button:active {
 	position:relative;
 	top:1px;
 }
-//DIV LOGIN
+/*DIV LOGIN*/
 #div_login{
-     float: right;
-     width: 30%;    
+     margin-left: 85%;
+     width: 100%;
+     position:inherit;   
 }
 #s3slider {
     width: 500px; /* important to be same as image width */
