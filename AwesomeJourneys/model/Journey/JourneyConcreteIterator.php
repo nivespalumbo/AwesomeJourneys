@@ -20,5 +20,9 @@ class JourneyConcreteIterator implements JourneyIterator {
             return ($this->current+1) < count($this->list, COUNT_NORMAL);
         else return false;
     }
+    
+    public function replay(){
+        $this->current = -1;
+    }
 }
 ?>

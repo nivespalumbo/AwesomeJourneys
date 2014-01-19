@@ -52,7 +52,7 @@ class SearchController {
             return FALSE;
         $user = unserialize($_SESSION['utente']);
         $user->setSearchResultJourney();
-        return $user->searchJourneys("SELECT * FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE creator='".$user->getMail()."' ORDER BY start_date;");
+        return $user->searchJourneys("SELECT * FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE journey.creator='".$user->getMail()."' ORDER BY start_date;");
     }
     
 //    public function apriRicerca(){
@@ -73,10 +73,10 @@ class SearchController {
 //         */
 //        return TRUE;
         $location = ""; $startDate = "";
-        if(isset($_GET['location'])){
+        if(isset($_GET['location']) && $_GET['location'] != ""){
             $location = "AND location='".$_GET['location']."'";
         }
-        if(isset($_GET['startDate'])){
+        if(isset($_GET['startDate']) && $_GET['startDate'] != ""){
             $startDate = "AND journey.start_date = '".$_GET['startDate']."'";
         }
         
@@ -87,10 +87,12 @@ class SearchController {
         $queryJourney = "SELECT * "
                       . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
                       . "WHERE published=1 $location $startDate ORDER BY start_date;";
-        $risultati['journeys'] = $journeySearchResult->searchJourney($queryJourney);
+        $journeySearchResult->searchJourney($queryJourney);
+        $risultati['journeys'] = $journeySearchResult;
         
         $queryItinerary = NULL;
-        $risultati['itineraries'] = $itinerarySearchResult->searchItinerary($queryItinerary);
+        $itinerarySearchResult->searchItinerary($queryItinerary);
+        $risultati['itineraries'] = $itinerarySearchResult;
         
         return $risultati;
     }

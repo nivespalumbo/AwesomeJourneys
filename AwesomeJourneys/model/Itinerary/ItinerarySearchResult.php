@@ -52,4 +52,11 @@ class ItinerarySearchResult {
         
         $this->iterator = $this->aggregator->createIterator(); 
     }
+    
+    public function fetchObject() {
+        if ($this->iterator->hasNext())
+            return $this->iterator->next();
+        else
+            return NULL;
+    }
 }

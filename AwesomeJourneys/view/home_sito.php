@@ -18,4 +18,17 @@
     </ul>
 </div>
 
-<h2>Le nostre offerte</h2>
+<h2>I nostri viaggi</h2>
+<?php
+$this->model->replay();
+while($journey = $this->model->fetchObject()){
+    $itinerary = $journey->getItinerary();
+    echo "<div class='viaggio grid'>
+            <img src='journeys/".$itinerary->getPhoto()."'>
+            <span>
+                <h3>".$itinerary->getName()."</h3>
+                <p>".$itinerary->getDescription()."</p>
+            </span>
+          </div>";
+}
+?>

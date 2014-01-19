@@ -77,5 +77,9 @@ class JourneySearchResult {
         else
             return NULL;
     }
+    
+    public function replay(){
+        $this->iterator->replay();
+    }
 }
 ?>

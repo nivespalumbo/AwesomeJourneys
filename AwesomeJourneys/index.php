@@ -30,7 +30,7 @@
         
         <script type="text/javascript">
         $(document).ready(function(){
-            //$( ".datepicker" ).datepicker();
+            $( ".datepicker" ).datepicker();
             $( ".tabs" ).tabs();
             $( ".menu" ).menu();
             $('#s3slider').s3Slider({
