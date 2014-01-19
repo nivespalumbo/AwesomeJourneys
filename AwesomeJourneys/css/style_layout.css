@@ -88,9 +88,22 @@ button:active {
 }
 /*DIV LOGIN*/
 #div_login{
-     margin-left: 85%;
+     margin-top: 8px;
+     margin-left: 80%;
      width: 100%;
      position:inherit;   
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+#div_login > p > a{
+    padding: 5px 10px 5px 10px;
+    font-weight: bold;
+    border-radius: 2em 2em 3em 3em;
+}
+#div_login > p > a:hover, #div_login > p > a:focus{
+    background-color: #88cfdf; /*dodgerblue;*/
+    box-shadow: 0.05em 0.05em 0.05em #88cfdf;
 }
 #s3slider {
     width: 500px; /* important to be same as image width */
