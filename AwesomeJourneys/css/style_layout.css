@@ -86,7 +86,11 @@ button:active {
 	position:relative;
 	top:1px;
 }
-
+//DIV LOGIN
+#div_login{
+     float: right;
+     width: 30%;    
+}
 #s3slider {
     width: 500px; /* important to be same as image width */
     height: 300px; /* important to be same as image height */
@@ -244,3 +248,4 @@ header a {
     color: #FFFFFF;
     text-shadow: 0.05em 0.05em 0.05em #000000;
 }
+
