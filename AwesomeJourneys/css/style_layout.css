@@ -153,11 +153,24 @@ button:active {
 }
 
 #menu_personale{
+    z-index: 200;
     float: left;
     width: 20%;
 }
-
+#menu_personale > ul{
+    z-index: 200;
+}
+#menu_personale > ul > li{
+    z-index: 200;
+}
+#menu_personale > ul > li > ul{
+     z-index: 200;
+}
+#menu_personale > ul > li > ul > li{
+    z-index: 200;
+}
 #content{
+    z-index: 0;
     float: left;
     width: 80%;
 }
