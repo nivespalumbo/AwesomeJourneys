@@ -7,13 +7,14 @@
             <h1><a href="index.php">Awesome Journeys</a></h1>
         </span>
     </div>
-<!--    <div id='menu'>
+    <div id='menu'>
         <ul>
             <li><a href="#">Last minute</a></li>
             <li><a href="#">All-inclusive</a></li>
             <li><a href="#">Pacchetti vacanze</a></li>
             <li><a href="#">Crociere</a></li>
         </ul>
-    </div>-->
+    </div>
+   
     <div class="clear"></div>
 </header>
