@@ -102,7 +102,7 @@ button:active {
 }
 #div_login > p > a:hover, #div_login > p > a:focus{
     background-color: #88cfdf; /*dodgerblue;*/
-    box-shadow: 0.05em 0.05em 0.05em #88cfdf;
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
 }
 #s3slider {
     width: 500px; /* important to be same as image width */
@@ -262,16 +262,18 @@ header a {
 
 #menu > ul > li:hover, #menu > ul > li:focus, #menu > ul > li:active {
     background-color: #88cfdf; /*dodgerblue;*/
-    box-shadow: 0.05em 0.05em 0.05em #88cfdf;
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
 }
 
 #menu > ul > li > a:hover, #menu > ul > li > a:focus, #menu > ul > li >  a:active {
     color: #FFFFFF;
-    text-shadow: 0.05em 0.05em 0.05em #000000;
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 1);
 }
 /*VIAGGI IN HOME PAGE*/
 .grid{
-    
+    border-radius: 30px 60px 20px 20px;
+    background-color: rgba(214, 234, 240, 0.8);
+    box-shadow: 0px 0px 30px #57b6ce;
     width:40%;
     float:left;
     margin-left:5%;
@@ -283,13 +285,23 @@ header a {
 }
 .grid > img{
     width: 100%;
+    box-shadow: 0px 0px 30px #57b6ce;
     border-radius: 30px 60px 20px 20px;
 }
 
+.grid > span{
+    padding: 10px;
+}
+.grid > span > h3{
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
+}
 /*i nostri viaggi*/
 #our_journeys{
     width:100%;
     margin-left: 5%;
+}
+#our_journeys > h2{
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
 }
 /*CERCA ITINERARIO*/
 #search_link{
@@ -306,5 +318,5 @@ header a {
 }
 #search_link > a:hover, #search_link > a:focus{
     background-color: #88cfdf; /*dodgerblue;*/
-    box-shadow: 0.05em 0.05em 0.05em #88cfdf;
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
 }
