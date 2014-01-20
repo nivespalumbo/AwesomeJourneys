@@ -171,7 +171,7 @@ button:active {
     padding: 10px;
     min-width: 700px;
     margin: 3px 0px 3px 0px;
-    border-radius: 2em 8em 0.5em 0.5em;
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
     width: 100%;
 }
 
@@ -242,7 +242,6 @@ header a {
     font-family: sans-serif;
     float: right;
     width: 80%;
-    min-width: 500px;
     text-align: center;
     border-radius: 2em 2em 3em 3em;
     background-color: #FFF;
