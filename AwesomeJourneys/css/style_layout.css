@@ -169,8 +169,9 @@ button:active {
     background-color: rgba(255, 255, 255, 0.4);
     font-family: sans-serif;
     padding: 10px;
+    min-width: 700px;
     margin: 3px 0px 3px 0px;
-    border-radius: 2em 2em 0.5em 0.5em;
+    border-radius: 2em 8em 0.5em 0.5em;
     width: 100%;
 }
 
@@ -192,6 +193,7 @@ button:active {
     z-index: 200;
 }
 #content{
+    min-width: 700px;
     z-index: 0;
     float: left;
     width: 80%;
@@ -200,6 +202,7 @@ button:active {
 header, footer{
     clear: both;
     width: 100%;
+    min-width: 700px;
     padding: 10px;
     background-color: #FFFFFF;
 }
@@ -239,6 +242,7 @@ header a {
     font-family: sans-serif;
     float: right;
     width: 80%;
+    min-width: 500px;
     text-align: center;
     border-radius: 2em 2em 3em 3em;
     background-color: #FFF;
