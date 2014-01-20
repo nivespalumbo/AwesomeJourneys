@@ -214,11 +214,11 @@ footer{
     border-radius: 0.5em 0.5em 2em 2em;
 }
 
-//menÃ¹
+/*menu*/
 header h1 {
-    font-size: 70px;
-    line-height: 140px;
-    text-shadow: 0.05em 0.05em 0.05em #000000;
+    font-size: 65px;
+    line-height: 95px;
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
 }
 
 header img {
