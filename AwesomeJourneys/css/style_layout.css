@@ -166,7 +166,7 @@ button:active {
 }
 
 #content-wrapper {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.4);
     font-family: sans-serif;
     padding: 10px;
     margin: 3px 0px 3px 0px;
@@ -271,7 +271,10 @@ header a {
     
     width:40%;
     float:left;
-    margin:5%;
+    margin-left:5%;
+    margin-right: 5%;
+    margin-bottom: 1%;
+    margin-top: 1%;
     
     /*padding:5px;*/
 }
@@ -289,12 +292,12 @@ header a {
 #search_link{
     float:left;
     width: 100%;
+    margin-top: 1%;
     font-family: sans-serif;
     font-weight: bold;
 }
 #search_link > a{
     margin-left: 5%;
-    /*background-color: #FFF;*/
     padding: 10px 10px 5px 10px;
     border-radius: 2em 2em 3em 3em;
 }
