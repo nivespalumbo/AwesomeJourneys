@@ -71,7 +71,7 @@ class StayTemplateComposite implements StayTemplateComponent{
     private function insertComponent(StayTemplateComponent $component, $id){
         if($id == -1 || $this->id == $id){
             $this->components[$component->getId()] = $component;
-            if($component->getTipe() == ACCOMODATION || $component->getTipe() == STAY_TEMPLATE){
+            if($component->getType() == ACCOMODATION || $component->getType() == STAY_TEMPLATE){
                 $this->type = STAY_TEMPLATE;
                 return $this->type;
             }  
@@ -120,7 +120,7 @@ class StayTemplateComposite implements StayTemplateComponent{
         return $this->getComponentsOfType(ACTIVITY);
     }
 
-    public function getAccomodation(){
+    public function getAccomodations(){
         return $this->getComponentsOfType(ACCOMODATION);
     }
     

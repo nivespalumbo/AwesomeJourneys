@@ -43,7 +43,7 @@ class Accomodation implements StayTemplateLeaf{
         return $this->id;
     }
     
-    public function getAccomodation(){
+    public function getAccomodations(){
         $accomodation = array();
         $accomodation[] = $this;
         return $accomodation;

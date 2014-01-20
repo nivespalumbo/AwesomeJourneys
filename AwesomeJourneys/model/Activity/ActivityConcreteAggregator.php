@@ -1,22 +1,15 @@
 <?php
-use \ActivityConcreteIterator;
+include_once 'ActivityAggregator.php';
+include_once 'ActivityConcreteIterator.php';
 
 class ActivityConcreteAggregator implements ActivityAggregator{
     private $list;
-    
-    public function __construct($query) {
-        $c = new Connection();
-        if($c){
-            $this->list = $c->query($query);
-            $c->close();
-        }
-    }
     
     public function getIterator() {
         return new ActivityConcreteIterator($this->list);
     }
     
-    public function add($object) {
+    public function add(Activity $object) {
         $this->list[] = $object;
     }
 }

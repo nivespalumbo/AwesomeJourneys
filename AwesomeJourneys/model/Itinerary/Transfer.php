@@ -48,7 +48,7 @@ class Transfer implements ItineraryBrick{
         return FALSE;
     }
 
-    public function getAccomodation() {
+    public function getAccomodations() {
         return FALSE;
     }
 
