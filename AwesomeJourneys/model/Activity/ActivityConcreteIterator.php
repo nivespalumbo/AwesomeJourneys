@@ -1,4 +1,6 @@
 <?php
+include_once 'ActivityIterator.php';
+
 class ActivityConcreteIterator implements ActivityIterator{
     private $activities;
     private $current;

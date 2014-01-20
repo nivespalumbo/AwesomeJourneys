@@ -101,8 +101,8 @@ class Stay implements ItineraryBrick{
         return $ris;
     }
 
-    public function getAccomodation() {
-        return $this->stayTemplate->getAccomodation();
+    public function getAccomodations() {
+        return $this->stayTemplate->getAccomodations();
     }
 
     public function getLocation() {

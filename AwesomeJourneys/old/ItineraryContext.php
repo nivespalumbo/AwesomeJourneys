@@ -29,7 +29,7 @@ class ItineraryContext {
         if($c){
             $table = $c->fetch_query("SELECT ID FROM stay INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE published=1 ORDER BY start_date;");
             $id = $this->idStay($table);
-            $this->stay = new Stay($id, $stayTemplate->location(), $stayTemplate->getActivity(), $stayTemplate->getAccomodation(), $stayTemplate->getTransport());
+            $this->stay = new Stay($id, $stayTemplate->location(), $stayTemplate->getActivity(), $stayTemplate->getAccomodations(), $stayTemplate->getTransport());
         }
         $c->close();
     } 

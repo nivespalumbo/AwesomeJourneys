@@ -53,7 +53,7 @@ class Transport implements StayTemplateLeaf{
         return FALSE;
     }
 
-    public function getAccomodation() {
+    public function getAccomodations() {
         return FALSE;
     }
 
