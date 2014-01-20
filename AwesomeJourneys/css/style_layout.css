@@ -293,6 +293,7 @@ header a {
     font-weight: bold;
 }
 #search_link > a{
+    margin-left: 5%;
     /*background-color: #FFF;*/
     padding: 10px 10px 5px 10px;
     border-radius: 2em 2em 3em 3em;
