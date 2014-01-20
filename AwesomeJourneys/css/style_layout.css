@@ -88,9 +88,9 @@ button:active {
 }
 /*DIV LOGIN*/
 #div_login{
-     margin-left: 10px;
-     width: auto;   
-     position:initial;
+    margin-left: 5%;
+    width: auto;   
+    position:initial;
     font-family: sans-serif;
     font-weight: bold;
 }
@@ -109,6 +109,7 @@ button:active {
     height: 300px; /* important to be same as image height */
     box-shadow: 0px 0px 30px #57b6ce;
     margin-top: 5%;
+    margin-left: 5%;
     margin-bottom: 5%;
     position: relative; /* important */
     overflow: hidden; /* important */
@@ -265,4 +266,37 @@ header a {
     color: #FFFFFF;
     text-shadow: 0.05em 0.05em 0.05em #000000;
 }
+/*VIAGGI IN HOME PAGE*/
+.grid{
+    
+    width:40%;
+    float:left;
+    margin:5%;
+    
+    /*padding:5px;*/
+}
+.grid > img{
+    width: 100%;
+}
 
+/*i nostri viaggi*/
+#our_journeys{
+    width:100%;
+    margin-left: 5%;
+}
+/*CERCA ITINERARIO*/
+#search_link{
+    float:left;
+    width: 100%;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+#search_link > a{
+    /*background-color: #FFF;*/
+    padding: 10px 10px 5px 10px;
+    border-radius: 2em 2em 3em 3em;
+}
+#search_link > a:hover, #search_link > a:focus{
+    background-color: #88cfdf; /*dodgerblue;*/
+    box-shadow: 0.05em 0.05em 0.05em #88cfdf;
+}
