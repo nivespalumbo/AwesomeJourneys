@@ -4,13 +4,13 @@
  *
  * @author Nives
  */
-class ActivityTemplate {
-    private $idTemplate;
-    private $name;
-    private $address;
-    private $expectedDuration;
-    private $location;
-    private $description;
+class ActivityTemplate implements Serializable{
+    protected $idTemplate;
+    protected $name;
+    protected $address;
+    protected $expectedDuration;
+    protected $location;
+    protected $description;
     
     function __construct($id, $name, $address, $expectedDuration, $location, $description) {
         $this->idTemplate = $id;
@@ -19,6 +19,38 @@ class ActivityTemplate {
         $this->expectedDuration = $expectedDuration;
         $this->location = $location;
         $this->description = $description;
+    }
+    
+//    public function __sleep() {
+//        return array( "idTemplate", "name", "address", "expectedDuration", "location", "description");
+//    }
+//
+//    public function __wakeup() {
+//        
+//    }
+    
+    public function serialize() {
+        return serialize(
+            array(
+                'idTemplate' => $this->idTemplate,
+                'name' => $this->name,
+                'address' => $this->address,
+                'expectedDuration' => $this->expectedDuration,
+                'location' => $this->location,
+                'description' => $this->description
+            )
+        );
+    }
+    
+    public function unserialize($data) {
+        $data = unserialize($data);
+        
+        $this->idTemplate = $data['idTemplate'];
+        $this->name = $data['name'];
+        $this->address = $data['address'];
+        $this->description = $data['description'];
+        $this->expectedDuration = $data['expectedDuration'];
+        $this->location = $data['location'];
     }
 
     public function getIdTemplate() {

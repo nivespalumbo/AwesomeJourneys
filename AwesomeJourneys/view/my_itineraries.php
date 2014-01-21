@@ -31,7 +31,7 @@ include_once '_personalmenu.php'
                     }
                     echo "<h3>".$itinerary->getName()."</h3>";
                     echo "<p>".$itinerary->getDescription()."</p>";
-                    echo "<a href='index.php?op=modifyItinerary&id=".$itinerary->getId()."' >Modifica</a>";
+                    echo "<a href='index.php?op=selectItinerary&id=".$itinerary->getId()."' >Modifica</a>";
                     echo "</div>";
                 }
             }

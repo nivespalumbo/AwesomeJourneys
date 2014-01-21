@@ -16,6 +16,47 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
         $this->endDate = $endDate;
     }
     
+    function serialize(){
+        return serialize(
+            array(
+                'id' => $this->id,
+                'stayTemplateId' => $this->stayTemplateId,
+                'startDate' => $this->startDate,
+                'endDate' => $this->endDate,
+                'idTemplate' => $this->idTemplate,
+                'name' => $this->name,
+                'address' => $this->address,
+                'expectedDuration' => $this->expectedDuration,
+                'location' => $this->location,
+                'description' => $this->description
+            )
+        );
+    }
+    
+    function unserialize($data) {
+        $data = unserialize($data);
+        
+        $this->idTemplate = $data['idTemplate'];
+        $this->name = $data['name'];
+        $this->address = $data['address'];
+        $this->description = $data['description'];
+        $this->expectedDuration = $data['expectedDuration'];
+        $this->location = $data['location'];
+        $this->id = $data['id'];
+        $this->stayTemplateId = $data['stayTemplateId'];
+        $this->startDate = $data['startDate'];
+        $this->endDate = $data['endDate'];
+    }
+    
+//    public function __sleep() {
+//        return array("id", "stayTemplateId", "startDate", "endDate");
+//    }
+//
+//    public function __wakeup() {
+//        
+//    }
+
+    
     public function getId() {
         return $this->id;
     }

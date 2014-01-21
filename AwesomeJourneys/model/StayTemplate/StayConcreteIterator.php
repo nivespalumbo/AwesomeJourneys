@@ -10,9 +10,18 @@ class StayConcreteIterator implements StayIterator{
         $this->current = -1;
     }
     
+    public function __sleep() {
+        return array("list", "current");
+    }
+
+    public function __wakeup() {
+        
+    }
+
+    
     public function next() {
         $this->current++;
-        return $this->list[$this->current];
+        return array_values($this->list)[$this->current];
     }
     
     public function hasNext() {

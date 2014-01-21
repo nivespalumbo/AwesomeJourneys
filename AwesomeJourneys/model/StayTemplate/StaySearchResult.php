@@ -14,6 +14,15 @@ class StaySearchResult {
         $this->aggregator = new StayConcreteAggregator();
     }
     
+    public function __sleep() {
+        return array("c", "aggregator", "iterator");
+    }
+
+    public function __wakeup() {
+        
+    }
+
+    
     private function insertActivity($template){
         if($this->c){
             $query = "SELECT * "
@@ -83,6 +92,10 @@ class StaySearchResult {
             return $this->iterator->next();
         else
             return NULL;
+    }
+    
+    public function getObject($id){
+        return $this->aggregator->getObject($id);
     }
 }
 ?>

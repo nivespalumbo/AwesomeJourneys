@@ -10,6 +10,15 @@ class ActivityConcreteIterator implements ActivityIterator{
         $this->current = -1;
     }
     
+    public function __sleep() {
+        return array("activities", "current");
+    }
+
+    public function __wakeup() {
+        
+    }
+
+    
     public function hasNext() {
         return ($this->current+1) < count($this->activities, COUNT_NORMAL);
     }

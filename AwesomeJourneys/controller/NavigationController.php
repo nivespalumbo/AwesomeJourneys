@@ -44,8 +44,11 @@ class NavigationController {
             case 'searchStay' :
                 $this->searchStay();
                 break;
-            case 'modifyItinerary' :
-                $this->modifyItinerary();
+            case 'selectItinerary' :
+                $this->selectItinerary();
+                break;
+            case 'selectStay' :
+                $this->selectStay();
                 break;
         }
     }
@@ -178,7 +181,7 @@ class NavigationController {
         require_once 'view/stay_list.php';
     }
     
-    public function modifyItinerary(){
+    public function selectItinerary(){
         session_start();
         if(!isset($_SESSION['utente'])){
             $this->model = "SESSIONE INESISTENTE";
@@ -188,6 +191,19 @@ class NavigationController {
             $user = unserialize($_SESSION['utente']);
             $this->model = $user->getItinerary($_GET['id']);
             require_once 'view/itinerary.php';
+        }
+    }
+    
+    public function selectStay(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INESISTENTE";
+            require_once 'view/error.php';
+        }
+        else {
+            $user = unserialize($_SESSION['utente']);
+            $this->model = $user->getStay($_GET['id']);
+            require_once 'view/stay.php';
         }
     }
     

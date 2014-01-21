@@ -1,5 +1,6 @@
 <?php
 include_once 'StayTemplateLeaf.php';
+include_once 'model/Enumerations/ComponentType.php';
 
 class StayTemplateComposite implements StayTemplateComponent{
     private $id;
@@ -18,6 +19,15 @@ class StayTemplateComposite implements StayTemplateComponent{
         $this->id = $id;
         $this->components = array();
     }
+    
+    public function __sleep() {
+        return array("id", "name", "description", "startDate", "endDate", "startLocation", "endLocation", "components");
+    }
+
+    public function __wakeup() {
+        
+    }
+
     
     public function getId(){
         return $this->id;
@@ -94,7 +104,7 @@ class StayTemplateComposite implements StayTemplateComponent{
         foreach($this->components as $component){
             if($component->getType() == $type){
                 $ris[$component->getId()] = $component;
-            }else if($type == TRANSFER || $type == TRANSFER_TEMPLATE){
+            }else if($type == TRANSPORT || $type == TRANSFER_TEMPLATE){
                 array_merge($ris, $component->getTransports());
             }
         }

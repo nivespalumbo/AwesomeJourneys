@@ -24,6 +24,15 @@ class TransferTemplateComposite implements StayTemplateComponent{
         $this->components = array();
     }
     
+    public function __sleep() {
+        return array("id", "name", "description", "startLocation", "endLocation", "startDate", "endDate", "components");
+    }
+
+    public function __wakeup() {
+        
+    }
+
+    
     public function getId() {
         return $this->id;
     }

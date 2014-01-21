@@ -1,15 +1,15 @@
 <?php
 
-class AccomodationTemplate {
-    private $idTemplate;
-    private $address;
-    private $accomodationType;
-    private $description;
-    private $category;
-    private $name;
-    private $link;
-    private $photo;
-    private $location;
+class AccomodationTemplate implements Serializable {
+    protected $idTemplate;
+    protected $address;
+    protected $accomodationType;
+    protected $description;
+    protected $category;
+    protected $name;
+    protected $link;
+    protected $photo;
+    protected $location;
     
     function __construct($id, $address, $type, $description, $category, $name, $link, $photo, $location) {
         $this->idTemplate = $id;
@@ -21,6 +21,36 @@ class AccomodationTemplate {
         $this->link = $link;
         $this->photo = $photo;
         $this->location = $location;
+    }
+    
+    function serialize() {
+        return serialize(
+            array(
+                'idTemplate' => $this->idTemplate,
+                'address' => $this->address,
+                'accomodationType' => $this->accomodationType,
+                'description' => $this->description,
+                'category' => $this->category,
+                'name' => $this->name,
+                'link' => $this->link,
+                'photo' => $this->photo,
+                'location' => $this->location,
+            )
+        );
+    }
+    
+    function unserialize($serialized) {
+        $data = unserialize($serialized);
+        
+        $this->idTemplate = $data['idTemplate'];
+        $this->address = $data['address'];
+        $this->accomodationType = $data['accomodationType'];
+        $this->description = $data['description'];
+        $this->category = $data['category'];
+        $this->name = $data['name'];
+        $this->link = $data['link'];
+        $this->photo = $data['photo'];
+        $this->location = $data['location'];
     }
 
     public function getIdTemplate() {

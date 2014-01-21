@@ -18,6 +18,54 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
         $this->duration = $duration;
     }
     
+//    public function __sleep() {
+//        return array("id", "stayTemplateId", "numeroDisponibilita", "startDate", "duration", "idTemplate", "address", "accomodationType", "description", "category", "name", "link", "photo", "location");
+//    }
+//
+//    public function __wakeup() {
+//        
+//    }
+    function serialize() {
+        return serialize(
+            array(
+                'id' => $this->id,
+                'stayTemplateId' => $this->stayTemplateId,
+                'numeroDisponibilita' => $this->numeroDisponibilita,
+                'startDate' => $this->startDate,
+                'duration' => $this->duration,
+                'idTemplate' => $this->idTemplate,
+                'address' => $this->address,
+                'accomodationType' => $this->accomodationType,
+                'description' => $this->description,
+                'category' => $this->category,
+                'name' => $this->name,
+                'link' => $this->link,
+                'photo' => $this->photo,
+                'location' => $this->location,
+            )
+        );
+    }
+    
+    function unserialize($serialized) {
+        $data = unserialize($serialized);
+        
+        $this->id = $data['id'];
+        $this->stayTemplateId = $data['stayTemplateId'];
+        $this->numeroDisponibilita = $data['numeroDisponibilita'];
+        $this->startDate = $data['startDate'];
+        $this->duration = $data['duration'];
+        $this->idTemplate = $data['idTemplate'];
+        $this->address = $data['address'];
+        $this->accomodationType = $data['accomodationType'];
+        $this->description = $data['description'];
+        $this->category = $data['category'];
+        $this->name = $data['name'];
+        $this->link = $data['link'];
+        $this->photo = $data['photo'];
+        $this->location = $data['location'];
+    }
+
+    
     public function getId() {
         return $this->id;
     }

@@ -63,6 +63,10 @@ class ConcreteUserComponent extends UserComponent{
         }
     }
     
+    public function getStay($id){
+        return $this->searchResultStay->getObject($id);
+    }
+    
     public function searchStay(){
         $this->searchResultStay = new StaySearchResult();
         $this->searchResultStay->search();

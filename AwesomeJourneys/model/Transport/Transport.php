@@ -15,6 +15,14 @@ class Transport extends TransportTemplate implements StayTemplateLeaf{
         $this->endIndex = $endIndex;
         $this->date = $date;
     }
+    
+    public function __sleep() {
+        return array("id", "startIndex", "endIndex", "date", "idTemplate", "name", "description", "vehicle", "locations", "start_hours", "durations");
+    }
+
+    public function __wakeup() {
+        
+    }
 
     public function getId() {
         return $this->id;
