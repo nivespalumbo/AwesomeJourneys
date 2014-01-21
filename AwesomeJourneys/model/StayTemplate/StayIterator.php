@@ -2,7 +2,8 @@
 
 interface StayIterator {
     function hasNext();
-    function nextItem();
+    function next();
+    function replay();
 }
 
 ?>

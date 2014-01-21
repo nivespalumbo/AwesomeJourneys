@@ -21,7 +21,7 @@ class ActivityTemplate {
         $this->description = $description;
     }
 
-    public function getId() {
+    public function getIdTemplate() {
         return $this->idTemplate;
     }
     public function getName() {

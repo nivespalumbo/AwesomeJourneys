@@ -22,6 +22,7 @@ class SearchController {
     
     // Da riguardare
     public function searchStay(){
+        session_start();
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);

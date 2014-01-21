@@ -1,8 +1,17 @@
 <?php
-use StayConcreteAggregator;
+include_once 'StayAggregator.php';
+include_once 'StayConcreteIterator.php';
 
 class StayConcreteAggregator implements StayAggregator{
-    //put your code here
+    private $list;
+       
+    public function getIterator() {
+        return new StayConcreteIterator($this->list);
+    }
+    
+    public function add(StayTemplateComponent $object) {
+        $this->list[] = $object;
+    }
 }
 
 ?>

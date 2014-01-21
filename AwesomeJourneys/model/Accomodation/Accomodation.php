@@ -1,134 +1,110 @@
 <?php
+include_once 'AccomodationTemplate.php';
+include_once 'model/StayTemplate/StayTemplateLeaf.php';
 
-class Accomodation implements StayTemplateLeaf{
+class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
     private $id;
-    private $location;
-    private $type;
-    private $description;
-    private $category;
-    private $name;
-    private $link;
-    private $stayTempalateId;
-    private $check_in;
+    private $stayTemplateId;
+    private $numeroDisponibilita;
     private $startDate;
-    private $endDate;
+    private $duration;
     
-    //DA INSERIRE DURATION
-    public function __construct($id, $location, $type, $description, $name, $link, $stayTempalateId, $check_in, $category) {
+    function __construct($id, $stayTemplateId, $numeroDisponibilita, $startDate, $duration, $idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location) {
+        parent::__construct($idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location);
         $this->id = $id;
-        $this->location = $location;
-        $this->type = $type;
-        $this->description = $description;
-        //$this->duration = $duration;
-        $this->name = $name;
-        $this->link = $link;
-        $this->stayTempalateId = $stayTempalateId;
-        $this->check_in = $check_in;
-        $this->category = $category;
+        $this->stayTemplateId = $stayTemplateId;
+        $this->numeroDisponibilita = $numeroDisponibilita;
+        $this->startDate = $startDate;
+        $this->duration = $duration;
     }
     
-     public function getEndLocation() {
-        return FALSE;
-    }
-
-    public function getStartLocation() {
-        return FALSE;
-    }
-    
-    public function getLocation(){
-        return $this->location;
-    }
-
     public function getId() {
         return $this->id;
     }
-    
-    public function getAccomodations(){
-        $accomodation = array();
-        $accomodation[] = $this;
-        return $accomodation;
+    public function getStayTemplateId(){
+        return $this->stayTemplateId;
     }
-
-    public function getDescription() {
-        return $this->description;
+    public function getNumeroDisponibilita() {
+        return $this->numeroDisponibilita;
     }
-
+    public function getStartDate() {
+        return $this->startDate;
+    }
     public function getDuration() {
         return $this->duration;
     }
+    public function getType(){
+        return ACCOMODATION;
+    }
 
-    public function getVehicle() {
-        return FALSE;
+    public function setNumeroDisponibilita($numeroDisponibilita) {
+        $this->numeroDisponibilita = $numeroDisponibilita;
+    }
+    public function setStartDate($startDate) {
+        $this->startDate = $startDate;
+    }
+    public function setDuration($duration) {
+        $this->duration = $duration;
+    }
+    
+    public function saveIntoDB() {
+        parent::saveIntoDB();
     }
 
     public function addComponent(\StayTemplateComponent $component) {
-        
+        return FALSE;
+    }
+
+    public function getAccomodations() {
+        return $this;
     }
 
     public function getActivities() {
         return FALSE;
     }
 
-    public function getEndDate() {
-        
+    public function getEndLocation() {
+        return FALSE;
     }
 
-    public function getName() {
-        
-    }
-
-    public function getStartDate() {
-        
+    public function getStartLocation() {
+        return FALSE;
     }
 
     public function getTransports() {
-        
-    }
-
-    public function getType() {
-        
+        return FALSE;
     }
 
     public function isComposite() {
-        
+        return FALSE;
     }
 
     public function newItineraryBick() {
-        
+        return FALSE;
     }
 
     public function removeComponent($id) {
-        
-    }
-
-    public function setDescription($description) {
-        
-    }
-
-    public function setEndDate($startDate) {
-        
+        return FALSE;
     }
 
     public function setEndLocation($location) {
-        
-    }
-
-    public function setLocation($location) {
-        
-    }
-
-    public function setName($name) {
-        
-    }
-
-    public function setStartDate($endDate) {
-        
+        return FALSE;
     }
 
     public function setStartLocation($location) {
-        
+        return FALSE;
     }
 
+    public function getVehicle() {
+        return FALSE;
+    }
+    
+    public function getEndDate(){
+        return FALSE;
+    }
+    public function setEndDate($endDate) {
+        return FALSE;
+    }
 }
 
 ?>

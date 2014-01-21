@@ -1,8 +1,9 @@
 <?php
-use StayTemplateComponent;
+include_once 'StayTemplateComponent.php';
 
 interface StayAggregator {
     function getIterator();
+    function add(StayTemplateComponent $component);
 }
 
 ?>
