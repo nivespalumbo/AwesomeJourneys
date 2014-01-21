@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.9
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: 09 gen, 2014 at 11:35 AM
--- Versione MySQL: 5.5.8
--- Versione PHP: 5.3.5
+-- Generato il: Gen 21, 2014 alle 13:33
+-- Versione del server: 5.6.12-log
+-- Versione PHP: 5.4.12
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,6 +19,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `awesome_journeys`
 --
+CREATE DATABASE IF NOT EXISTS `awesome_journeys` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `awesome_journeys`;
 
 -- --------------------------------------------------------
 
@@ -30,8 +33,8 @@ CREATE TABLE IF NOT EXISTS `accomodation` (
   `template` int(11) NOT NULL,
   `check_in` datetime NOT NULL,
   `numero_disponibilita` int(11) DEFAULT NULL,
-  `start_data` date NOT NULL,
-  `end_data` date NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `template` (`template`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -40,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `accomodation` (
 -- Dump dei dati per la tabella `accomodation`
 --
 
-INSERT INTO `accomodation` (`ID`, `template`, `check_in`, `numero_disponibilita`, `start_data`, `end_data`) VALUES
+INSERT INTO `accomodation` (`ID`, `template`, `check_in`, `numero_disponibilita`, `start_date`, `end_date`) VALUES
 (3, 7, '0000-00-00 00:00:00', NULL, '0000-00-00', '0000-00-00'),
 (4, 8, '0000-00-00 00:00:00', NULL, '0000-00-00', '0000-00-00');
 
@@ -111,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
   `duration` time NOT NULL,
   `numero_disponibilita` int(11) DEFAULT NULL,
   `start_date` datetime NOT NULL,
-  `end_data` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `template` (`template`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -120,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `activity` (
 -- Dump dei dati per la tabella `activity`
 --
 
-INSERT INTO `activity` (`ID`, `template`, `duration`, `numero_disponibilita`, `start_date`, `end_data`) VALUES
+INSERT INTO `activity` (`ID`, `template`, `duration`, `numero_disponibilita`, `start_date`, `end_date`) VALUES
 (5, 7, '00:00:00', NULL, '0000-00-00 00:00:00', NULL),
 (6, 8, '00:00:00', NULL, '0000-00-00 00:00:00', NULL),
 (7, 9, '00:00:00', NULL, '0000-00-00 00:00:00', NULL);
@@ -137,11 +140,6 @@ CREATE TABLE IF NOT EXISTS `activity_in_stay` (
   PRIMARY KEY (`id_stay`,`id_activity`),
   KEY `id_activity` (`id_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dump dei dati per la tabella `activity_in_stay`
---
-
 
 -- --------------------------------------------------------
 
@@ -232,17 +230,18 @@ CREATE TABLE IF NOT EXISTS `itinerary` (
   `photo` varchar(255) DEFAULT NULL,
   `creator` varchar(30) NOT NULL,
   `state` int(11) NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dump dei dati per la tabella `itinerary`
 --
 
-INSERT INTO `itinerary` (`ID`, `name`, `description`, `photo`, `creator`, `state`) VALUES
-(1, 'Honolulu', 'Vacanza di 7 giorni e 7 notti alla scoperta di Honolulu, la splendida capitale delle Hawaii.', 'honolulu.jpg', 'admin@aj.com', 2),
-(2, 'Stoccolma', NULL, 'stoccolma.jpg', 'admin@aj.com', 2),
-(3, 'Escursione in montagna', NULL, 'mountain1.jpg', 'admin@aj.com', 2);
+INSERT INTO `itinerary` (`ID`, `name`, `description`, `photo`, `creator`, `state`, `published`) VALUES
+(1, 'Honolulu', 'Vacanza di 7 giorni e 7 notti alla scoperta di Honolulu, la splendida capitale delle Hawaii.', 'honolulu.jpg', 'admin@aj.com', 2, 1),
+(2, 'Stoccolma', 'Perdetevi nelle bellissime viuzze di Gamla Stan, il centro storico di Stoccolma. Negozietti di ogni genere (antiquariato, elmetti alla Asterix, troll..) e caffè.', 'stoccolma.jpg', 'admin@aj.com', 2, 1),
+(3, 'Escursione in montagna', NULL, 'mountain1.jpg', 'admin@aj.com', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -263,11 +262,6 @@ CREATE TABLE IF NOT EXISTS `itinerary_brick` (
   UNIQUE KEY `end_location` (`end_location`),
   UNIQUE KEY `id_itinerary` (`id_itinerary`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dump dei dati per la tabella `itinerary_brick`
---
-
 
 -- --------------------------------------------------------
 
@@ -361,11 +355,6 @@ CREATE TABLE IF NOT EXISTS `stay` (
   UNIQUE KEY `id_return_transport` (`id_return_transport`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dump dei dati per la tabella `stay`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -379,11 +368,6 @@ CREATE TABLE IF NOT EXISTS `stay_structure` (
   KEY `id_child` (`id_child`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dump dei dati per la tabella `stay_structure`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -394,7 +378,10 @@ CREATE TABLE IF NOT EXISTS `stay_template` (
   `ID` int(11) NOT NULL,
   `start_location` varchar(50) NOT NULL,
   `end_location` varchar(50) NOT NULL,
-  `type` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `start_location` (`start_location`),
   KEY `end_location` (`end_location`)
@@ -404,10 +391,10 @@ CREATE TABLE IF NOT EXISTS `stay_template` (
 -- Dump dei dati per la tabella `stay_template`
 --
 
-INSERT INTO `stay_template` (`ID`, `start_location`, `end_location`, `type`) VALUES
-(8, 'Champoluc', 'Champoluc', 0),
-(9, 'Honolulu', 'Honolulu', 0),
-(10, 'Stoccolma', 'Stoccolma', 0);
+INSERT INTO `stay_template` (`ID`, `start_location`, `end_location`, `start_date`, `end_date`, `name`, `description`) VALUES
+(8, 'Champoluc', 'Champoluc', '2014-07-16', '2014-07-20', 'Mountain Bike', 'I migliori itinerari da fare in bici'),
+(9, 'Honolulu', 'Honolulu', '2014-07-01', '2014-07-20', 'Hawaii!', 'Visita alla capitale'),
+(10, 'Stoccolma', 'Stoccolma', '2014-02-01', '2014-01-07', 'Stoccolma', '');
 
 -- --------------------------------------------------------
 
@@ -449,11 +436,6 @@ CREATE TABLE IF NOT EXISTS `stay_template_structure` (
   KEY `id_child` (`id_child`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dump dei dati per la tabella `stay_template_structure`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -474,11 +456,6 @@ CREATE TABLE IF NOT EXISTS `transfer` (
   UNIQUE KEY `id_stay` (`id_stay`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dump dei dati per la tabella `transfer`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -498,11 +475,6 @@ CREATE TABLE IF NOT EXISTS `transport` (
   KEY `template` (`template`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dump dei dati per la tabella `transport`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -514,11 +486,6 @@ CREATE TABLE IF NOT EXISTS `transport_in_stay_template` (
   `transport_id` int(11) NOT NULL,
   PRIMARY KEY (`stay_template`,`transport_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dump dei dati per la tabella `transport_in_stay_template`
---
-
 
 -- --------------------------------------------------------
 
@@ -535,11 +502,6 @@ CREATE TABLE IF NOT EXISTS `transport_template` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
--- Dump dei dati per la tabella `transport_template`
---
-
-
---
 -- Limiti per le tabelle scaricate
 --
 
@@ -547,8 +509,8 @@ CREATE TABLE IF NOT EXISTS `transport_template` (
 -- Limiti per la tabella `accomodation`
 --
 ALTER TABLE `accomodation`
-  ADD CONSTRAINT `accomodation_ibfk_1` FOREIGN KEY (`template`) REFERENCES `accomodation_template` (`ID`),
-  ADD CONSTRAINT `accomodation_ibfk_3` FOREIGN KEY (`ID`) REFERENCES `stay_template_component` (`ID`);
+  ADD CONSTRAINT `accomodation_ibfk_1` FOREIGN KEY (`template`) REFERENCES `accomodation_template` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `accomodation_ibfk_3` FOREIGN KEY (`ID`) REFERENCES `stay_template_component` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `accomodation_in_stay_template`
@@ -639,3 +601,7 @@ ALTER TABLE `transfer`
 ALTER TABLE `transport`
   ADD CONSTRAINT `transport_ibfk_2` FOREIGN KEY (`template`) REFERENCES `transport_template` (`ID`),
   ADD CONSTRAINT `transport_ibfk_3` FOREIGN KEY (`ID`) REFERENCES `stay_template_component` (`ID`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

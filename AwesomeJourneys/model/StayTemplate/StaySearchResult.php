@@ -69,7 +69,6 @@ class StaySearchResult {
                     $this->insertAccomodation($stayTemplate);
                     $this->insertActivity($stayTemplate);
                     $this->aggregator->add($stayTemplate);
-                    echo "inserito".  print_r($st);
                 }  
             }
             $this->c->close();
