@@ -323,6 +323,29 @@ header a {
     margin-top: 1%;
     padding:10px;
 }
+.date{
+    width: 100%;
+    float: left;
+    margin-top:5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    margin-right: 30px;
+}
+.see_more{
+    width: 100%;
+    margin-top: 6px;
+    float: left;
+}
+.see_more > a{
+    /*background-color: #FFF;*/
+    padding: 10px 10px 5px 10px;
+    font-weight: bold;
+    border-radius: 2em 2em 3em 3em;
+}
+.see_more > a:hover, .see_more > a:hover{
+    background-color: #88cfdf; /*dodgerblue;*/
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
+}
 /*CERCA ITINERARIO*/
 #search_link{
     float:left;
