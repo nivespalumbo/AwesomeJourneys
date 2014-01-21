@@ -13,12 +13,20 @@ include_once 'ItineraryAggregator.php';
  */
 class ItineraryConcreteAggregator implements ItineraryAggregator{
     private $list;
+    
+    public function __construct() {
+        $this->list = array();
+    }
        
     public function createIterator() {
         return new ItineraryConcreteIterator($this->list);
     }
     
     public function add(ItineraryState $object) {
-        $this->list[] = $object;
+        $this->list[$object->getId()] = $object;
+    }
+    
+    public function getObject($id) {
+        return $this->list[$id];
     }
 }

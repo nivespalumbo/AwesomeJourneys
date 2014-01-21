@@ -22,7 +22,7 @@ class ItineraryConcreteIterator implements ItineraryIterator{
     
     public function next() {
         $this->current++;
-        return $this->list[$this->current];
+        return array_values($this->list)[$this->current];
     }
     
     public function hasNext() {
