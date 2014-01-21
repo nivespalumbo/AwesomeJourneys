@@ -57,18 +57,19 @@ class StaySearchResult {
         if($this->c){
             $table = $this->c->fetch_query($query);
             if($table){
-                echo 'tabella piena';
                 foreach($table as $st){
-                    $stayTemplate = new StayTemplateComposite($st->ID);
-                    $stayTemplate->setStartLocation($st->start_location);
-                    $stayTemplate->setEndLocation($st->end_location);
-                    $stayTemplate->setStartDate($st->start_date);
-                    $stayTemplate->setEndDate($st->end_date);
-                    $stayTemplate->setName($st->name);
-                    $stayTemplate->setDescription($st->description);
-                    $this->insertAccomodation($stayTemplate);
-                    $this->insertActivity($stayTemplate);
-                    $this->aggregator->add($stayTemplate);
+                    if($st->type == STAY_TEMPLATE){
+                        $stayTemplate = new StayTemplateComposite($st->ID);
+                        $stayTemplate->setStartLocation($st->start_location);
+                        $stayTemplate->setEndLocation($st->end_location);
+                        $stayTemplate->setStartDate($st->start_date);
+                        $stayTemplate->setEndDate($st->end_date);
+                        $stayTemplate->setName($st->name);
+                        $stayTemplate->setDescription($st->description);
+                        $this->insertAccomodation($stayTemplate);
+                        $this->insertActivity($stayTemplate);
+                        $this->aggregator->add($stayTemplate);
+                    }
                 }  
             }
             $this->c->close();
