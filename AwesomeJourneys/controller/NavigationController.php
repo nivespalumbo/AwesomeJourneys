@@ -44,6 +44,9 @@ class NavigationController {
             case 'searchStay' :
                 $this->searchStay();
                 break;
+            case 'modifyItinerary' :
+                $this->modifyItinerary();
+                break;
         }
     }
 
@@ -173,6 +176,19 @@ class NavigationController {
         $c = new SearchController();
         $this->model = $c->searchStay();
         require_once 'view/stay_list.php';
+    }
+    
+    public function modifyItinerary(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INESISTENTE";
+            require_once 'view/error.php';
+        }
+        else {
+            $user = unserialize($_SESSION['utente']);
+            $user->getItinerary($_GET['id']);
+            require_once 'view/itinerary.php';
+        }
     }
     
 }

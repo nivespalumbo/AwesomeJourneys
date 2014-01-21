@@ -59,4 +59,8 @@ class ItinerarySearchResult {
         else
             return NULL;
     }
+    
+    public function getObject($id){
+        return $this->aggregator->getObject($id);
+    }
 }

@@ -23,12 +23,16 @@ include_once '_personalmenu.php'
         </ul>
         <div id="itinerari">
             <?php
-            include_once 'Oggetti/ItineraryInHTML.php';
-
             if($this->model['itineraries'] != NULL){
                 while($itinerary = $this->model['itineraries']->fetchObject()){
-                    $view = new ItineraryInHTML($itinerary);
-                    $view->getItinerary();
+                    echo "<div class='itinerary'>";
+                    if($photo = $itinerary->getPhoto()){
+                        echo "<img src='journeys/".$photo."' />";
+                    }
+                    echo "<h3>".$itinerary->getName()."</h3>";
+                    echo "<p>".$itinerary->getDescription()."</p>";
+                    echo "<a href='index.php?op=modifyItinerary&id=".$itinerary->getId()."' >Modifica</a>";
+                    echo "</div>";
                 }
             }
             else{

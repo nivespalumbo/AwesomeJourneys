@@ -53,8 +53,13 @@ class ConcreteUserComponent extends UserComponent{
         $this->itineraryContext = new ItineraryContext($this->mail);
     }
     
-    public function getItinerary(){
-        return $this->itineraryContext->getItinerary();
+    public function getItinerary($id = NULL){
+        if($id == NULL){
+            return $this->itineraryContext->getItinerary();
+        }
+        else {
+            $this->itineraryContext = new ItineraryContext($this->mail, $this->searchResultItinerary->getItinerary($id));
+        }
     }
     
     public function searchStay(){
