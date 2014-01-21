@@ -4,7 +4,8 @@ include_once 'PublishedJourney.php';
 include_once 'JourneyIterator.php';
 
 interface JourneyAggregator {
-    public function createIterator();
+    public function getIterator();
     public function add(Journey $object);
+    public function getObject($id);
 }
 ?>

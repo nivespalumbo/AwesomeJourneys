@@ -1,6 +1,7 @@
 <?php
 include_once 'model/Journey/JourneySearchResult.php';
 include_once 'model/Itinerary/ItinerarySearchResult.php';
+include_once 'model/Actor/UserComponent.php';
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -16,7 +17,7 @@ class SearchController {
     // Abbiamo deciso che in homepage ci saranno i viaggi pubblicati
     public function home(){
         $model = new JourneySearchResult();
-        $model->searchJourney(null);
+        $model->search(null);
         return $model;
     }
     
@@ -26,7 +27,9 @@ class SearchController {
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);
-        return $user->searchStay();
+        $user->searchStay();
+        $_SESSION['utente'] = serialize($user);
+        return $user->getStaySearchResult();
     }
     
     /**
@@ -38,7 +41,9 @@ class SearchController {
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);
-        return $user->searchItineraries("SELECT * FROM itinerary WHERE creator='".$user->getMail()."'");
+        $user->searchItineraries("SELECT * FROM itinerary WHERE creator='".$user->getMail()."'");
+        $_SESSION['utente'] = serialize($user);
+        return $user->getItinerarySearchResult();
     }
     
     /**
@@ -50,7 +55,9 @@ class SearchController {
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);
-        return $user->searchJourneys("SELECT * FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE journey.creator='".$user->getMail()."' ORDER BY start_date;");
+        $user->searchJourneys("SELECT * FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE journey.creator='".$user->getMail()."' ORDER BY start_date;");
+        $_SESSION['utente'] = serialize($user);
+        return $user->getJourneySearchResult();        
     }
     
     public function search(){
@@ -69,11 +76,11 @@ class SearchController {
         $queryJourney = "SELECT * "
                       . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
                       . "WHERE journey.published=1 $location $startDate ORDER BY start_date;";
-        $journeySearchResult->searchJourney($queryJourney);
+        $journeySearchResult->search($queryJourney);
         $risultati['journeys'] = $journeySearchResult;
         
         $queryItinerary = "SELECT * FROM itinerary WHERE published=1;";
-        $itinerarySearchResult->searchItinerary($queryItinerary);
+        $itinerarySearchResult->search($queryItinerary);
         $risultati['itineraries'] = $itinerarySearchResult;
         
         return $risultati;

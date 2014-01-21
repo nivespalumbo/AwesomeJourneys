@@ -186,7 +186,7 @@ class NavigationController {
         }
         else {
             $user = unserialize($_SESSION['utente']);
-            $user->getItinerary($_GET['id']);
+            $this->model = $user->getItinerary($_GET['id']);
             require_once 'view/itinerary.php';
         }
     }

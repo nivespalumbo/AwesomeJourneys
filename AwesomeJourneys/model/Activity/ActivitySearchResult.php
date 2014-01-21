@@ -15,34 +15,48 @@ class ActivitySearchResult {
         $this->aggregator = new ActivityConcreteAggregator();
     }
     
+    public function __sleep() {
+        return array("aggregator", "iterator");
+    }
+
+    public function __wakeup() {
+        
+    }
+
     /*
      * DA MODIFICARE, CREARE UN'ALTRA FUNZIONE PRIVATA CHE RICERCA IN DB
      */
-    public function search(){
+    public function search($query = NULL){
         $c = new Connection();
         
-        $query = "SELECT activity.ID as ID, activity_template.ID as IDTemplate, * "
-               . "FROM activity INNER JOIN activity_template ON activity.template = activity_template.ID;";
+        if($query == NULL){
+            $query = "SELECT activity.ID as ID, activity_template.ID as IDTemplate, * "
+                   . "FROM activity INNER JOIN activity_template ON activity.template = activity_template.ID;";
+        }
         
         if($c){
             $table = $c->fetch_query($query);
             $c->close();
             if($table){
-                $numRows = count($table,COUNT_NORMAL);
-                for($i=0; $i<$numRows; $i++){
-                    $this->aggregator->add(new Activity($table[$i]->ID, $table[$i]->start_date, $table[$i]->stay_template, $table[$i]->end_date, $table[$i]->IDTemplate, $table[$i]->name, $table[$i]->address, $table[$i]->expected_duration, $table[$i]->location, $table[$i]->description));
+                foreach($table as $act){
+                    $activity = new Activity($act->ID, $act->start_date, $act->stay_template, $act->end_date, $act->IDTemplate, $act->name, $act->address, $act->expected_duration, $act->location, $act->description);
+                    $this->aggregator->add($activity);
                 }
             }
         }
         
-        $this->iterator = $this->aggregator->createIterator(); 
+        $this->iterator = $this->aggregator->getIterator(); 
     }
     
-    public function fetch_object() {
+    public function fetchObject() {
         if ($this->iterator->hasNext())
             return $this->iterator->next();
         else
             return NULL;
+    }
+    
+    public function getObject($id){
+        return $this->aggregator->getObject($id);
     }
 }
 

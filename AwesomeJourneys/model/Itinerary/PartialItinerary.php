@@ -20,6 +20,14 @@ class PartialItinerary extends ItineraryState{
             $this->id = $id;
         }
     }
+    
+    public function __sleep() {
+        return array("id", "name", "description", "photo", "numBrick", "newBrick", "itineraryBrick", "type");
+    }
+
+    public function __wakeup() {
+        
+    }
 
     public function manageActivityInStay($stayId) {
         if(!isset($this->itineraryBrick[$stayId])){

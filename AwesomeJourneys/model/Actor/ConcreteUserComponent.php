@@ -58,31 +58,44 @@ class ConcreteUserComponent extends UserComponent{
             return $this->itineraryContext->getItinerary();
         }
         else {
-            $this->itineraryContext = new ItineraryContext($this->mail, $this->searchResultItinerary->getItinerary($id));
+            $this->itineraryContext = new ItineraryContext($this->mail, $this->searchResultItinerary->getObject($id));
+            return $this->itineraryContext->getItinerary();
         }
     }
     
     public function searchStay(){
         $this->searchResultStay = new StaySearchResult();
         $this->searchResultStay->search();
+    }
+    
+    public function getStaySearchResult(){
         return $this->searchResultStay;
     }
     
     public function searchActivity($query = NULL){
         $this->searchResultActivity = new ActivitySearchResult();
         $this->searchResultActivity->search($query);
-        return $this->searchResultActivity;
     }
+    
+    public function getActivitySearchResult(){
+        return $this->searchResultActivity;
+    } 
     
     public function searchItineraries($query = NULL){
         $this->searchResultItinerary = new ItinerarySearchResult();
-        $this->searchResultItinerary->searchItinerary($query);
+        $this->searchResultItinerary->search($query);
+    }
+    
+    public function getItinerarySearchResult(){
         return $this->searchResultItinerary;
     }
     
     public function searchJourneys($query = NULL){
         $this->searchResultJourney = new JourneySearchResult();
-        $this->searchResultJourney->searchJourney($query);
+        $this->searchResultJourney->search($query);
+    }
+    
+    public function getJourneySearchResult(){
         return $this->searchResultJourney;
     }
 //    public function setStaySearchResult(){

@@ -16,7 +16,7 @@ class ActivityConcreteIterator implements ActivityIterator{
     
     public function nextItem() {
         $this->current++;
-        return $this->activities[$this->current];
+        return array_values($this->activities)[$this->current];
     }
 }
 

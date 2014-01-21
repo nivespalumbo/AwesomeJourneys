@@ -10,7 +10,11 @@ class ActivityConcreteAggregator implements ActivityAggregator{
     }
     
     public function add(Activity $object) {
-        $this->list[] = $object;
+        $this->list[$object->getId()] = $object;
+    }
+    
+    public function getObject($id) {
+        return $this->list[$id];
     }
 }
 

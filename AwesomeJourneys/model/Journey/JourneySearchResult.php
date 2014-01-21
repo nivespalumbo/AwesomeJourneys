@@ -14,62 +14,46 @@ class JourneySearchResult {
         $this->aggregator = new JourneyConcreteAggregator();
     }
     
+    public function __sleep() {
+        return array("aggregator", "iterator");
+    }
+
+    public function __wakeup() {
+        
+    }
+
+    
     /*
      * DA MODIFICARE, CREARE UN'ALTRA FUNZIONE PRIVATA CHE RICERCA IN DB
      */
-    public function searchJourney($query){
+    public function search($query = NULL){
         $c = new Connection();
         
-        if($query == null)
-            $query = "SELECT * FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE journey.published=1 ORDER BY start_date;";
+        if($query == NULL){
+            $query = "SELECT * "
+                   . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
+                   . "WHERE journey.published=1 "
+                   . "ORDER BY start_date;";
+        }
         
         if($c){
             $table = $c->fetch_query($query);
             $c->close();
             if($table){
-                $numRows = count($table,COUNT_NORMAL);
-                for($i=0; $i<$numRows; $i++){
-                   $itinerary = new CompleteItinerary($table[$i]->creator, $table[$i]->ID, $table[$i]->name, $table[$i]->description);
-                   $itinerary->setPhoto($table[$i]->photo);
-                   if($table[$i]->published == 1)
-                      $this->aggregator->add(new PublishedJourney($itinerary, $table[$i]->start_date, $table[$i]->end_date, $table[$i]->price, $table[$i]->creator, $table[$i]->publish_date));
-                   else
-                      $this->aggregator->add (new Journey ($itinerary, $table[$i]->start_date, $table[$i]->end_date, $table[$i]->price, $table[$i]->creator));
+                foreach($table as $j){
+                    $itinerary = new CompleteItinerary($j->creator, $j->ID, $j->name, $j->description);
+                    $itinerary->setPhoto($j->photo);
+                    if($j->published == 1){
+                        $this->aggregator->add(new PublishedJourney($j->ID, $itinerary, $j->start_date, $j->end_date, $j->price, $j->creator, $j->publish_date));
+                    }
+                    else{
+                        $this->aggregator->add (new Journey ($j->ID, $itinerary, $j->start_date, $j->end_date, $j->price, $j->creator));
+                    }
                 }
             }
         }
-        
-        $this->iterator = $this->aggregator->createIterator(); 
+        $this->iterator = $this->aggregator->getIterator(); 
     }
-    
-//     public function searchItinerary($query){
-//        $c = new Connection();
-//        
-//        if($query == null)
-//            $query = "SELECT * FROM itinerary;";
-//        
-//        if($c){
-//            $table = $c->fetch_query($query);
-//            $c->close();
-//            if($table){
-//                $numRows = count($table,COUNT_NORMAL);
-//                for($i=0; $i<$numRows; $i++){
-//                   if($table[$i]->state == 1){
-//                       $itinerary = new CompleteItinerary($table[$i]->creator, $table[$i]->ID, $table[$i]->name, $table[$i]->description);
-//                       $itinerary->setPhoto($table[$i]->photo);
-//                      $this->aggregator->add($itinerary);
-//                   }
-//                   else{
-//                       $itinerary = new PartialItinerary($table[$i]->creator, $table[$i]->ID, $table[$i]->name, $table[$i]->description);
-//                       $itinerary->setPhoto($table[$i]->photo);
-//                      $this->aggregator->add($itinerary);
-//                   }
-//                }
-//            }
-//        }
-//        
-//        $this->iterator = $this->aggregator->createIterator(); 
-//    }
     
     public function fetchObject() {
         if ($this->iterator->hasNext())
@@ -80,6 +64,10 @@ class JourneySearchResult {
     
     public function replay(){
         $this->iterator->replay();
+    }
+    
+    public function getObject($id){
+        return $this->aggregator->getObject($id);
     }
 }
 ?>
