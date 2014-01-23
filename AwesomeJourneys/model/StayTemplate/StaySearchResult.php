@@ -67,14 +67,16 @@ class StaySearchResult {
     /*
      * DA MODIFICARE, CREARE UN'ALTRA FUNZIONE PRIVATA CHE RICERCA IN DB
      */
-    public function searchStay(){
+    public function searchStay($query = NULL){
         $c = new Connection();
         
-        $queryTemplate = "SELECT * FROM stay_template;";
+        if($query == NULL){
+            $query = "SELECT * FROM stay_template;";
+        }
         $queryStructure = "SELECT * FROM stay_template_structure;";
         
         if($c){
-            $table = $c->execute_query($queryTemplate);
+            $table = $c->execute_query($query);
             $struttura = $this->creaStruttura($c->execute_query($queryStructure));
             if($table){
                 foreach($table as $st){

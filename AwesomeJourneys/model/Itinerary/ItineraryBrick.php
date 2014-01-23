@@ -42,7 +42,7 @@ interface ItineraryBrick {
     /**
      * Setta la accomodation
      */
-    public function setSelectedAccomodation(Accomodation $accomodation);
+    public function setSelectedAccomodation($idAccomodation);
     /**
      * Salva in database l'accomodation e la setta
      */
@@ -51,6 +51,8 @@ interface ItineraryBrick {
      * Rimuove dal database l'accomodation e la rende nulla
      */
     public function removeAccomodation();
+    
+    
     
 //    public function selectGoing($transport);
 //    public function selectReturn($transport);

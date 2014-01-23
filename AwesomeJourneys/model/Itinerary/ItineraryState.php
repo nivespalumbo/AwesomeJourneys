@@ -34,6 +34,38 @@ abstract class ItineraryState{
         return FALSE;
     }
     
+    public function insertBrick(ItineraryBrick $brick){
+        $this->itineraryBricks[$brick->getId()] = $brick;
+    }
+    
+    public function removeBrick($idBrick){
+        if($this->removeBrickFromDb($idBrick)){
+            unset($this->itineraryBricks[$idBrick]);
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
+    public function searchBricks(){
+        $c = new Connection();
+        if($c){
+            $sql = "SELECT * FROM itinerary_brick;";
+            $table = $c->execute_query($sql);
+            $c->close();
+            if($table){
+                foreach($table as $row){
+                    if($row->type == STAY){
+                        $brick = Stay::getStay($row->ID, $this->id);
+                    }
+                    else{
+                        $brick = Transfer::getTransfer($row->ID, $this->id);
+                    }
+                    $this->insertBrick($brick);
+                }
+            }
+        }
+    }
+    
     protected function saveInDb(){
         $insert1 = "INSERT INTO itinerary(itinerary_creator, state, name, description";
         $insert2 = " VALUES('$this->creator', ".$this->getType().", '$this->name', '$this->description'";
@@ -61,6 +93,7 @@ abstract class ItineraryState{
         }
         return FALSE;
     }
+    
     protected function saveBrickInDb(ItineraryBrick $brick){
         $c = new Connection();
         if($c){
@@ -88,58 +121,19 @@ abstract class ItineraryState{
         }   
         return FALSE;
     }
-//    protected function insertInDB($creator){
-//        $insert1 = "INSERT INTO itinerary(creator, state";
-//        $insert2 = " VALUES('".$creator."', '".$this->getType()."'";
-//        
-//        if($this->name != NULL){
-//            $insert1 .= ", name";
-//            $insert2 .= ", '".$this->name."'";
-//        }
-//        
-//        if($this->description != NULL){
-//            $insert1 .= ", description";
-//            $insert2 .= ", '".$this->description."'";
-//        }
-//        
-//        $insert1 .= ")";
-//        $insert2 .= ");";
-//        
-//        $db = new Connection();
-//        $db->begin_transaction();
-//        
-//        if($db->execute_non_query($insert1.$insert2)){
-//            $this->id = $db->last_inserted_id();
-//        }
-//        if($this->id != -1){
-//            $db->commit();
-//            $db->close();
-//            return TRUE;
-//        }
-//        
-//        $db->rollback();
-//        $db->close();
-//        return FALSE;
-//    }
-//    
-//    public function provideBasicInfo($name, $description){
-//        $this->name = $name;
-//        $this->description = $description;
-//    }
-//
-//    public function insertBrick(ItineraryBrick $brick){
-//        
-//    }
-//    
-//    public function saveNewBrick(){
-//        if($this->newBrick->save()){
-//            $this->itineraryBrick[] = $this->newBrick;
-//        }
-//    }
-//    public function removeBrick($id){
-//        
-//    }
-//    
+    
+    protected function removeBrickFromDb($idBrick){
+        $c = new Connection();
+        if($c){
+            $sql = "DELETE FROM itinerary_brick WHERE ID=$idBrick";
+            if($c->execute_non_query($sql)){
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+
+
 //    protected function updateInDB(){
 //        $sql = "UPDATE itinerary SET state = '".$this->type."'";
 //        

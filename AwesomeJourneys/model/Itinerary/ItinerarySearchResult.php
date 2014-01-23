@@ -21,10 +21,7 @@ class ItinerarySearchResult {
     public function __sleep() {
         return array("aggregator", "iterator");
     }
-
-    public function __wakeup() {
-        
-    }
+    public function __wakeup() {  }
 
     
     public function search($query = NULL){
@@ -45,7 +42,7 @@ class ItinerarySearchResult {
                     else{
                         $itinerary = new PartialItinerary($it->itinerary_creator, $it->name, $it->description, $it->ID, $it->photo);
                     }
-                    $itinerary->setItineraryBricks();
+                    $itinerary->searchBricks();
                     $this->aggregator->add($itinerary);
                 }
             }

@@ -27,6 +27,12 @@ class Transfer implements ItineraryBrick{
     public function __sleep(){
         return array('stayId', 'itineraryId', 'name', 'description', 'startLocation', 'endLocation', 'transportSelected', 'transferTemplate', 'startDate', 'endDate');
     }
+    public function __wakeup() {
+        }
+    
+    public static function getTransfer($idTransfer, $idItinerary){
+        return NULL;
+    }
     
     public function setLocation($location){
         return FALSE;
@@ -70,11 +76,11 @@ class Transfer implements ItineraryBrick{
         return FALSE;
     }
 
-    public function setSelectedAccomodation(\Accomodation $accomodation) {
+    public function setSelectedAccomodation($idAccomodation) {
         return FALSE;
     }
 
-    public function setSelectedActivities(\Activity $activity) {
+    public function setSelectedActivities(Activity $activity) {
         return FALSE;
     }
 

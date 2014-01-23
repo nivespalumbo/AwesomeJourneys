@@ -4,9 +4,9 @@ include_once 'model/connection.php';
 include_once 'model/Enumerations/ItineraryBrickType.php';
 
 class Stay implements ItineraryBrick{
-    private $stayId;
+    private $id;
     private $itineraryId;
-    private $stayTemplate;
+    private $template;
     
     private $startLocation;
     private $endLocation;
@@ -15,17 +15,18 @@ class Stay implements ItineraryBrick{
     
     private $selectedActivities; //array contenete tutte le attivita
     private $selectedAccomodation; //accomodation selezionata
-    private $selectedGoing; //trasporto che rappresenta l'andata della tappa
-    private $selectedReturn; //trasporto che rappresenta il ritorno dalla tappa
+    //private $selectedGoing; //trasporto che rappresenta l'andata della tappa
+    //private $selectedReturn; //trasporto che rappresenta il ritorno dalla tappa
 
     public function __construct(StayTemplateComposite $stayTemplate, $idItinerary, $id = NULL) {
         if($id != NULL){
-            $this->stayId = $id;
+            $this->id = $id;
         } else {
-            $this->stayId = -1;
+            $this->id = -1;
         }
-        $this->stayTemplate = $stayTemplate;
+        $this->template = $stayTemplate;
         $this->itineraryId = $idItinerary;
+        
         $this->startDate = $stayTemplate->getStartDate();
         $this->endDate = $stayTemplate->getEndDate();
         $this->startLocation = $stayTemplate->getStartLocation();
@@ -36,13 +37,13 @@ class Stay implements ItineraryBrick{
     }
     
     public function __sleep() {
-        return array('stayId', 'itineraryId', 'name', 'description', 'startLocation', 'endLocation', 'startDate', 'endDate', 'selectedActivities', 'selectedAccomodation', 'selectedGoing', 'selectedReturn', 'components', 'stayTemplate');
+        return array('id', 'itineraryId', 'startLocation', 'endLocation', 'startDate', 'endDate', 'selectedActivities', 'selectedAccomodation', 'template');
     }
     public function __wakeup() { }
     
     
-    public function getId(){ return $this->stayId; }
-    public function getTemplate() { return $this->stayTemplate; }
+    public function getId(){ return $this->id; }
+    public function getTemplate() { return $this->template; }
     public function getItineraryId() { return $this->itineraryId; }
     public function getType() { return STAY; }
     public function getStartDate() { return $this->startDate; }
@@ -51,10 +52,10 @@ class Stay implements ItineraryBrick{
     public function getEndLocation() { return $this->endLocation; }
  
 
-    public function setId($id) { $this->stayId = $id; }
+    public function setId($id) { $this->id = $id; }
     
     public function getActivities(){
-        return $this->stayTemplate->getActivities();
+        return $this->template->getActivities();
     }
     public function getSelectedActivities() { return $this->selectedActivities; }
     public function setSelectedActivities(Activity $activity){
@@ -64,7 +65,7 @@ class Stay implements ItineraryBrick{
     }
     public function selectActivity($idActivity){
         if($this->saveActivityInDb($idActivity)){
-            $this->selectedActivities[$idActivity] = $this->stayTemplate->getActivities()[$idActivity];
+            $this->selectedActivities[$idActivity] = $this->template->getActivities()[$idActivity];
             return TRUE;
         }
         return FALSE;
@@ -80,15 +81,15 @@ class Stay implements ItineraryBrick{
     }
     
     public function getAccomodations(){
-        return $this->stayTemplate->getAccomodations();
+        return $this->template->getAccomodations();
     }
     public function getSelectedAccomodation() { return $this->selectedAccomodation; }
-    public function setSelectedAccomodation(Accomodation $accomodation){
-        $this->selectedAccomodation = $accomodation;
+    public function setSelectedAccomodation($idAccomodation){
+        $this->selectedAccomodation = $idAccomodation;
     }
     public function selectAccomodation($idAccomodation) {
         if($this->saveAccomodationInDb($idAccomodation)){
-            $this->selectedAccomodation = $this->stayTemplate->getAccomodations()[$idAccomodation];
+            $this->selectedAccomodation = $idAccomodation;
             return TRUE;
         }
         return FALSE;
@@ -106,7 +107,7 @@ class Stay implements ItineraryBrick{
     private function saveActivityInDb($idActivity){
         $c = new Connection();
         if($c){
-            $query = "INSERT INTO activity_in_stay(id_stay, id_activity) VALUES (".$this->stayId.", $idActivity);";
+            $query = "INSERT INTO activity_in_stay(id_stay, id_activity) VALUES (".$this->id.", $idActivity);";
             if($c->execute_non_query($query)){
                 return TRUE;
             }
@@ -117,7 +118,7 @@ class Stay implements ItineraryBrick{
     private function removeActivityFromDb($idActivity){
         $c = new Connection();
         if($c){
-            $query = "REMOVE FROM activity_in_stay WHERE id_stay=$this->stayId AND id_activity=$idActivity;";
+            $query = "REMOVE FROM activity_in_stay WHERE id_stay=$this->id AND id_activity=$idActivity;";
             if($c->execute_non_query($query)){
                 return TRUE;
             }
@@ -128,7 +129,7 @@ class Stay implements ItineraryBrick{
     private function saveAccomodationInDb($idAccomodation){
         $c = new Connection();
         if($c){
-            $query = "UPDATE stay SET accomodation_id=$idAccomodation WHERE ID=$this->stayId;";
+            $query = "UPDATE stay SET accomodation_id=$idAccomodation WHERE ID=$this->id;";
             if($c->execute_non_query($query)){
                 return TRUE;
             }
@@ -139,7 +140,7 @@ class Stay implements ItineraryBrick{
     private function removeAccomodationFromDb($idAccomodation){
         $c = new Connection();
         if($c){
-            $query = "UPDATE stay SET accomodation_id=NULL WHERE ID=$this->stayId;";
+            $query = "UPDATE stay SET accomodation_id=NULL WHERE ID=$this->id;";
             if($c->execute_non_query($query)){
                 return TRUE;
             }
@@ -150,11 +151,30 @@ class Stay implements ItineraryBrick{
     public function saveInDb(Connection $c){
         if($c){
             $sql = "INSERT INTO stay (ID, template_id) "
-                 . "VALUES ($this->stayId, ".$this->stayTemplate->getId().");";
+                 . "VALUES ($this->id, ".$this->template->getId().");";
             $c->execute_non_query($sql);
             return TRUE;
         }
         return FALSE;
+    }
+    
+    public static function getStay($idStay, $idItinerary){
+        $c = new Connection();
+        if($c){
+            $sql = "SELECT * FROM stay WHERE ID=$idStay;";
+            $table = $c->execute_query($sql);
+            $c->close();
+            if($table){
+                $searchTemplate = new StaySearchResult();
+                $searchTemplate->searchStay("SELECT * FROM stay_template WHERE ID=".$table[0]->template_id.";");
+                if($template = $searchTemplate->fetchObject()){
+                    $stay = new Stay($template, $idItinerary, $idStay);
+                    $stay->setSelectedAccomodation($table[0]->accomodation_id);
+                    return $stay;
+                }
+            }
+        }
+        return NULL;
     }
     
 //    public function manageActivityInStay($stayId){
