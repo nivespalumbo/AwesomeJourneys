@@ -4,32 +4,27 @@ include_once 'model/StayTemplate/StayTemplateLeaf.php';
 
 class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
     private $id;
-    private $stayTemplateId;
+    private $compositeId;
     private $numeroDisponibilita;
+    
     private $startDate;
     private $duration;
     
-    function __construct($id, $stayTemplateId, $numeroDisponibilita, $startDate, $duration, $idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location) {
+    function __construct($id, $compositeId, $numeroDisponibilita, $startDate, $duration, $idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location) {
         parent::__construct($idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location);
         $this->id = $id;
-        $this->stayTemplateId = $stayTemplateId;
+        $this->compositeId = $compositeId;
         $this->numeroDisponibilita = $numeroDisponibilita;
+        
         $this->startDate = $startDate;
         $this->duration = $duration;
     }
     
-//    public function __sleep() {
-//        return array("id", "stayTemplateId", "numeroDisponibilita", "startDate", "duration", "idTemplate", "address", "accomodationType", "description", "category", "name", "link", "photo", "location");
-//    }
-//
-//    public function __wakeup() {
-//        
-//    }
     function serialize() {
         return serialize(
             array(
                 'id' => $this->id,
-                'stayTemplateId' => $this->stayTemplateId,
+                'compositeId' => $this->compositeId,
                 'numeroDisponibilita' => $this->numeroDisponibilita,
                 'startDate' => $this->startDate,
                 'duration' => $this->duration,
@@ -44,13 +39,12 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
                 'location' => $this->location,
             )
         );
-    }
-    
+    }   
     function unserialize($serialized) {
         $data = unserialize($serialized);
         
         $this->id = $data['id'];
-        $this->stayTemplateId = $data['stayTemplateId'];
+        $this->compositeId = $data['compositeId'];
         $this->numeroDisponibilita = $data['numeroDisponibilita'];
         $this->startDate = $data['startDate'];
         $this->duration = $data['duration'];
@@ -65,12 +59,11 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
         $this->location = $data['location'];
     }
 
-    
     public function getId() {
         return $this->id;
     }
-    public function getStayTemplateId(){
-        return $this->stayTemplateId;
+    public function getCompositeId(){
+        return $this->compositeId;
     }
     public function getNumeroDisponibilita() {
         return $this->numeroDisponibilita;
@@ -80,6 +73,15 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
     }
     public function getDuration() {
         return $this->duration;
+    }
+    public function getEndDate() {
+        return date_add($this->startDate, $this->duration);
+    }
+    public function getStartLocation() {
+        return $this->location;
+    }
+    public function getEndLocation() {
+        return $this->location;
     }
     public function getType(){
         return ACCOMODATION;
@@ -91,6 +93,15 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
     public function setStartDate($startDate) {
         $this->startDate = $startDate;
     }
+    public function setEndDate($endDate) {
+        $this->duration = date_diff($endDate, $this->startDate, true);
+    }
+    public function setStartLocation($location) {
+        $this->location = $location;
+    }
+    public function setEndLocation($location) {
+        $this->location = $location;
+    }
     public function setDuration($duration) {
         $this->duration = $duration;
     }
@@ -98,8 +109,8 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
     public function saveIntoDB() {
         parent::saveIntoDB();
     }
-
-    public function addComponent(\StayTemplateComponent $component) {
+    
+    public function addComponent(StayTemplateComponent $component) {
         return FALSE;
     }
 
@@ -111,11 +122,7 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
         return FALSE;
     }
 
-    public function getEndLocation() {
-        return FALSE;
-    }
-
-    public function getStartLocation() {
+    public function getCompositeTemplates() {
         return FALSE;
     }
 
@@ -127,32 +134,8 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
         return FALSE;
     }
 
-    public function newItineraryBick() {
-        return FALSE;
-    }
-
     public function removeComponent($id) {
         return FALSE;
     }
-
-    public function setEndLocation($location) {
-        return FALSE;
-    }
-
-    public function setStartLocation($location) {
-        return FALSE;
-    }
-
-    public function getVehicle() {
-        return FALSE;
-    }
-    
-    public function getEndDate(){
-        return FALSE;
-    }
-    public function setEndDate($endDate) {
-        return FALSE;
-    }
 }
-
 ?>

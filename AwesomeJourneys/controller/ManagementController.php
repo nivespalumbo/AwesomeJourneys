@@ -13,22 +13,27 @@
 class ManagementController {
     public function createItinerary($user){
         $user->createItinerary();
-        return TRUE;
     }
     
-    public function provideBasicInfo($itName, $itDesc, $itTagList, $itCategory){
-        if(!isset($_SESSION['utente']))
-            return FALSE;
+    public function insertStay($id){
         $user = unserialize($_SESSION['utente']);
-        $user->provideBasicInfo($itName, $itDesc, $itTagList, $itCategory);
-        return TRUE;
+        $user->addBrick($id);
+        return $user->getItinerary();
     }
+    
+//    public function provideBasicInfo($itName, $itDesc, $itTagList, $itCategory){
+//        if(!isset($_SESSION['utente']))
+//            return FALSE;
+//        $user = unserialize($_SESSION['utente']);
+//        $user->provideBasicInfo($itName, $itDesc, $itTagList, $itCategory);
+//        return TRUE;
+//    }
     
     public function selectStay($id){
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);
-        return $user->selectStay($id);
+        return $user->addBrick($id);
         return TRUE;
     }
     

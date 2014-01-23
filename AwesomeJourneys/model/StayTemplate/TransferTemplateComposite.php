@@ -11,12 +11,12 @@ class TransferTemplateComposite implements StayTemplateComponent{
     private $name;
     private $description;
     
-    private $startLocation;
-    private $endLocation;
-    
-    private $startDate;
-    private $endDate;
-    
+//    private $startLocation;
+//    private $endLocation;
+//    
+//    private $startDate;
+//    private $endDate;
+//    
     private $components;
     
     function __construct($id) {
@@ -45,18 +45,18 @@ class TransferTemplateComposite implements StayTemplateComponent{
     public function getType() {
         return TRANSFER_TEMPLATE;
     }
-    public function getStartLocation() {
-        return $this->startLocation;
-    }
-    public function getEndLocation() {
-        return $this->endLocation;
-    }
-    public function getStartDate() {
-        return $this->startDate;
-    }
-    public function getEndDate() {
-        return $this->endDate;
-    }
+//    public function getStartLocation() {
+//        return $this->startLocation;
+//    }
+//    public function getEndLocation() {
+//        return $this->endLocation;
+//    }
+//    public function getStartDate() {
+//        return $this->startDate;
+//    }
+//    public function getEndDate() {
+//        return $this->endDate;
+//    }
 
     
     public function setName($name) {
@@ -65,23 +65,27 @@ class TransferTemplateComposite implements StayTemplateComponent{
     public function setDescription($description) {
         $this->description = $description;
     }
-    public function setStartLocation($startLocation) {
-        $this->startLocation = $startLocation;
-    }
-    public function setEndLocation($endLocation) {
-        $this->endLocation = $endLocation;
-    }
-    public function setStartDate($startDate) {
-        $this->startDate = $startDate;
-    }
-    public function setEndDate($endDate) {
-        $this->endDate = $endDate;
-    }
+//    public function setStartLocation($startLocation) {
+//        $this->startLocation = $startLocation;
+//    }
+//    public function setEndLocation($endLocation) {
+//        $this->endLocation = $endLocation;
+//    }
+//    public function setStartDate($startDate) {
+//        $this->startDate = $startDate;
+//    }
+//    public function setEndDate($endDate) {
+//        $this->endDate = $endDate;
+//    }
 
     public function addComponent(StayTemplateComponent $component) {
-        if($component->getType() == TRANSFER || $component->getType() == TRANSFER_TEMPLATE){
+        if($component->getType() == TRANSPORT || $component->getType() == TRANSFER_TEMPLATE){
             $this->components[$component->getId()] = $component;
         }
+    }
+    
+    public function removeComponent($id) {
+        
     }
 
     public function getAccomodations() {
@@ -93,32 +97,33 @@ class TransferTemplateComposite implements StayTemplateComponent{
     }
 
     public function getTransports() {
-        return $this->getTransportInArray();
-    }
-    
-    private function getTransportInArray(){
         $array = array();
         foreach($this->components as $component){
-            if($component->getType() == TRANSFER){
+            if($component->getType() == TRANSPORT){
                 $array[$component->getId()] = $component;
             } else if($component->getType() == TRANSFER_TEMPLATE){
-                array_merge($array, $component->getTransportInArray());
+                array_merge($array, $component->getTransports());
             }
         }
         return $array;
+    }
+    
+    public function getCompositeTemplates() {
+        $ris = array();
+        foreach($this->components as $component){
+            if($component->getType() == TRANSFER_TEMPLATE){
+                $ris[$component->getId()] = $component;
+            }
+        }
+        return $ris;
     }
 
     public function isComposite() {
         return TRUE;
     }
 
-    public function newItineraryBick() {
-        
-    }
-
-    public function removeComponent($id) {
-        
-    }
+    
+    
 
 
 

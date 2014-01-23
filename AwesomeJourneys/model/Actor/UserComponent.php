@@ -24,7 +24,7 @@ abstract class UserComponent{
         if($pass === $passBis){
             $rx = $conn->registra($name, $surname, $address, $tel, $mail);
             if($rx){
-                $conn->newCreator ($mail, sha1($pass));
+                $conn->new_creator ($mail, sha1($pass));
                 self::login ($mail, sha1($pass));
             } else {
                 return FALSE;
@@ -52,5 +52,23 @@ abstract class UserComponent{
     abstract function getAddress();
     abstract function getTelephone();
     abstract function getMail();
+    abstract function setAddress($address);
+    abstract function setTelephone($telephone);
+    
+    abstract function searchStay();
+    abstract function getStaySearchResult();
+    abstract function getStay($id);
+    abstract function searchActivity($query = NULL);
+    abstract function getActivitySearchResult();
+    abstract function getActivity($id);
+    abstract function createItinerary();
+    abstract function provideBasicInfo($itName, $itDesc);
+    abstract function searchItinerary($query = NULL);
+    abstract function getItinerarySearchResult();
+    abstract function getItinerary($id = NULL);
+    abstract function searchJourney($query = NULL);
+    abstract function getJourneySearchResult();
+    abstract function getJourney($id);
+    abstract function insertStay($id);
 }
 ?>

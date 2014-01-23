@@ -37,17 +37,16 @@ class JourneySearchResult {
         }
         
         if($c){
-            $table = $c->fetch_query($query);
+            $table = $c->execute_query($query);
             $c->close();
             if($table){
                 foreach($table as $j){
-                    $itinerary = new CompleteItinerary($j->creator, $j->ID, $j->name, $j->description);
-                    $itinerary->setPhoto($j->photo);
+                    $itinerary = new CompleteItinerary($j->itinerary_creator, $j->name, $j->description, $j->itinerary, $j->photo);
                     if($j->published == 1){
-                        $this->aggregator->add(new PublishedJourney($j->ID, $itinerary, $j->start_date, $j->end_date, $j->price, $j->creator, $j->publish_date));
+                        $this->aggregator->add(new PublishedJourney($j->id_journey, $itinerary, $j->start_date, $j->end_date, $j->price, $j->creator, $j->publish_date));
                     }
                     else{
-                        $this->aggregator->add (new Journey ($j->ID, $itinerary, $j->start_date, $j->end_date, $j->price, $j->creator));
+                        $this->aggregator->add (new Journey($j->id_journey, $itinerary, $j->start_date, $j->end_date, $j->price, $j->creator));
                     }
                 }
             }

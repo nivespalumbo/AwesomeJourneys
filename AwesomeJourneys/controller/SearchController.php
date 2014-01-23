@@ -41,7 +41,7 @@ class SearchController {
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);
-        $user->searchItineraries("SELECT * FROM itinerary WHERE creator='".$user->getMail()."'");
+        $user->searchItinerary("SELECT * FROM itinerary WHERE itinerary_creator='".$user->getMail()."'");
         $_SESSION['utente'] = serialize($user);
         return $user->getItinerarySearchResult();
     }
@@ -55,7 +55,7 @@ class SearchController {
         if(!isset($_SESSION['utente']))
             return FALSE;
         $user = unserialize($_SESSION['utente']);
-        $user->searchJourneys("SELECT * FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE journey.creator='".$user->getMail()."' ORDER BY start_date;");
+        $user->searchJourney("SELECT * FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE journey.creator='".$user->getMail()."' ORDER BY start_date;");
         $_SESSION['utente'] = serialize($user);
         return $user->getJourneySearchResult();        
     }

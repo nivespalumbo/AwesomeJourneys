@@ -35,7 +35,7 @@ class ActivitySearchResult {
         }
         
         if($c){
-            $table = $c->fetch_query($query);
+            $table = $c->execute_query($query);
             $c->close();
             if($table){
                 foreach($table as $act){

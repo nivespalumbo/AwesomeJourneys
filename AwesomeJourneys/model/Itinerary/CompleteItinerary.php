@@ -6,34 +6,35 @@ include_once 'ItineraryBrick.php';
 
 
 class CompleteItinerary extends ItineraryState{
-    function __construct($creator, $id = NULL, $name = NULL, $description = NULL) {
+    function __construct($creator, $name, $description, $id = NULL, $photo = NULL) {
         $this->name = $name;
         $this->description = $description;
-        $this->photo = NULL;
-        $this->numBrick = 0;
-        $this->itineraryBrick = array();
-        $this->type = COMPLETE;
+        $this->creator = $creator;
+        $this->photo = $photo;
+        $this->id = $id;
+        $this->itineraryBricks = array();
         if($id == NULL){
-            $this->id = -1;
-            $this->insertInDB($creator);
-        }else{
-            $this->id = $id;
+            $this->saveInDb();
         }
     }
     
     public function __sleep() {
-        return array("id", "name", "description", "photo", "numBrick", "newBrick", "itineraryBrick", "type");
+        return array("id", "name", "description", "photo", "itineraryBricks");
     }
 
     public function __wakeup() {
         
     }
+    
+    public function getType() {
+        return COMPLETE;
+    }
 
     public function manageActivityInStay($stayId) {
-        if(!isset($this->itineraryBrick[$stayId])){
+        if(!isset($this->itineraryBricks[$stayId])){
             return FALSE;
         }
-        return $this->itineraryBrick[$stayId]->getActivity();
+        return $this->itineraryBricks[$stayId]->getActivity();
     }
 
     public function selectActivity($activityIdList, $stayId) {
@@ -41,10 +42,10 @@ class CompleteItinerary extends ItineraryState{
     }
 
     public function getStay($stayId) {
-        if(!isset($this->itineraryBrick[$stayId])){
+        if(!isset($this->itineraryBricks[$stayId])){
             return FALSE;
         }else{
-            return $this->itineraryBrick[$stayId]->getStay($stayId);
+            return $this->itineraryBricks[$stayId]->getStay($stayId);
         }
     }
 
@@ -53,14 +54,14 @@ class CompleteItinerary extends ItineraryState{
     }
     
     public function save(ItineraryContext $itineraryContext) {
-        if(count($this->itineraryBrick) == 0){
+        if(count($this->itineraryBricks) == 0){
             return $this->stateChangeAndSave($itineraryContext, $creatorUserName, PARTIAL);
         }
         
         $locationOfBrick = NULL;
         $dateOfBrick = NULL;
         
-        foreach($this->itineraryBrick as $brick){
+        foreach($this->itineraryBricks as $brick){
             if(!$brick->isContiguous($locationOfBrick, $dateOfBrick)){
                 return $this->stateChangeAndSave($itineraryContext, $creatorUserName, PARTIAL);
             }
@@ -72,7 +73,7 @@ class CompleteItinerary extends ItineraryState{
 
     private function stateChangeAndSave($itineraryContext, $creatorUserName, $state) {
             $partialItinerary = new PartialItinerary($this->id, $this->name, $this->description);
-            $partialItinerary->setItineraryBrick($this->itineraryBrick);
+            $partialItinerary->setItineraryBrick($this->itineraryBricks);
             if($partialItinerary->updateInDB($creatorUserName)){
                 $itineraryContext->setItineraty($partialItinerary);
                 return TRUE;

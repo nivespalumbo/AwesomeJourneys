@@ -21,7 +21,7 @@ class Connection {
         }
     }
     
-    public function newCreator($email, $password){
+    public function new_creator($email, $password){
         if($this->link){
             $result = @mysql_query("INSERT INTO creator(username, password, role) VALUES ('".$email."','".$password."','customer');");
             return $result;
@@ -39,7 +39,7 @@ class Connection {
         }
     }
     
-    public function fetch_query($query){
+    public function execute_query($query){
         if($this->link){
             $tabella = @mysql_query($query) or die(@mysql_error());
             if($tabella){
@@ -53,7 +53,7 @@ class Connection {
         }
     }
     
-    public function extecute_non_query($sql){
+    public function execute_non_query($sql){
         if($this->link){
             $ris = @mysql_query($sql) or die(@mysql_error());
             return $ris;
@@ -61,7 +61,7 @@ class Connection {
         return FALSE;
     }
     
-    public function beginTrasaction(){
+    public function begin_transaction(){
         @mysql_query("SET AUTOCOMMIT=0");
         @mysql_query("START TRANSACTION");
     }
@@ -70,11 +70,11 @@ class Connection {
         @mysql_query("COMMIT");
     }
     
-    public function rollBack(){
+    public function rollback(){
         @mysql_query("ROLLBACK");
     }
     
-    public function last_id_insert(){
+    public function last_inserted_id(){
         return mysql_insert_id();
     }
 	

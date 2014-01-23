@@ -7,9 +7,10 @@ while($stay = $this->model->fetchObject()){
     echo "<div class='stay'>"
          . "<h2>".$stay->getName()."</h2>"
          . "<p>".$stay->getDescription()."</p>"
-         . "<div><span class='date'><label>Start date:</label>".$stay->getStartDate()."</span>"
-         . "<span class='date'><label>End date:</label>".$stay->getEndDate()."</span></div>"
+         . "<div><span class='date'><label>Disponibile dal </label>".$stay->getStartDate()."</span>"
+         . "<span class='date'><label>al </label>".$stay->getEndDate()."</span></div>"
          . "<span class='see_more'><a href='index.php?op=selectStay&id=".$stay->getId()."'>Vedi di pi&ugrave</a></span>"
+         . "<span><a href='index.php?op=insertStay&id=".$stay->getId()."'>Aggiungi all'itinerario</a></span>"
          ."</div>";
 }
 ?>

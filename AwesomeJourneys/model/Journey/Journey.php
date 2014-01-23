@@ -25,43 +25,21 @@ class Journey {
     public function getStartDate(){
         return $this->start_date;
     }
-    
     public function getEndDate(){
         return $this->end_date;
     }
-    
     public function getPrice(){
         return $this->price;
     }
-    
     public function getName(){
         return $this->name;
     }
-    
     public function getDescription(){
         return $this->description;
     }
-    
-    public function getCategory(){
-        return$this->category;
-    }
-    
-    public function getTag(){
-        return $this->tag;
-    }
-    
-    public function getPhoto(){
-        return $this->photo;
-    }
-    
     public function getCreator(){
         return $this->creator;
     }
-    
-    public function getItineraryCreator(){
-        return $this->itinerary->get_creator();
-    }
-    
     public function getItinerary(){
         return $this->itinerary;
     }

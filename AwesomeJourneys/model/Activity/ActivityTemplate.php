@@ -12,6 +12,9 @@ class ActivityTemplate implements Serializable{
     protected $location;
     protected $description;
     
+    private $startDate;
+    private $endDate;
+    
     function __construct($id, $name, $address, $expectedDuration, $location, $description) {
         $this->idTemplate = $id;
         $this->name = $name;
@@ -20,15 +23,7 @@ class ActivityTemplate implements Serializable{
         $this->location = $location;
         $this->description = $description;
     }
-    
-//    public function __sleep() {
-//        return array( "idTemplate", "name", "address", "expectedDuration", "location", "description");
-//    }
-//
-//    public function __wakeup() {
-//        
-//    }
-    
+        
     public function serialize() {
         return serialize(
             array(
@@ -37,11 +32,12 @@ class ActivityTemplate implements Serializable{
                 'address' => $this->address,
                 'expectedDuration' => $this->expectedDuration,
                 'location' => $this->location,
-                'description' => $this->description
+                'description' => $this->description,
+                'startDate' => $this->startDate,
+                'endDate' => $this->endDate
             )
         );
     }
-    
     public function unserialize($data) {
         $data = unserialize($data);
         
@@ -51,6 +47,8 @@ class ActivityTemplate implements Serializable{
         $this->description = $data['description'];
         $this->expectedDuration = $data['expectedDuration'];
         $this->location = $data['location'];
+        $this->startDate = $data['startDate'];
+        $this->endDate = $data['endDate'];
     }
 
     public function getIdTemplate() {
@@ -71,7 +69,13 @@ class ActivityTemplate implements Serializable{
     public function getDescription() {
         return $this->description;
     }
-
+    public function getStartDate() {
+        return $this->startDate;
+    }
+    public function getEndDate() {
+        return $this->endDate;
+    }
+    
     public function setName($name) {
         $this->name = $name;
     }
@@ -87,7 +91,14 @@ class ActivityTemplate implements Serializable{
     public function setDescription($description) {
         $this->description = $description;
     }
+    public function setStartDate($startDate) {
+        $this->startDate = $startDate;
+    }
+    public function setEndDate($endDate) {
+        $this->endDate = $endDate;
+    }
 
+    
     public function saveIntoDB(){
         
     }

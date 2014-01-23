@@ -2,14 +2,14 @@
 
 class AccomodationTemplate implements Serializable {
     protected $idTemplate;
-    protected $address;
-    protected $accomodationType;
-    protected $description;
-    protected $category;
     protected $name;
+    protected $description;
+    protected $address;
+    protected $location;
+    protected $accomodationType;
+    protected $category;
     protected $link;
     protected $photo;
-    protected $location;
     
     function __construct($id, $address, $type, $description, $category, $name, $link, $photo, $location) {
         $this->idTemplate = $id;
@@ -37,8 +37,7 @@ class AccomodationTemplate implements Serializable {
                 'location' => $this->location,
             )
         );
-    }
-    
+    } 
     function unserialize($serialized) {
         $data = unserialize($serialized);
         

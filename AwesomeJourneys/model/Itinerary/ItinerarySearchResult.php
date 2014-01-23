@@ -35,25 +35,20 @@ class ItinerarySearchResult {
         }
         
         if($c){
-            $table = $c->fetch_query($query);
+            $table = $c->execute_query($query);
             $c->close();
             if($table){
-                $numRows = count($table,COUNT_NORMAL);
-                for($i=0; $i<$numRows; $i++){
-                   if($table[$i]->state == 1){
-                       $itinerary = new CompleteItinerary($table[$i]->creator, $table[$i]->ID, $table[$i]->name, $table[$i]->description);
-                       $itinerary->setPhoto($table[$i]->photo);
-                       $this->aggregator->add($itinerary);
-                   }
-                   else{
-                       $itinerary = new PartialItinerary($table[$i]->creator, $table[$i]->ID, $table[$i]->name, $table[$i]->description);
-                       $itinerary->setPhoto($table[$i]->photo);
-                       $this->aggregator->add($itinerary);
-                   }
+                foreach($table as $it){
+                    if($it->state == 1){
+                        $itinerary = new CompleteItinerary($it->itinerary_creator, $it->name, $it->description, $it->ID, $it->photo);
+                    }
+                    else{
+                        $itinerary = new PartialItinerary($it->itinerary_creator, $it->name, $it->description, $it->ID, $it->photo);
+                    }
+                    $this->aggregator->add($itinerary);
                 }
             }
         }
-        
         $this->iterator = $this->aggregator->getIterator(); 
     }
     

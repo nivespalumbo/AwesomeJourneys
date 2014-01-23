@@ -15,7 +15,7 @@ include_once 'Transfer.php';
  *
  * @author anto
  */
-class ItineraryContext {
+class ItineraryContextOLD {
     private $itineray;
     private $stay;
     
@@ -24,7 +24,7 @@ class ItineraryContext {
         $this->itineray = new ConcreteStatePartialItinerary();
     }
     
-    public function nuovaTappa($stayTemplate){
+    public function insertStay($stayTemplate){
         $c = new Connection();
         if($c){
             $table = $c->fetch_query("SELECT ID FROM stay INNER JOIN itinerary ON journey.itinerary = itinerary.ID WHERE published=1 ORDER BY start_date;");

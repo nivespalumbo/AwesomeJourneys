@@ -50,6 +50,9 @@ class NavigationController {
             case 'selectStay' :
                 $this->selectStay();
                 break;
+            case 'insertStay' :
+                $this->insertStay();
+                break;
         }
     }
 
@@ -70,7 +73,6 @@ class NavigationController {
     public function home(){
         $c = new SearchController();
         $this->model = $c->home();
-
         require_once("view/home_sito.php");
     }
 
@@ -127,15 +129,10 @@ class NavigationController {
         }else{
             $user = unserialize($_SESSION['utente']);
             $c = new ManagementController();
-            $ris = $c->createItinerary($user);
-
-            if($ris == FALSE){
-                $this->model = "An error occured";
-                require_once("view/error.php");
-            }else{
-                $this->model = $user->getItinerary();
-                require_once("view/itinerary.php");
-            }
+            $c->createItinerary($user);
+                
+            $this->model = $user->getItinerary();
+            require_once("view/itinerary.php");
         }
     }
     
@@ -188,8 +185,9 @@ class NavigationController {
             require_once 'view/error.php';
         }
         else {
-            $user = unserialize($_SESSION['utente']);
+            $user = unserialize($_SESSION['utente']);;
             $this->model = $user->getItinerary($_GET['id']);
+            $_SESSION['utente'] = serialize($user);
             require_once 'view/itinerary.php';
         }
     }
@@ -203,7 +201,21 @@ class NavigationController {
         else {
             $user = unserialize($_SESSION['utente']);
             $this->model = $user->getStay($_GET['id']);
+            $_SESSION['utente'] = serialize($user);
             require_once 'view/stay.php';
+        }
+    }
+    
+    public function insertStay(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INESISTENTE";
+            require_once 'view/error.php';
+        }
+        else {
+            $c = new ManagementController();
+            $this->model = $c->insertStay($_GET['id']);
+            require_once 'view/itinerary.php';
         }
     }
     

@@ -4,23 +4,22 @@ include_once 'ActivityTemplate.php';
 
 class Activity extends ActivityTemplate implements StayTemplateLeaf{
     private $id;
-    private $stayTemplateId;
+    private $compositeId;
+    
     private $startDate;
     private $endDate;
     
-    function __construct($idActivity, $startDate, $stayTemplateId, $endDate, $idTemplate, $name, $address, $expectedDuration, $location, $description) {
+    function __construct($idActivity, $compositeId, $idTemplate, $name, $address, $expectedDuration, $location, $description) {
         parent::__construct($idTemplate, $name, $address, $expectedDuration, $location, $description);
         $this->id = $idActivity;
-        $this->stayTemplateId = $stayTemplateId;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
+        $this->compositeId = $compositeId;
     }
     
     function serialize(){
         return serialize(
             array(
                 'id' => $this->id,
-                'stayTemplateId' => $this->stayTemplateId,
+                'compositeId' => $this->compositeId,
                 'startDate' => $this->startDate,
                 'endDate' => $this->endDate,
                 'idTemplate' => $this->idTemplate,
@@ -31,8 +30,7 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
                 'description' => $this->description
             )
         );
-    }
-    
+    }   
     function unserialize($data) {
         $data = unserialize($data);
         
@@ -43,25 +41,16 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
         $this->expectedDuration = $data['expectedDuration'];
         $this->location = $data['location'];
         $this->id = $data['id'];
-        $this->stayTemplateId = $data['stayTemplateId'];
+        $this->compositeId = $data['compositeId'];
         $this->startDate = $data['startDate'];
         $this->endDate = $data['endDate'];
     }
-    
-//    public function __sleep() {
-//        return array("id", "stayTemplateId", "startDate", "endDate");
-//    }
-//
-//    public function __wakeup() {
-//        
-//    }
-
-    
+        
     public function getId() {
         return $this->id;
     }
-    public function getStayTemplateId() {
-        return $this->stayTemplateId;
+    public function getCompositeId() {
+        return $this->compositeId;
     }
     public function getStartDate() {
         return $this->startDate;
@@ -69,8 +58,17 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
     public function getEndDate() {
         return $this->endDate;
     }
+    public function getStartLocation() {
+        return $this->location;
+    }
+    public function getEndLocation() {
+        return $this->location;
+    }
     public function getType() {
         return ACTIVITY;
+    }
+    public function getDuration() {
+        return date_diff($this->endDate, $this->startDate, true);
     }
     
     public function setStartDate($startDate) {
@@ -79,12 +77,18 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
     public function setEndDate($endDate) {
         $this->endDate = $endDate;
     }
+    public function setStartLocation($location) {
+        $this->location = $location;
+    }
+    public function setEndLocation($location) {
+        $this->location = $location;
+    }
     
     public function saveIntoDB() {
         parent::saveIntoDB();
     }
-
-    public function addComponent(\StayTemplateComponent $component) {
+    
+    public function addComponent(StayTemplateComponent $component) {
         return FALSE;
     }
 
@@ -96,11 +100,7 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
         return $this;
     }
 
-    public function getEndLocation() {
-        return FALSE;
-    }
-
-    public function getStartLocation() {
+    public function getCompositeTemplates() {
         return FALSE;
     }
 
@@ -112,27 +112,7 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
         return FALSE;
     }
 
-    public function newItineraryBick() {
-        return FALSE;
-    }
-
     public function removeComponent($id) {
-        return FALSE;
-    }
-
-    public function setEndLocation($location) {
-        return FALSE;
-    }
-
-    public function setStartLocation($location) {
-        return FALSE;
-    }
-
-    public function getDuration() {
-        return FALSE;
-    }
-
-    public function getVehicle() {
         return FALSE;
     }
 }

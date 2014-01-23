@@ -1,7 +1,7 @@
 <h2><?php echo $this->model->getName() ?></h2>
 <p><?php echo $this->model->getDescription() ?></p>
 <div>
-    <span><label>Dal</label><?php echo $this->model->getStartDate();?></span>
+    <span><label>Disponibile dal </label><?php echo $this->model->getStartDate();?></span>
     <span><label>Al</label><?php echo $this->model->getEndDate(); ?></span>
 </div>
 <div>
