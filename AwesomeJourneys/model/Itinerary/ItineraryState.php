@@ -49,7 +49,7 @@ abstract class ItineraryState{
     public function searchBricks(){
         $c = new Connection();
         if($c){
-            $sql = "SELECT * FROM itinerary_brick;";
+            $sql = "SELECT * FROM itinerary_brick WHERE id_itinerary=$this->id;";
             $table = $c->execute_query($sql);
             $c->close();
             if($table){
