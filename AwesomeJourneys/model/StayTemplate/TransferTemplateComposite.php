@@ -11,12 +11,12 @@ class TransferTemplateComposite implements StayTemplateComponent{
     private $name;
     private $description;
     
-//    private $startLocation;
-//    private $endLocation;
-//    
-//    private $startDate;
-//    private $endDate;
-//    
+    private $startLocation;
+    private $endLocation;
+    
+    private $startDate;
+    private $endDate;
+    
     private $components;
     
     function __construct($id) {

@@ -18,6 +18,7 @@ class ManagementController {
     public function insertStay($id){
         $user = unserialize($_SESSION['utente']);
         $user->addBrick($id);
+        $_SESSION['utente'] = serialize($user);
         return $user->getItinerary();
     }
     

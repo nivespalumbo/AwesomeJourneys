@@ -45,6 +45,7 @@ class ItinerarySearchResult {
                     else{
                         $itinerary = new PartialItinerary($it->itinerary_creator, $it->name, $it->description, $it->ID, $it->photo);
                     }
+                    $itinerary->setItineraryBricks();
                     $this->aggregator->add($itinerary);
                 }
             }

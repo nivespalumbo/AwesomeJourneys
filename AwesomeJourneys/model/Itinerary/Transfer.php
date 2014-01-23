@@ -1,5 +1,6 @@
 <?php
 include_once 'ItineraryBrick.php';
+include_once 'model/Enumerations/ItineraryBrickType.php';
 
 class Transfer implements ItineraryBrick{
     private $stayId;
@@ -12,18 +13,19 @@ class Transfer implements ItineraryBrick{
     private $transferTemplate;
     private $startDate;
     private $endDate;
-    private $type;
 
     public function __construct($stayId, $transferTemplate) {
         $this->stayId = $stayId;
         $this->trasportSelected = NULL;
         
-        $this->type = TRANSFER;
-        
         $this->transferTemplate = $transferTemplate;
         
         $this->startLocation = $transferTemplate->getStartLocation();
         $this->endLocation = $transferTemplate->getEndLocation();
+    }
+    
+    public function __sleep(){
+        return array('stayId', 'itineraryId', 'name', 'description', 'startLocation', 'endLocation', 'transportSelected', 'transferTemplate', 'startDate', 'endDate');
     }
     
     public function setLocation($location){
@@ -56,11 +58,27 @@ class Transfer implements ItineraryBrick{
         return $this->stayId;
     }
 
-    public function selectActivity($activityIdList, $stayId) {
+    public function selectActivity($idActivity) {
+        return FALSE;
+    }
+    
+    public function getTemplate() {
         return FALSE;
     }
 
-    public function getLocation() {
+    public function removeAccomodation() {
+        return FALSE;
+    }
+
+    public function setSelectedAccomodation(\Accomodation $accomodation) {
+        return FALSE;
+    }
+
+    public function setSelectedActivities(\Activity $activity) {
+        return FALSE;
+    }
+
+        public function getLocation() {
         return FALSE;
     }
 
@@ -114,7 +132,7 @@ class Transfer implements ItineraryBrick{
     }
 
     public function getType() {
-        return $this->type;
+        return TRANSFER;
     }
 
     public function newItineraryBick() {

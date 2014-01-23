@@ -27,7 +27,11 @@ abstract class ItineraryState{
     public function setPhoto($photo) { $this->photo = $photo; }
 
     public function addBrick(ItineraryBrick $brick){
-        $this->itineraryBricks[$brick->getId()] = $brick;
+        if($this->saveBrickInDb($brick)){
+            $this->itineraryBricks[$brick->getId()] = $brick;
+            return TRUE;
+        }
+        return FALSE;
     }
     
     protected function saveInDb(){
@@ -60,12 +64,13 @@ abstract class ItineraryState{
     protected function saveBrickInDb(ItineraryBrick $brick){
         $c = new Connection();
         if($c){
-            $sql = "INSERT INTO itinerary_brick(start_location, end_location, start_date, end_date, type) "
+            $sql = "INSERT INTO itinerary_brick(start_location, end_location, start_date, end_date, type, id_itinerary) "
                  . "VALUES ('".$brick->getStartLocation()."', "
                     . "'".$brick->getEndLocation()."', "
                     . "'".$brick->getStartDate()."', "
                     . "'".$brick->getEndDate()."', "
-                    . "'".$brick->getType()."');";
+                    . "".$brick->getType().", "
+                    . "".$brick->getItineraryId().");";
             $c->begin_transaction();
             try{
                 if($c->execute_non_query($sql)){

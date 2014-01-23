@@ -1,6 +1,7 @@
 <?php
 include_once 'ItineraryBrick.php';
-include_once 'connection.php';
+include_once 'model/connection.php';
+include_once 'model/Enumerations/ItineraryBrickType.php';
 
 class Stay implements ItineraryBrick{
     private $stayId;
@@ -43,7 +44,14 @@ class Stay implements ItineraryBrick{
     public function getId(){ return $this->stayId; }
     public function getTemplate() { return $this->stayTemplate; }
     public function getItineraryId() { return $this->itineraryId; }
-    public function setId($id) { $this->id = $id; }
+    public function getType() { return STAY; }
+    public function getStartDate() { return $this->startDate; }
+    public function getEndDate() { return $this->endDate; }
+    public function getStartLocation() { return $this->startLocation; }
+    public function getEndLocation() { return $this->endLocation; }
+ 
+
+    public function setId($id) { $this->stayId = $id; }
     
     public function getActivities(){
         return $this->stayTemplate->getActivities();
@@ -135,6 +143,16 @@ class Stay implements ItineraryBrick{
             if($c->execute_non_query($query)){
                 return TRUE;
             }
+        }
+        return FALSE;
+    }
+    
+    public function saveInDb(Connection $c){
+        if($c){
+            $sql = "INSERT INTO stay (ID, template_id) "
+                 . "VALUES ($this->stayId, ".$this->stayTemplate->getId().");";
+            $c->execute_non_query($sql);
+            return TRUE;
         }
         return FALSE;
     }

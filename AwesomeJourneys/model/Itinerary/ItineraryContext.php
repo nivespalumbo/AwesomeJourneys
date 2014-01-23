@@ -1,5 +1,6 @@
 <?php
-
+include_once 'Stay.php';
+include_once 'Transfer.php';
 /**
  * Description of ItineraryContext
  *

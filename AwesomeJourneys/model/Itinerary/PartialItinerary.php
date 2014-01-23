@@ -17,7 +17,7 @@ class PartialItinerary extends ItineraryState{
     }
     
     public function __sleep() {
-        return array("id", "name", "description", "photo", "itineraryBricks");
+        return array("id", "name", "description", "photo", "itineraryBricks", 'creator');
     }
     public function __wakeup() { }
     

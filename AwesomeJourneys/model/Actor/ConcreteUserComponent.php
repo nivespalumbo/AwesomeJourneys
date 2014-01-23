@@ -137,6 +137,13 @@ class ConcreteUserComponent extends UserComponent{
     
     
     
+    public function addBrick($idStayTemplate){
+        $template = $this->searchResultStay->getObject($idStayTemplate);
+        $this->itineraryContext->addBrick($template);
+    }
+    
+    
+    
 //    public function configureStayParameter($optId, $valId){
 //        $this->itineraryContext->configureStayParameter($optId, $valId);
 //    }
