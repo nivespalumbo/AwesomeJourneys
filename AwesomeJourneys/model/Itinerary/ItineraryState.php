@@ -7,6 +7,8 @@ abstract class ItineraryState{
     protected $description;
     protected $photo;
     protected $creator;
+    
+    protected $staySearchResult;
     protected $itineraryBricks;
     
     public function getId() { return $this->id; }
@@ -14,16 +16,21 @@ abstract class ItineraryState{
     public function getDescription() { return $this->description; }
     public function getPhoto() { return $this->photo; }
     public function getItineraryBricks() { return $this->itineraryBricks; }
-    public function getBrick($idBrick) {
-        if(array_key_exists($idBrick, $this->itineraryBricks)){
-            return $this->itineraryBricks[$idBrick];
-        }
-        return NULL;
-    }
+//    public function getBrick($idBrick) {
+//        if(array_key_exists($idBrick, $this->itineraryBricks)){
+//            return $this->itineraryBricks[$idBrick];
+//        }
+//        return NULL;
+//    }
     abstract function getType();
+    public function getStaySearchResult(){
+        if($this->staySearchResult == NULL){
+            $this->staySearchResult = new StaySearchResult();
+            $this->staySearchResult->searchStay();
+        }
+        return $this->staySearchResult; 
+    } 
     
-    public function setName($name) { $this->name = $name; }
-    public function setDescription($description) { $this->description = $description; }
     public function setPhoto($photo) { $this->photo = $photo; }
 
     public function addBrick(ItineraryBrick $brick){

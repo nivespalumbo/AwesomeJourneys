@@ -25,13 +25,10 @@ abstract class UserComponent{
             $rx = $conn->registra($name, $surname, $address, $tel, $mail);
             if($rx){
                 $conn->new_creator ($mail, sha1($pass));
-                self::login ($mail, sha1($pass));
-            } else {
-                return FALSE;
+                return self::login ($mail, sha1($pass));
             }
-        } else {
-            return FALSE;
         }
+        return FALSE;
     }
     
     private static function concreteUserComponent($id, $mail, $name, $surname, $address, $telephone){
@@ -43,6 +40,8 @@ abstract class UserComponent{
     }
     
     public static function logout(){
+        session_start();
+        unset($_SESSION['utente']);
         @session_destroy();
     }
     
@@ -55,20 +54,20 @@ abstract class UserComponent{
     abstract function setAddress($address);
     abstract function setTelephone($telephone);
     
-    abstract function searchStay();
-    abstract function getStaySearchResult();
-    abstract function getStay($id);
-    abstract function searchActivity($query = NULL);
-    abstract function getActivitySearchResult();
-    abstract function getActivity($id);
-    abstract function createItinerary();
-    abstract function provideBasicInfo($itName, $itDesc);
-    abstract function searchItinerary($query = NULL);
-    abstract function getItinerarySearchResult();
-    abstract function getItinerary($id = NULL);
-    abstract function searchJourney($query = NULL);
-    abstract function getJourneySearchResult();
-    abstract function getJourney($id);
-    abstract function insertStay($id);
+//    abstract function searchStay();
+//    abstract function getStaySearchResult();
+//    abstract function getStay($id);
+//    abstract function searchActivity($query = NULL);
+//    abstract function getActivitySearchResult();
+//    abstract function getActivity($id);
+//    abstract function createItinerary();
+//    abstract function provideBasicInfo($itName, $itDesc);
+//    abstract function searchItinerary($query = NULL);
+//    abstract function getItinerarySearchResult();
+//    abstract function getItinerary($id = NULL);
+//    abstract function searchJourney($query = NULL);
+//    abstract function getJourneySearchResult();
+//    abstract function getJourney($id);
+//    abstract function insertStay($id);
 }
 ?>

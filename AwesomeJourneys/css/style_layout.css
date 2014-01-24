@@ -2,8 +2,8 @@
 
 @font-face {
     font-family: "Sprinklescolors";
-    src: url("../images/Sprinklescolors.eot"); /* per IE */
-    src: local("Sprinklescolors.ttf"), url("../images/Sprinklescolors.ttf") format('truetype');
+    src: url("Sprinklescolors.eot"); /* per IE */
+    src: local("Sprinklescolors.ttf"), url("Sprinklescolors.ttf") format('truetype');
 }
 
 a:link, a:hover, a:active, a:visited, a:focus {
@@ -12,7 +12,7 @@ a:link, a:hover, a:active, a:visited, a:focus {
 }
 
 body {
-    background-image: url("../images/wallpaper.png");
+    background-image: url("wallpaper.png");
     background-position: 0% 0%;
     background-origin: border-box;
     background-attachment: fixed;

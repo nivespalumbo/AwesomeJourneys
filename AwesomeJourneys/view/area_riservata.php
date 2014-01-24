@@ -1,7 +1,7 @@
 <?php $user = unserialize($_SESSION['utente']); ?>
 <?php 
-include_once '_login.php';
-include_once '_personalmenu.php' 
+include_once 'partials/_login.php';
+include_once 'partials/_personalmenu.php' 
 ?>
 
 <div>

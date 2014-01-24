@@ -5,12 +5,15 @@ include_once 'ItineraryBrick.php';
 
 class PartialItinerary extends ItineraryState{
     function __construct($creator, $name, $description, $id = NULL,  $photo = NULL) {
-        $this->creator = $creator;
         $this->id = $id;
+        $this->creator = $creator;
         $this->name = $name;
         $this->description = $description;
         $this->photo = $photo;
+        
+        $this->staySearchResult = NULL;
         $this->itineraryBricks = array();
+        
         if($id == NULL){
             $this->saveInDb();
         }

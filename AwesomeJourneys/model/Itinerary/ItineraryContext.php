@@ -9,13 +9,8 @@ include_once 'Transfer.php';
 class ItineraryContext {
     private $itinerary;
     
-    public function __construct($creator, ItineraryState $itinerary = NULL) {
-        if($itinerary != NULL){
-            $this->itinerary = $itinerary;
-        }
-        else{
-            $this->itinerary = new PartialItinerary($creator, $_POST['name'], $_POST['description']);
-        }
+    public function __construct(ItineraryState $itinerary) {
+        $this->itinerary = $itinerary;
     }
     
     public function __sleep() {
@@ -25,9 +20,6 @@ class ItineraryContext {
     
     public function getItinerary(){
         return $this->itinerary;
-    }
-    public function setItinerary(ItineraryState $itinerary){
-        $this->itinerary = $itinerary;
     }
     
     /**

@@ -1,4 +1,4 @@
-<?php include_once '_login.php'; ?>
+<?php include_once 'partials/_login.php'; ?>
 
 <div id="s3slider">
     <ul id="s3sliderContent">
@@ -6,7 +6,7 @@
             while($journey = $this->model->fetchObject()){
                 $itinerary = $journey->getItinerary();
                 echo "<li class='s3sliderImage'>
-                        <img src='journeys/".$itinerary->getPhoto()."'>
+                        <img src='images/journeys/".$itinerary->getPhoto()."'>
                         <span>
                           <h3>".$itinerary->getName()."</h3>
                           <p>".$itinerary->getDescription()."</p>
@@ -24,7 +24,7 @@ $this->model->replay();
 while($journey = $this->model->fetchObject()){
     $itinerary = $journey->getItinerary();
     echo "<div class='viaggio grid'>
-            <img src='journeys/".$itinerary->getPhoto()."'>
+            <img src='images/journeys/".$itinerary->getPhoto()."'>
             <span>
                 <h3>".$itinerary->getName()."</h3>
                 <p>".$itinerary->getDescription()."</p>

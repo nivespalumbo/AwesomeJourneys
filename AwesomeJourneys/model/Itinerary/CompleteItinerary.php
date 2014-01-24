@@ -7,12 +7,15 @@ include_once 'ItineraryBrick.php';
 
 class CompleteItinerary extends ItineraryState{
     function __construct($creator, $name, $description, $id = NULL, $photo = NULL) {
+        $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->creator = $creator;
         $this->photo = $photo;
-        $this->id = $id;
+        
+        $this->staySearchResult = NULL;
         $this->itineraryBricks = array();
+        
         if($id == NULL){
             $this->saveInDb();
         }

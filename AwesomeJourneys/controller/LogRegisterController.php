@@ -1,20 +1,14 @@
 <?php
 include_once 'model/Actor/UserComponent.php';
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of LogRegisterController
- *
- * @author anto
- */
 class LogRegisterController {
     
     public function login($mail, $password){
-        return UserComponent::login($mail, $password);
+        if($user = UserComponent::login($mail, $password)){
+            $_SESSION['utente'] = serialize($user);
+            return TRUE;
+        }
+        return FALSE;
     }
     
     public function logout(){
@@ -22,7 +16,11 @@ class LogRegisterController {
     }
     
     public function register($name, $surname, $address, $tel, $mail, $pass, $passBis){
-        return UserComponent::register($name, $surname, $address, $tel, $mail, $pass, $passBis);
+        if($user = UserComponent::register($name, $surname, $address, $tel, $mail, $pass, $passBis)){
+            $_SESSION['utente'] = serialize($user);
+            return TRUE;
+        }
+        return FALSE;
     }
 }
 

@@ -1,18 +1,32 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of ManagementController
- *
- * @author anto
- */
 class ManagementController {
-    public function createItinerary($user){
-        $user->createItinerary();
+    public function getPersonalData(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        return $user;
+    }
+    
+    public function newItinerary(){
+        session_start();
+        if(isset($_SESSION['utente'])){
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
+    public function createItinerary($name, $description){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $user->createItinerary($name, $description);
+        $_SESSION['utente'] = serialize($user);
+        return $user->getItinerary();
     }
     
     public function insertStay($id){

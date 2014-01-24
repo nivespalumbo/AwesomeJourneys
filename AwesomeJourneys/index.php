@@ -14,7 +14,7 @@
     
     <body>
         <div id='container'>
-            <?php include_once 'view/_header.php' ?>
+            <?php include_once 'view/partials/_header.php' ?>
         
             <div id='content-wrapper'>
             <?php
@@ -26,7 +26,7 @@
                 <div class="clear"></div>
             </div>
             
-            <?php include_once 'view/_footer.php' ?>   
+            <?php include_once 'view/partials/_footer.php' ?>   
         </div>
         
         <script type="text/javascript">

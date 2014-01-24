@@ -17,21 +17,31 @@ class NavigationController {
 
     public function gestioneGET(){
         switch ($_GET['op']){
-            case 'register' :
-                $this->openFormRegister();
+            case 'openLogin' :
+                $this->openLogin();
                 break;
-            case 'login' :
-                $this->openFormLogin();
+            case 'openRegister' :
+                $this->openRegister();
                 break;
             case 'logout' :
                 $this->logout();
                 break;
-            case 'newItiner' :
+            
+            case 'openNewItinerary' :
                 $this->openFormNewItinerary();
                 break;
-            case 'personalData' :
+            case 'provideBasicInfo':
+                $this->provideBasicInfo();
+                break;
+            
+            case 'getPersonalData' :
                 $this->getPersonalData();
                 break;
+            
+            case 'searchStays' :
+                $this->searchStays();
+                break;
+            
             case 'myItinerariesOrJourneys':
                 $this->searchMyItinerariesOrJourneys();
                 break;
@@ -59,6 +69,15 @@ class NavigationController {
             case 'selectAccomodation' :
                 $this->selectAccomodation();
                 break;
+            case 'addActivity' :
+                $this->addActivity();
+                break;
+            case 'modifyActivity' :
+                $this->modifyActivity();
+                break;
+            case 'deleteActivity' :
+                $this->deleteActivity();
+                break;
         }
     }
 
@@ -70,87 +89,108 @@ class NavigationController {
             case 'register' :
                 $this->register();
                 break;
-            case 'basicInfoItinerary' :
-                $this->provideBasicInfo();
-                break;
         }
     }
     
-    public function home(){
-        $c = new SearchController();
-        $this->model = $c->home();
-        require_once("view/home_sito.php");
+    private function error($message){
+        $this->model = $message;
+        require_once 'view/error.php';
     }
+    
+    private function home(){
+        $c = new SearchController();
+        $this->model = $c->searchJourneys();
+        require_once("view/home.php");
+    }
+    
+    
+    
+    /*
+     * LOG
+     */
 
-    public function openFormLogin(){
+    private function openLogin(){
         require_once("view/form_login.php");
     }
     
-    public function openFormRegister(){
+    private function login(){
+        $c = new LogRegisterController();
+        if($c->login($_POST['mail'], $_POST['pass'])){
+            require_once("view/area_riservata.php");
+        }
+        else {
+            $this->error("Login fallito");
+        }
+    }
+    
+    private function openRegister(){
        require_once("view/form_register.php"); 
     }
     
-    public function login(){
-        $c = new LogRegisterController();
-        $user = $c->login($_POST['mail'], $_POST['pass']);
-        if($user){
-            $_SESSION['utente'] = serialize($user);
-        }
-        require_once("view/area_riservata.php");
-    }
-    
-    public function logout(){
-        $c = new LogRegisterController();
-        $c->logout();
-        $this->home();
-    }
-    
-    public function register(){
+    private function register(){
         $c = new LogRegisterController();
         
         if($c->register($_POST['name'], $_POST['surname'], $_POST['address'], $_POST['telephone'], $_POST['mail'], $_POST['pass'], $_POST['passBis'])){
             require_once("view/area_riservata.php");
         }
         else{
-            $this->model = "REGISTRAZIONE FALLITA";
-            require_once("view/error.php");
+            $this->error("Registrazione fallita");
         }
     }
     
-    public function openFormNewItinerary(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once("view/error.php");
-        } else {
-            require_once("view/new_itinerary.php");
+    private function logout(){
+        $c = new LogRegisterController();
+        $c->logout();
+        $this->home();
+    }
+    
+    
+    
+    /*
+     * ITINERARY
+     */
+    
+    private function openFormNewItinerary(){
+        $c = new ManagementController();
+        if($this->model = $c->newItinerary()){
+            require_once 'view/new_itinerary.php';
+        }
+        else{
+            $this->error("Sessione inesistente.");
         }
     }
     
-    public function provideBasicInfo(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once("view/error.php");
-        }else{
-            $user = unserialize($_SESSION['utente']);
-            $c = new ManagementController();
-            $c->createItinerary($user);
-                
-            $this->model = $user->getItinerary();
-            require_once("view/itinerary.php");
+    private function provideBasicInfo(){
+        $c = new ManagementController();
+        if($this->model = $c->createItinerary($_GET['name'], $_GET['description'])){
+            require_once 'view/itinerary.php';
+        }
+        else{
+            $this->error("Errore");
         }
     }
     
-    public function getPersonalData(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once("view/error.php");
-        }else{
+    private function searchStays(){
+        $c = new SearchController();
+        if($this->model = $c->searchStays()){
+            require_once 'view/stay_list.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
+    private function getPersonalData(){
+        $c = new ManagementController();
+        if($this->model = $c->getPersonalData()){
             require_once 'view/manage_account.php';
         }
+        else {
+            $this->error("Sessione inesistente");
+        }
     }
+    
+    
     
     public function searchMyItinerariesOrJourneys(){
         session_start();
@@ -248,6 +288,41 @@ class NavigationController {
             $user = unserialize($_SESSION['utente']);
             $this->model = $user->selectAccomodation($_GET['idStay'], $_GET['idAccomodation']);
             require_once 'view/accomodation.php';
+        }
+    }
+    
+    public function addActivity(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INESISTENTE";
+            require_once 'view/error.php';
+        }
+        else {
+            $user = unserialize($_SESSION['utente']);
+            $this->model = $user->getActivity($_GET['id']);
+        }
+    }
+    
+    public function modifyActivity(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INESISTENTE";
+            require_once 'view/error.php';
+        }
+        else {
+            $user = unserialize($_SESSION['utente']);
+            
+        }
+    }
+    
+    public function deleteActivity(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INESISTENTE";
+            require_once 'view/error.php';
+        }
+        else {
+            $c = new ManagementController();
         }
     }
     

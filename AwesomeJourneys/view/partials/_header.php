@@ -1,7 +1,7 @@
 <header>
     <div>
         <span style="float: left; margin: 5px;">
-            <img src="images/baloon.png" alt="baloon" style="max-height: 80px; max-width: 80px;">
+            <img src="css/baloon.png" alt="baloon" style="max-height: 80px; max-width: 80px;">
         </span>
         <span style="float: left; line-height: 80px;">
             <h1><a href="index.php">Awesome Journeys</a></h1>
