@@ -27,9 +27,11 @@ abstract class ItineraryState{
     public function setPhoto($photo) { $this->photo = $photo; }
 
     public function addBrick(ItineraryBrick $brick){
-        if($this->saveBrickInDb($brick)){
-            $this->itineraryBricks[$brick->getId()] = $brick;
-            return TRUE;
+        if(!array_key_exists($brick->getId(), $this->itineraryBricks)){
+            if($this->saveBrickInDb($brick)){
+                $this->itineraryBricks[$brick->getId()] = $brick;
+                return TRUE;
+            }
         }
         return FALSE;
     }
