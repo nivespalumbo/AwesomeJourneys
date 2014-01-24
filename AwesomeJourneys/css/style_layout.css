@@ -443,3 +443,14 @@ header a {
     text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
     font-size: 1.2em;
 }
+.add_remove_to_stage{
+    margin: 3%;
+}
+.add_remove_to_stage > a{
+    padding: 10px 10px 5px 10px;
+    border-radius: 2em 2em 3em 3em;
+}
+.add_remove_to_stage > a:hover, .add_to_stage > a:focus{
+    background-color: #88cfdf; 
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
+}
