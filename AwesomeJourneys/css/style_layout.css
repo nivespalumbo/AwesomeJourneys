@@ -369,8 +369,14 @@ header a {
     float: left;
     margin-left: 20%;
 }
+#my_itineray > h2{
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
+}
 #my_itineray > p {
     margin-top: 5px;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
 }
 #stage{
     margin-left: 3%;
