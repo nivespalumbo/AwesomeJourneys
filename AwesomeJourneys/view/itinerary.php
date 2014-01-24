@@ -19,7 +19,7 @@ include_once '_personalmenu.php'
             . "<label>".$tappa->getTemplate()->getName()."</label>"
             . "<p>".$tappa->getTemplate()->getDescription()."</p>"
             . "<div>"
-            . "<div class='activity_title'><h3>AttivitÃ </h3></div>"; 
+            . "<div class='activity_title'><h3>Attivita'</h3></div>"; 
         $attivitaPreviste = $tappa->getActivities();
         $attivitaSelezionate = $tappa->getSelectedActivities();
         foreach($attivitaPreviste as $attivita){
