@@ -14,12 +14,14 @@
                 </ul>
                 <div id="itinerari">
                     <?php
-                    include_once 'Oggetti/ItineraryInHTML.php';
-
                     if($this->model['itineraries'] != NULL){
                         while($itinerary = $this->model['itineraries']->fetchObject()){
-                            $view = new ItineraryInHTML($itinerary);
-                            $view->getItinerary();
+                            $photo = $itinerary->getPhoto();
+                            if($photo != NULL){
+                                echo "<img src='journeys/".$photo."' />";
+                            }
+                            echo "<h3>".$itinerary->getName()."</h3>";
+                            echo "<p>".$itinerary->getDescription()."</p>";
                         }
                     }
                     else{
@@ -29,12 +31,19 @@
                 </div>
                 <div id="viaggi">
                     <?php
-                    include_once 'Oggetti/JourneyInHTML.php';
-
                     if($this->model['journeys'] != NULL){
                         while($journey = $this->model['journeys']->fetchObject()){
-                           $view = new JourneyInHTML($journey);
-                           $view->get_journey();
+                           echo "<div class='viaggio'>";
+                           $itinerary = $journey->getItinerary();
+                           $photo = $itinerary->getPhoto();
+                           if($photo != NULL){
+                                echo "<img src='journeys/".$photo."' />";
+                           }
+                           echo "<h3>".$itinerary->getName()."</h3>";
+                           echo "<p>".$itinerary->getDescription()."</p>";
+                           echo "<p>Dal <b>".$journey->getStartDate()."</b> al <b>".$journey->getEndDate()."</b></p>";
+                           echo "<p style='color: #FF0000;'><b>".$journey->getPrice()." &euro;</b></p>";
+                           echo '</div>';
                         }
                     }
                     else{

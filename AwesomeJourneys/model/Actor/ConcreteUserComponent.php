@@ -59,6 +59,14 @@ class ConcreteUserComponent extends UserComponent{
         return $this->searchResultStay->getObject($id);
     }
     
+    public function selectActivity($idStay, $idActivity){
+        return $this->searchResultStay->getObject($idStay)->getActivities()[$idActivity];
+    }
+    
+    public function selectAccomodation($idStay, $idAccomodation){
+        return $this->searchResultStay->getObject($idStay)->getAccomodations()[$idAccomodation];
+    }
+    
     
     
     /*

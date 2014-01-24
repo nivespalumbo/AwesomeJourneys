@@ -30,13 +30,13 @@ class ManagementController {
 //        return TRUE;
 //    }
     
-    public function selectStay($id){
-        if(!isset($_SESSION['utente']))
-            return FALSE;
-        $user = unserialize($_SESSION['utente']);
-        return $user->addBrick($id);
-        return TRUE;
-    }
+//    public function selectStay($id){
+//        if(!isset($_SESSION['utente']))
+//            return FALSE;
+//        $user = unserialize($_SESSION['utente']);
+//        return $user->addBrick($id);
+//        return TRUE;
+//    }
     
     public function configureStayParameter($optId, $valId){
         if(!isset($_SESSION['utente']))

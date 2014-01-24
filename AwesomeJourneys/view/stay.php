@@ -13,7 +13,7 @@
             echo "<li>"
                  . "<b>".$a->getName()."</b>"
                  . "<p>".$a->getDescription()."</p>"
-                 . "<a href='index.php?op=selectActivity&id=".$a->getId()."'>Dimmi di più</a>"
+                 . "<a href='index.php?op=selectActivity&idStay=".$this->model->getId()."&idActivity=".$a->getId()."'>Dimmi di più</a>"
                  . "</li>";
         }
         ?>
@@ -30,7 +30,7 @@
                  . "<p>".$a->getDescription()."</p>"
                  . "<div><span>Tipo: ".$a->getAccomodationType()."</span>"
                  . "<span>Location: ".$a->getLocation()."</span></div>"
-                 . "<a href='index.php?op=selectAccomodation&id=".$a->getId()."'>Dimmi di più</a>"
+                 . "<a href='index.php?op=selectAccomodation&idStay=".$this->model->getId()."&idAccomodation=".$a->getId()."'>Dimmi di più</a>"
                  . "</li>";
         }
         ?>

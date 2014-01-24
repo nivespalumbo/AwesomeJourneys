@@ -53,6 +53,12 @@ class NavigationController {
             case 'insertStay' :
                 $this->insertStay();
                 break;
+            case 'selectActivity' :
+                $this->selectActivity();
+                break;
+            case 'selectAccomodation' :
+                $this->selectAccomodation();
+                break;
         }
     }
 
@@ -216,6 +222,32 @@ class NavigationController {
             $c = new ManagementController();
             $this->model = $c->insertStay($_GET['id']);
             require_once 'view/itinerary.php';
+        }
+    }
+    
+    public function selectActivity(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INESISTENTE";
+            require_once 'view/error.php';
+        }
+        else {
+            $user = unserialize($_SESSION['utente']);
+            $this->model = $user->selectActivity($_GET['idStay'], $_GET['idActivity']);
+            require_once 'view/activity.php';
+        }
+    }
+    
+    public function selectAccomodation(){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            $this->model = "SESSIONE INESISTENTE";
+            require_once 'view/error.php';
+        }
+        else {
+            $user = unserialize($_SESSION['utente']);
+            $this->model = $user->selectAccomodation($_GET['idStay'], $_GET['idAccomodation']);
+            require_once 'view/accomodation.php';
         }
     }
     
