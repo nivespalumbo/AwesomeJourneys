@@ -49,5 +49,4 @@ include_once '_personalmenu.php'
         echo "</div></div>";
     }
     ?>
-    </ul>
 </div>
