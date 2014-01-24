@@ -1,3 +1,5 @@
+<?php $user = unserialize($_SESSION['utente']); ?>
+
 <h2><?php echo $this->model->getName() ?></h2>
 <p><?php echo $this->model->getDescription() ?></p>
 <div>

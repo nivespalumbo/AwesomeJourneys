@@ -1,3 +1,5 @@
+<?php $user = unserialize($_SESSION['utente']); ?>
+
 <div id="stay_list">
 <?php
 include_once 'model/StayTemplate/StayTemplateComponent.php';
