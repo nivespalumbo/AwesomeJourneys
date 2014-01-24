@@ -31,7 +31,7 @@ include_once '_personalmenu.php'
                 echo "<a href='index.php?op=deleteActivity&id=".$attivita->getId()."' >Elimina</a>";
             }
             else {
-                echo "<a href='index.php?op=addActivity&id=".$attivita->getId()."' >Aggiungi alla tappa</a>";
+                echo "<div class='add_remove_to_stage'><a href='index.php?op=addActivity&id=".$attivita->getId()."' >Aggiungi alla tappa</a></div>";
             }
             echo "</div>";
         }
@@ -46,10 +46,10 @@ include_once '_personalmenu.php'
                  . "<div><span>Tipo: ".$a->getAccomodationType()."</span>"
                  . "<span>Location: ".$a->getLocation()."</span></div>";
             if($a->getId() != $tappa->getSelectedAccomodation()){ 
-                echo "<a href='index.php?op=chooseAccomodation&id=".$a->getId()."' >Scegli questo pernottamento</a>";
+                echo "<div class='add_remove_to_stage'><a href='index.php?op=chooseAccomodation&id=".$a->getId()."' >Scegli questo pernottamento</a></div>";
             }
             else {
-                echo "<a href='index.php?op=removeAccomodation&id=".$a->getId()."' >Rimuovi</a>";
+                echo "<div class='add_remove_to_stage'><a href='index.php?op=removeAccomodation&id=".$a->getId()."' >Rimuovi</a></div>";
             }
             echo "</div>";
         }
