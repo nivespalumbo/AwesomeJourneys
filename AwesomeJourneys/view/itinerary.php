@@ -23,13 +23,17 @@ include_once '_personalmenu.php'
         $attivitaPreviste = $tappa->getActivities();
         $attivitaSelezionate = $tappa->getSelectedActivities();
         foreach($attivitaPreviste as $attivita){
-            echo "<div class='activity'>"
-                 . "<input type='checkbox' name='idActivity[]' value='".$attivita->getId()."'";
-            if(array_key_exists($attivita->getId(), $attivitaSelezionate)){ echo "checked" ; }
-            echo " />";
+            echo "<div class='activity'>";
             echo "<b>".$attivita->getName()."</b>"
-                 . "<p>".$attivita->getDescription()."</p>"
-                 ."</div>";
+                 . "<p>".$attivita->getDescription()."</p>";
+            if(array_key_exists($attivita->getId(), $attivitaSelezionate)){
+                echo "<a href='index.php?op=modifyActivity&id=".$attivita->getId()."' >Modifica</a>";
+                echo "<a href='index.php?op=deleteActivity&id=".$attivita->getId()."' >Elimina</a>";
+            }
+            else {
+                echo "<a href='index.php?op=addActivity&id=".$attivita->getId()."' >Aggiungi alla tappa</a>";
+            }
+            echo "</div>";
         }
         echo"</div>";
         
@@ -37,14 +41,17 @@ include_once '_personalmenu.php'
                     <div class='activity_title'><h3>Pernottamenti disponibili</h3></div>                ";
         $accomodations = $tappa->getAccomodations();
         foreach($accomodations as $a){
-            echo "<div class='activity'>"
-                 . "<input type='radio' name='idAccomodation' value='".$a->getId()."'";
-            if($a->getId() == $tappa->getSelectedAccomodation()){ echo "checked" ; }
-            echo " />";
+            echo "<div class='activity'>";
             echo "<b>".$a->getName()."</b>"
                  . "<div><span>Tipo: ".$a->getAccomodationType()."</span>"
-                 . "<span>Location: ".$a->getLocation()."</span></div>"
-                 . "</div>";
+                 . "<span>Location: ".$a->getLocation()."</span></div>";
+            if($a->getId() != $tappa->getSelectedAccomodation()){ 
+                echo "<a href='index.php?op=chooseAccomodation&id=".$a->getId()."' >Scegli questo pernottamento</a>";
+            }
+            else {
+                echo "<a href='index.php?op=removeAccomodation&id=".$a->getId()."' >Rimuovi</a>";
+            }
+            echo "</div>";
         }
         echo "</div></div>";
     }
