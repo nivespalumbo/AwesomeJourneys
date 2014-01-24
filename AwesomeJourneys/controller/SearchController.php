@@ -79,7 +79,7 @@ class SearchController {
         $journeySearchResult->search($queryJourney);
         $risultati['journeys'] = $journeySearchResult;
         
-        $queryItinerary = "SELECT * FROM itinerary WHERE published=1;";
+        $queryItinerary = "SELECT * FROM itinerary WHERE published=1 AND state=2;";
         $itinerarySearchResult->search($queryItinerary);
         $risultati['itineraries'] = $itinerarySearchResult;
         

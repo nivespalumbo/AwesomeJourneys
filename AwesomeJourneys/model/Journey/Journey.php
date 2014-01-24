@@ -6,16 +6,14 @@ class Journey {
     public $itinerary;
     public $start_date;
     public $end_date;
-    public $price;
     private $creator;
     
     
-    public function __construct($id, CompleteItinerary $itinerary, $start_date, $end_date, $price, $creator) {
+    public function __construct($id, CompleteItinerary $itinerary, $start_date, $end_date, $creator) {
         $this->id = $id;
         $this->itinerary = $itinerary;
         $this->start_date = $start_date;
         $this->end_date = $end_date;
-        $this->price = $price;
         $this->creator = $creator;
     }
     
@@ -27,9 +25,6 @@ class Journey {
     }
     public function getEndDate(){
         return $this->end_date;
-    }
-    public function getPrice(){
-        return $this->price;
     }
     public function getName(){
         return $this->name;

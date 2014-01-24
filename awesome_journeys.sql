@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Gen 21, 2014 alle 14:47
+-- Generato il: Gen 24, 2014 alle 15:10
 -- Versione del server: 5.6.12-log
 -- Versione PHP: 5.4.12
 
@@ -31,10 +31,9 @@ USE `awesome_journeys`;
 CREATE TABLE IF NOT EXISTS `accomodation` (
   `ID` int(11) NOT NULL,
   `template` int(11) NOT NULL,
-  `check_in` datetime NOT NULL,
   `numero_disponibilita` int(11) DEFAULT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `type` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `template` (`template`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -43,20 +42,23 @@ CREATE TABLE IF NOT EXISTS `accomodation` (
 -- Dump dei dati per la tabella `accomodation`
 --
 
-INSERT INTO `accomodation` (`ID`, `template`, `check_in`, `numero_disponibilita`, `start_date`, `end_date`) VALUES
-(3, 7, '0000-00-00 00:00:00', NULL, '0000-00-00', '0000-00-00'),
-(4, 8, '0000-00-00 00:00:00', NULL, '0000-00-00', '0000-00-00');
+INSERT INTO `accomodation` (`ID`, `template`, `numero_disponibilita`, `price`, `type`) VALUES
+(3, 7, 7, '70.00', 'Doppia'),
+(4, 8, 7, '30.00', '');
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `accomodation_in_stay`
+-- Struttura della tabella `accomodation_booking`
 --
 
-CREATE TABLE IF NOT EXISTS `accomodation_in_stay` (
+CREATE TABLE IF NOT EXISTS `accomodation_booking` (
   `id_stay` int(11) NOT NULL,
   `id_accomodation` int(11) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `duration` time DEFAULT NULL,
   PRIMARY KEY (`id_stay`,`id_accomodation`),
+  KEY `id_stay` (`id_stay`,`id_accomodation`),
   KEY `id_accomodation` (`id_accomodation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -97,8 +99,7 @@ CREATE TABLE IF NOT EXISTS `accomodation_template` (
   `link` varchar(100) DEFAULT NULL,
   `photo` varchar(50) DEFAULT NULL,
   `location` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `location` (`location`)
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
@@ -124,10 +125,10 @@ INSERT INTO `accomodation_template` (`ID`, `address`, `type`, `description`, `ca
 CREATE TABLE IF NOT EXISTS `activity` (
   `ID` int(11) NOT NULL,
   `template` int(11) NOT NULL,
-  `duration` time NOT NULL,
   `numero_disponibilita` int(11) DEFAULT NULL,
-  `start_date` datetime NOT NULL,
+  `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
+  `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `template` (`template`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -136,10 +137,10 @@ CREATE TABLE IF NOT EXISTS `activity` (
 -- Dump dei dati per la tabella `activity`
 --
 
-INSERT INTO `activity` (`ID`, `template`, `duration`, `numero_disponibilita`, `start_date`, `end_date`) VALUES
-(5, 7, '00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(6, 8, '00:00:00', NULL, '0000-00-00 00:00:00', NULL),
-(7, 9, '00:00:00', NULL, '0000-00-00 00:00:00', NULL);
+INSERT INTO `activity` (`ID`, `template`, `numero_disponibilita`, `start_date`, `end_date`, `price`) VALUES
+(5, 7, NULL, '2014-06-15', '2014-09-15', '0.00'),
+(6, 8, NULL, '2014-06-15', '2014-09-15', '0.00'),
+(7, 9, NULL, '2014-06-15', '2014-09-15', '0.00');
 
 -- --------------------------------------------------------
 
@@ -150,6 +151,8 @@ INSERT INTO `activity` (`ID`, `template`, `duration`, `numero_disponibilita`, `s
 CREATE TABLE IF NOT EXISTS `activity_in_stay` (
   `id_stay` int(11) NOT NULL,
   `id_activity` int(11) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `duration` time DEFAULT NULL,
   PRIMARY KEY (`id_stay`,`id_activity`),
   KEY `id_activity` (`id_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -189,24 +192,25 @@ CREATE TABLE IF NOT EXISTS `activity_template` (
   `expected_duration` time DEFAULT NULL,
   `description` text,
   `location` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `location` (`location`)
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dump dei dati per la tabella `activity_template`
 --
 
-INSERT INTO `activity_template` (`ID`, `name`, `address`, `expected_duration`, `description`, `location`) VALUES
-(1, 'Waikiki Aquarium', '2777 Kalakaua Avenue, Wakiki, Oahu, HI 96815 (Diamond Head - Kapahulu - St. Louis)', NULL, NULL, 'Honolulu'),
-(2, 'Beach Sunset Yoga Hawaii', '2335 Kalakaua Ave, #110-536, Oahu, HI', NULL, NULL, 'Honolulu'),
-(3, 'Pacific Aviation Museum Pearl Harbor', '319 Lexington Blvd, Hanger 37, Oahu, HI 96818', NULL, NULL, 'Honolulu'),
-(4, 'Opera House (Operan)', 'Jakobs Torg 2, 103 22 , Svezia', NULL, NULL, 'Stoccolma'),
-(5, 'Museo di Vasa', 'Galarvarvsvagen 14 | Djurgarden, Svezia', NULL, NULL, 'Stoccolma'),
-(6, 'Visita al parco Djurgarden', 'Stoccolma, Svezia', NULL, NULL, 'Stoccolma'),
-(7, 'Granturismo mountain bike', 'Champoluc-Frachey, Gressoney', NULL, 'Sullo sfondo la catena del Monte Rosa con oltre 20 cime al di sopra dei 4000 metri. Alle sue falde, un intreccio di percorsi da scoprire in mountain bike. Tracciati estivi di media montagna rispondono al desiderio di tranquillità della gita fuori porta delle famiglie.', 'Champoluc'),
-(8, 'Downhill Frachey', 'Alpe Ciarcerio 1992 mt. s.l.m. / Frachey 1623 mt. s.l.m', NULL, 'Paradiso per mountain-bikers, la pista di downhill si compone di un tracciato che parte dall’arrivo del trenino di Frachey e raggiunge il parcheggio alla base della funicolare, per una lunghezza di tre chilometri e un dislivello di 350 metri, tra salti e discese mozzafiato.', 'Frachey'),
-(9, 'Downhill Punta Jolanda', 'Punta Jolanda 2218 mt. s.l.m. / Edelboden 1653 mt. s.l.m.', NULL, 'Imperdibile per chi vive la mountain bike come uno sport adrenalinico, la pista di downhill è situata nell’area degli impianti di risalita di Gressoney?La?Trinité, tra le località di Punta Jolanda e di Edelboden Superiore. Il percorso inizia a fianco della stazione di arrivo della seggiovia di Punta Jolanda, a 2238 metri d’altezza.', 'Edelboden');
+INSERT INTO `activity_template` (`ID`, `name`, `address`, `expected_duration`, `description`, `location`, `start_date`, `end_date`) VALUES
+(1, 'Waikiki Aquarium', '2777 Kalakaua Avenue, Wakiki, Oahu, HI 96815 (Diamond Head - Kapahulu - St. Louis)', NULL, NULL, 'Honolulu', NULL, NULL),
+(2, 'Beach Sunset Yoga Hawaii', '2335 Kalakaua Ave, #110-536, Oahu, HI', NULL, NULL, 'Honolulu', '2014-04-01', '2014-09-30'),
+(3, 'Pacific Aviation Museum Pearl Harbor', '319 Lexington Blvd, Hanger 37, Oahu, HI 96818', NULL, NULL, 'Honolulu', NULL, NULL),
+(4, 'Opera House (Operan)', 'Jakobs Torg 2, 103 22 , Svezia', NULL, NULL, 'Stoccolma', NULL, NULL),
+(5, 'Museo di Vasa', 'Galarvarvsvagen 14 | Djurgarden, Svezia', NULL, NULL, 'Stoccolma', NULL, NULL),
+(6, 'Visita al parco Djurgarden', 'Stoccolma, Svezia', NULL, NULL, 'Stoccolma', NULL, NULL),
+(7, 'Granturismo mountain bike', 'Champoluc-Frachey, Gressoney', NULL, 'Sullo sfondo la catena del Monte Rosa con oltre 20 cime al di sopra dei 4000 metri. Alle sue falde, un intreccio di percorsi da scoprire in mountain bike. Tracciati estivi di media montagna rispondono al desiderio di tranquillità della gita fuori porta delle famiglie.', 'Champoluc', '2014-06-15', '2014-09-15'),
+(8, 'Downhill Frachey', 'Alpe Ciarcerio 1992 mt. s.l.m. / Frachey 1623 mt. s.l.m', NULL, 'Paradiso per mountain-bikers, la pista di downhill si compone di un tracciato che parte dall’arrivo del trenino di Frachey e raggiunge il parcheggio alla base della funicolare, per una lunghezza di tre chilometri e un dislivello di 350 metri, tra salti e discese mozzafiato.', 'Frachey', '2014-06-15', '2014-09-15'),
+(9, 'Downhill Punta Jolanda', 'Punta Jolanda 2218 mt. s.l.m. / Edelboden 1653 mt. s.l.m.', NULL, 'Imperdibile per chi vive la mountain bike come uno sport adrenalinico, la pista di downhill è situata nell’area degli impianti di risalita di Gressoney?La?Trinité, tra le località di Punta Jolanda e di Edelboden Superiore. Il percorso inizia a fianco della stazione di arrivo della seggiovia di Punta Jolanda, a 2238 metri d’altezza.', 'Edelboden', '2014-06-15', '2014-09-15');
 
 -- --------------------------------------------------------
 
@@ -241,21 +245,21 @@ CREATE TABLE IF NOT EXISTS `itinerary` (
   `name` varchar(50) DEFAULT NULL,
   `description` text,
   `photo` varchar(255) DEFAULT NULL,
-  `creator` varchar(30) NOT NULL,
+  `itinerary_creator` varchar(30) NOT NULL,
   `state` int(11) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+  PRIMARY KEY (`ID`),
+  KEY `itinerary_creator` (`itinerary_creator`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
 -- Dump dei dati per la tabella `itinerary`
 --
 
-INSERT INTO `itinerary` (`ID`, `name`, `description`, `photo`, `creator`, `state`, `published`) VALUES
+INSERT INTO `itinerary` (`ID`, `name`, `description`, `photo`, `itinerary_creator`, `state`, `published`) VALUES
 (1, 'Honolulu', 'Vacanza di 7 giorni e 7 notti alla scoperta di Honolulu, la splendida capitale delle Hawaii.', 'honolulu.jpg', 'admin@aj.com', 2, 1),
 (2, 'Stoccolma', 'Perdetevi nelle bellissime viuzze di Gamla Stan, il centro storico di Stoccolma. Negozietti di ogni genere (antiquariato, elmetti alla Asterix, troll..) e caffè.', 'stoccolma.jpg', 'admin@aj.com', 2, 1),
-(3, 'Escursione in montagna', NULL, 'mountain1.jpg', 'admin@aj.com', 2, 1),
-(13, 'il mio itinerario', 'il mio itinerario', NULL, 'guido.guidi@gmail.com', 0, 0);
+(3, 'Escursione in montagna', NULL, 'mountain1.jpg', 'admin@aj.com', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -272,10 +276,8 @@ CREATE TABLE IF NOT EXISTS `itinerary_brick` (
   `type` int(11) NOT NULL,
   `id_itinerary` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `start_location` (`start_location`),
-  UNIQUE KEY `end_location` (`end_location`),
-  UNIQUE KEY `id_itinerary` (`id_itinerary`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `id_itinerary` (`id_itinerary`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -284,47 +286,27 @@ CREATE TABLE IF NOT EXISTS `itinerary_brick` (
 --
 
 CREATE TABLE IF NOT EXISTS `journey` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `id_journey` int(11) NOT NULL AUTO_INCREMENT,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `price` decimal(10,0) NOT NULL,
   `itinerary` int(11) NOT NULL,
   `creator` varchar(30) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '0',
   `publish_date` date DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`id_journey`),
+  KEY `itinerary` (`itinerary`),
+  KEY `creator` (`creator`),
+  KEY `creator_2` (`creator`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dump dei dati per la tabella `journey`
 --
 
-INSERT INTO `journey` (`ID`, `start_date`, `end_date`, `price`, `itinerary`, `creator`, `published`, `publish_date`) VALUES
-(1, '2013-08-24', '2013-09-07', '800', 1, 'admin@aj.com', 1, '2013-05-15'),
-(2, '2013-08-01', '2013-08-15', '750', 2, 'admin@aj.com', 1, '2013-07-01'),
-(3, '2013-09-30', '2013-10-03', '200', 3, 'admin@aj.com', 1, '2013-08-23');
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `location`
---
-
-CREATE TABLE IF NOT EXISTS `location` (
-  `location` varchar(255) NOT NULL,
-  PRIMARY KEY (`location`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dump dei dati per la tabella `location`
---
-
-INSERT INTO `location` (`location`) VALUES
-('Champoluc'),
-('Edelboden'),
-('Frachey'),
-('Honolulu'),
-('Stoccolma');
+INSERT INTO `journey` (`id_journey`, `start_date`, `end_date`, `itinerary`, `creator`, `published`, `publish_date`) VALUES
+(1, '2013-08-24', '2013-09-07', 1, 'admin@aj.com', 1, '2013-05-15'),
+(2, '2013-08-01', '2013-08-15', 2, 'admin@aj.com', 1, '2013-07-01'),
+(3, '2013-09-30', '2013-10-03', 3, 'admin@aj.com', 1, '2013-08-23');
 
 -- --------------------------------------------------------
 
@@ -363,23 +345,10 @@ CREATE TABLE IF NOT EXISTS `stay` (
   `id_going_transport` int(11) DEFAULT NULL,
   `id_return_transport` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `template_id` (`template_id`),
-  UNIQUE KEY `id_going_transport` (`id_going_transport`,`id_return_transport`),
-  UNIQUE KEY `accomodation_id` (`accomodation_id`),
-  UNIQUE KEY `id_return_transport` (`id_return_transport`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `stay_structure`
---
-
-CREATE TABLE IF NOT EXISTS `stay_structure` (
-  `id_parent` int(11) NOT NULL,
-  `id_child` int(11) NOT NULL,
-  PRIMARY KEY (`id_parent`,`id_child`),
-  KEY `id_child` (`id_child`)
+  KEY `template_id` (`template_id`),
+  KEY `id_return_transport` (`id_return_transport`),
+  KEY `accomodation_id` (`accomodation_id`),
+  KEY `id_going_transport` (`id_going_transport`,`id_return_transport`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -397,9 +366,7 @@ CREATE TABLE IF NOT EXISTS `stay_template` (
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `type` tinyint(4) NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `start_location` (`start_location`),
-  KEY `end_location` (`end_location`)
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -465,10 +432,10 @@ CREATE TABLE IF NOT EXISTS `transfer` (
   `is_going` tinyint(4) DEFAULT NULL,
   `is_return` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `transport_id` (`transport_id`),
   UNIQUE KEY `transport_id_2` (`transport_id`),
-  UNIQUE KEY `id_template` (`id_template`),
-  UNIQUE KEY `id_stay` (`id_stay`)
+  UNIQUE KEY `id_stay` (`id_stay`),
+  KEY `transport_id` (`transport_id`),
+  KEY `id_template` (`id_template`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -486,6 +453,7 @@ CREATE TABLE IF NOT EXISTS `transport` (
   `numero_disponibilita` int(11) DEFAULT NULL,
   `start_date` datetime DEFAULT NULL,
   `end_data` datetime DEFAULT NULL,
+  `price` decimal(10,0) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `template` (`template`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -516,6 +484,22 @@ CREATE TABLE IF NOT EXISTS `transport_template` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `travel_booking`
+--
+
+CREATE TABLE IF NOT EXISTS `travel_booking` (
+  `traveller` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `journey` int(11) NOT NULL,
+  `num_travellers` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`traveller`,`journey`),
+  KEY `traveller` (`traveller`),
+  KEY `journey` (`journey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 --
 -- Limiti per le tabelle scaricate
 --
@@ -528,11 +512,11 @@ ALTER TABLE `accomodation`
   ADD CONSTRAINT `accomodation_ibfk_3` FOREIGN KEY (`ID`) REFERENCES `stay_template_component` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `accomodation_in_stay`
+-- Limiti per la tabella `accomodation_booking`
 --
-ALTER TABLE `accomodation_in_stay`
-  ADD CONSTRAINT `accomodation_in_stay_ibfk_2` FOREIGN KEY (`id_accomodation`) REFERENCES `accomodation` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `accomodation_in_stay_ibfk_1` FOREIGN KEY (`id_stay`) REFERENCES `stay` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `accomodation_booking`
+  ADD CONSTRAINT `accomodation_booking_ibfk_2` FOREIGN KEY (`id_accomodation`) REFERENCES `accomodation` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `accomodation_booking_ibfk_1` FOREIGN KEY (`id_stay`) REFERENCES `stay` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `accomodation_in_stay_template`
@@ -540,12 +524,6 @@ ALTER TABLE `accomodation_in_stay`
 ALTER TABLE `accomodation_in_stay_template`
   ADD CONSTRAINT `accomodation_in_stay_template_ibfk_1` FOREIGN KEY (`stay_template`) REFERENCES `stay_template` (`ID`),
   ADD CONSTRAINT `accomodation_in_stay_template_ibfk_2` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodation` (`ID`);
-
---
--- Limiti per la tabella `accomodation_template`
---
-ALTER TABLE `accomodation_template`
-  ADD CONSTRAINT `accomodation_template_ibfk_1` FOREIGN KEY (`location`) REFERENCES `location` (`location`);
 
 --
 -- Limiti per la tabella `activity`
@@ -569,36 +547,38 @@ ALTER TABLE `activity_in_stay_template`
   ADD CONSTRAINT `activity_in_stay_template_ibfk_2` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`ID`);
 
 --
+-- Limiti per la tabella `itinerary`
+--
+ALTER TABLE `itinerary`
+  ADD CONSTRAINT `itinerary_ibfk_1` FOREIGN KEY (`itinerary_creator`) REFERENCES `creator` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Limiti per la tabella `itinerary_brick`
 --
 ALTER TABLE `itinerary_brick`
-  ADD CONSTRAINT `itinerary_brick_ibfk_1` FOREIGN KEY (`start_location`) REFERENCES `location` (`location`),
-  ADD CONSTRAINT `itinerary_brick_ibfk_2` FOREIGN KEY (`end_location`) REFERENCES `location` (`location`),
-  ADD CONSTRAINT `itinerary_brick_ibfk_3` FOREIGN KEY (`id_itinerary`) REFERENCES `itinerary` (`ID`);
+  ADD CONSTRAINT `itinerary_brick_ibfk_3` FOREIGN KEY (`id_itinerary`) REFERENCES `itinerary` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limiti per la tabella `journey`
+--
+ALTER TABLE `journey`
+  ADD CONSTRAINT `journey_ibfk_1` FOREIGN KEY (`itinerary`) REFERENCES `itinerary` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `journey_ibfk_2` FOREIGN KEY (`creator`) REFERENCES `creator` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `stay`
 --
 ALTER TABLE `stay`
-  ADD CONSTRAINT `stay_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `stay_template` (`ID`),
-  ADD CONSTRAINT `stay_ibfk_2` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodation` (`ID`),
-  ADD CONSTRAINT `stay_ibfk_4` FOREIGN KEY (`ID`) REFERENCES `itinerary_brick` (`ID`),
-  ADD CONSTRAINT `stay_ibfk_5` FOREIGN KEY (`id_going_transport`) REFERENCES `transport` (`ID`),
-  ADD CONSTRAINT `stay_ibfk_6` FOREIGN KEY (`id_return_transport`) REFERENCES `transport` (`ID`);
-
---
--- Limiti per la tabella `stay_structure`
---
-ALTER TABLE `stay_structure`
-  ADD CONSTRAINT `stay_structure_ibfk_1` FOREIGN KEY (`id_parent`) REFERENCES `stay` (`ID`),
-  ADD CONSTRAINT `stay_structure_ibfk_2` FOREIGN KEY (`id_child`) REFERENCES `stay` (`ID`);
+  ADD CONSTRAINT `stay_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `stay_template` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `stay_ibfk_2` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodation` (`ID`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `stay_ibfk_4` FOREIGN KEY (`ID`) REFERENCES `itinerary_brick` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `stay_ibfk_5` FOREIGN KEY (`id_going_transport`) REFERENCES `transport` (`ID`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `stay_ibfk_6` FOREIGN KEY (`id_return_transport`) REFERENCES `transport` (`ID`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Limiti per la tabella `stay_template`
 --
 ALTER TABLE `stay_template`
-  ADD CONSTRAINT `stay_template_ibfk_1` FOREIGN KEY (`start_location`) REFERENCES `location` (`location`),
-  ADD CONSTRAINT `stay_template_ibfk_2` FOREIGN KEY (`end_location`) REFERENCES `location` (`location`),
   ADD CONSTRAINT `stay_template_ibfk_3` FOREIGN KEY (`ID`) REFERENCES `stay_template_component` (`ID`);
 
 --
@@ -612,10 +592,10 @@ ALTER TABLE `stay_template_structure`
 -- Limiti per la tabella `transfer`
 --
 ALTER TABLE `transfer`
-  ADD CONSTRAINT `transfer_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `itinerary_brick` (`ID`),
-  ADD CONSTRAINT `transfer_ibfk_2` FOREIGN KEY (`transport_id`) REFERENCES `transport` (`ID`),
-  ADD CONSTRAINT `transfer_ibfk_3` FOREIGN KEY (`id_template`) REFERENCES `stay_template` (`ID`),
-  ADD CONSTRAINT `transfer_ibfk_4` FOREIGN KEY (`id_stay`) REFERENCES `stay` (`ID`);
+  ADD CONSTRAINT `transfer_ibfk_4` FOREIGN KEY (`id_stay`) REFERENCES `stay` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `transfer_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `itinerary_brick` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `transfer_ibfk_2` FOREIGN KEY (`transport_id`) REFERENCES `transport` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `transfer_ibfk_3` FOREIGN KEY (`id_template`) REFERENCES `stay_template` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `transport`
@@ -623,6 +603,12 @@ ALTER TABLE `transfer`
 ALTER TABLE `transport`
   ADD CONSTRAINT `transport_ibfk_2` FOREIGN KEY (`template`) REFERENCES `transport_template` (`ID`),
   ADD CONSTRAINT `transport_ibfk_3` FOREIGN KEY (`ID`) REFERENCES `stay_template_component` (`ID`);
+
+--
+-- Limiti per la tabella `travel_booking`
+--
+ALTER TABLE `travel_booking`
+  ADD CONSTRAINT `travel_booking_ibfk_1` FOREIGN KEY (`journey`) REFERENCES `journey` (`id_journey`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

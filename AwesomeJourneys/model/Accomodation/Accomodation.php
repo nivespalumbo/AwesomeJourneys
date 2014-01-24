@@ -10,14 +10,14 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
     private $startDate;
     private $duration;
     
-    function __construct($id, $compositeId, $numeroDisponibilita, $startDate, $duration, $idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location) {
+    function __construct($id, $compositeId, $numeroDisponibilita, $idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location) {
         parent::__construct($idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location);
         $this->id = $id;
         $this->compositeId = $compositeId;
         $this->numeroDisponibilita = $numeroDisponibilita;
         
-        $this->startDate = $startDate;
-        $this->duration = $duration;
+        $this->startDate = NULL;
+        $this->duration = NULL;
     }
     
     function serialize() {
