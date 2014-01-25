@@ -3,15 +3,16 @@
 include_once 'partials/_login.php';
 include_once 'partials/_personalmenu.php' 
 ?>
-<div id="my_itineray">
-<h2><?php echo $this->model->getName(); ?></h2>
-<p><?php echo $this->model->getDescription(); ?></p>
-</div>
-<div id="stage">
-<h3>Tappe</h3><a href="index.php?op=searchStays" >Search stay</a>
-</div>
+<div id="content">
+    <div id="my_itineray">
+        <h2><?php echo $this->model->getName(); ?></h2>
+        <p><?php echo $this->model->getDescription(); ?></p>
+    </div>
+    <div id="stage">
+        <h3>Tappe</h3><a href="index.php?op=searchStays" >Search stay</a>
+    </div>
 
-<div id="stages">
+    <div id="stages">
     <?php
     $tappe = $this->model->getItineraryBricks();
     foreach($tappe as $tappa){
@@ -56,4 +57,5 @@ include_once 'partials/_personalmenu.php'
         echo "</div></div>";
     }
     ?>
+    </div>
 </div>

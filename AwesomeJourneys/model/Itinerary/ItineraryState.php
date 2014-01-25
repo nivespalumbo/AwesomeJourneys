@@ -32,7 +32,7 @@ abstract class ItineraryState{
                                                     . "OR end_location='$this->startLocation';");
         }
         return $this->staySearchResult; 
-    } 
+    }
     
     
     

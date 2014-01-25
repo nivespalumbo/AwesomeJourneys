@@ -5,7 +5,7 @@ include_once 'partials/_login.php';
 include_once 'partials/_personalmenu.php' 
 ?>
 
-<div>
+<div id="content">
     <h2>I miei dati</h2>
     <table>
         <tr><td><b>Nome</b></td><td><?php echo $user->getName() ?></td></tr>

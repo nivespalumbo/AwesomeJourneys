@@ -57,6 +57,10 @@ class Stay implements ItineraryBrick{
     public function getActivities(){
         return $this->template->getActivities();
     }
+    public function getActivity($idActivity){
+        return $this->template->getComponent($idActivity);
+    }
+    
     public function getSelectedActivities() { return $this->selectedActivities; }
     public function setSelectedActivities(Activity $activity){
         if(!array_key_exists($activity->getId(), $this->selectedActivities)){

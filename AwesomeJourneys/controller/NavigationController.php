@@ -60,19 +60,8 @@ class NavigationController {
             case 'searchStays' :
                 $this->searchStays(); // cerca stays inerenti all'itinerario
                 break;
-            case 'selectStay' :
-                $this->selectStay();
-                break;
             case 'insertStay' :
                 $this->insertStay();
-                break;
-            
-            // MANAGE ACTIVITIES IN STAY
-            case 'selectActivity' :
-                $this->selectActivity();
-                break;
-            case 'selectAccomodation' :
-                $this->selectAccomodation();
                 break;
             case 'addActivity' :
                 $this->addActivity();
@@ -82,6 +71,20 @@ class NavigationController {
                 break;
             case 'deleteActivity' :
                 $this->deleteActivity();
+                break;
+            case 'addAccomodation' :
+                $this->addAccomodation();
+                break;
+            
+            // SELEZIONE OGGETTI
+            case 'selectStay' :
+                $this->selectStay();
+                break;
+            case 'selectActivity' :
+                $this->selectActivity();
+                break;
+            case 'selectAccomodation' :
+                $this->selectAccomodation();
                 break;
         }
     }
@@ -274,45 +277,29 @@ class NavigationController {
         else {
             $this->error("Errore");
         }
-//        session_start();
-//        if(!isset($_SESSION['utente'])){
-//            $this->model = "SESSIONE INESISTENTE";
-//            require_once 'view/error.php';
-//        }
-//        else {
-//            $c = new ManagementController();
-//            $this->model = $c->insertStay($_GET['id']);
-//            require_once 'view/itinerary.php';
-//        }
     }
     
-    public function selectActivity(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once 'view/error.php';
-        }
-        else {
-            $user = unserialize($_SESSION['utente']);
-            $this->model = $user->selectActivity($_GET['idStay'], $_GET['idActivity']);
+    private function selectActivity(){
+        $c = new ManagementController();
+        if($this->model = $c->getActivity($_GET['idStay'], $_GET['idActivity'])){
             require_once 'view/activity.php';
         }
+        else {
+            $this->error("Errore");
+        }
     }
     
-    public function selectAccomodation(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once 'view/error.php';
-        }
-        else {
-            $user = unserialize($_SESSION['utente']);
-            $this->model = $user->selectAccomodation($_GET['idStay'], $_GET['idAccomodation']);
+    private function selectAccomodation(){
+        $c = new ManagementController();
+        if($this->model = $c->getAccomodation($_GET['idStay'], $_GET['idAccomodation'])){
             require_once 'view/accomodation.php';
         }
+        else {
+            $this->error("Errore");
+        }
     }
     
-    public function addActivity(){
+    private function addActivity(){
         session_start();
         if(!isset($_SESSION['utente'])){
             $this->model = "SESSIONE INESISTENTE";
@@ -324,7 +311,7 @@ class NavigationController {
         }
     }
     
-    public function modifyActivity(){
+    private function modifyActivity(){
         session_start();
         if(!isset($_SESSION['utente'])){
             $this->model = "SESSIONE INESISTENTE";
@@ -336,7 +323,7 @@ class NavigationController {
         }
     }
     
-    public function deleteActivity(){
+    private function deleteActivity(){
         session_start();
         if(!isset($_SESSION['utente'])){
             $this->model = "SESSIONE INESISTENTE";
@@ -346,6 +333,10 @@ class NavigationController {
             $c = new ManagementController();
         }
     }
+    
+    private function addAccomodation(){
+        
+    } 
 }
     
 ?>

@@ -52,7 +52,7 @@ class Transfer implements ItineraryBrick{
         return $this;
     }
 
-    public function getActivity() {
+    public function getActivity($idActivity) {
         return FALSE;
     }
 

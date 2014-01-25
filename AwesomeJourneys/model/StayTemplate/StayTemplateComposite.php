@@ -89,6 +89,13 @@ class StayTemplateComposite implements StayTemplateComponent{
         }
     }
     
+    public function getComponent($idComponent){
+        if(array_key_exists($idComponent, $this->components)){
+            return $this->components[$idComponent];
+        }
+        return NULL;
+    }
+    
     public function isComposite() {
         return TRUE;
     }

@@ -179,6 +179,7 @@ button:active {
     z-index: 200;
     float: left;
     width: 20%;
+    height: 100%;
 }
 #menu_personale > ul{
     z-index: 200;

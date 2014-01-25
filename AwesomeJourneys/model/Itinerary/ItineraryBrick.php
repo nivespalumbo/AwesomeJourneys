@@ -14,6 +14,7 @@ interface ItineraryBrick {
      * Restituisce l'elenco delle attività disponibili
      */
     public function getActivities();
+    public function getActivity($idActivity);
     /**
      * Restituisce l'elenco delle attività selezionate
      */
