@@ -18,7 +18,7 @@
                         while($itinerary = $this->model['itineraries']->fetchObject()){
                             $photo = $itinerary->getPhoto();
                             if($photo != NULL){
-                                echo "<img src='journeys/".$photo."' />";
+                                echo "<img src='images/journeys/".$photo."' />";
                             }
                             echo "<h3>".$itinerary->getName()."</h3>";
                             echo "<p>".$itinerary->getDescription()."</p>";
@@ -37,7 +37,7 @@
                            $itinerary = $journey->getItinerary();
                            $photo = $itinerary->getPhoto();
                            if($photo != NULL){
-                                echo "<img src='journeys/".$photo."' />";
+                                echo "<img src='images/journeys/".$photo."' />";
                            }
                            echo "<h3>".$itinerary->getName()."</h3>";
                            echo "<p>".$itinerary->getDescription()."</p>";

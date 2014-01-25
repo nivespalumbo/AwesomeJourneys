@@ -17,6 +17,7 @@ class NavigationController {
 
     public function gestioneGET(){
         switch ($_GET['op']){
+            // LOG
             case 'openLogin' :
                 $this->openLogin();
                 break;
@@ -27,32 +28,28 @@ class NavigationController {
                 $this->logout();
                 break;
             
-            case 'openNewItinerary' :
-                $this->openFormNewItinerary();
-                break;
-            case 'provideBasicInfo':
-                $this->provideBasicInfo();
-                break;
-            
+            // DATI PERSONALI
             case 'getPersonalData' :
                 $this->getPersonalData();
                 break;
-            
-            case 'searchStays' :
-                $this->searchStays();
-                break;
-            
             case 'myItinerariesOrJourneys':
                 $this->searchMyItinerariesOrJourneys();
                 break;
-            case 'searchItineraryOrJourney':
+
+            // SEARCH ITINERARY OR JOURNEY
+            case 'openSearch':
                 $this->openSearch();
                 break;
             case 'search' :
                 $this->search();
                 break;
-            case 'searchStay' :
-                $this->searchStay();
+            
+            // MANAGE ITINERARY BASE
+            case 'openNewItinerary' :
+                $this->openFormNewItinerary(); //per aprire form di inserimento basic info
+                break;
+            case 'searchStays' :
+                $this->searchStays(); // cerca stays inerenti all'itinerario
                 break;
             case 'selectItinerary' :
                 $this->selectItinerary();
@@ -88,6 +85,9 @@ class NavigationController {
                 break;
             case 'register' :
                 $this->register();
+                break;
+            case 'provideBasicInfo':
+                $this->provideBasicInfo(); //l'utente ha inserito le info base, si crea l'itinerario e viene visualizzato
                 break;
         }
     }
@@ -147,6 +147,52 @@ class NavigationController {
     
     
     /*
+     * DATI PERSONALI
+     */
+    
+    private function getPersonalData(){
+        $c = new ManagementController();
+        if($this->model = $c->getPersonalData()){
+            require_once 'view/manage_account.php';
+        }
+        else {
+            $this->error("Sessione inesistente");
+        }
+    }
+    private function searchMyItinerariesOrJourneys(){
+        session_start();
+        if(isset($_SESSION['utente'])){
+            $user = unserialize($_SESSION['utente']);
+            $c = new SearchController();
+            $this->model = array();
+            $this->model['itineraries'] = $c->searchMyItineraries($user);
+            $this->model['journeys'] = $c->searchMyJourneys($user);
+            require_once 'view/my_itineraries.php';
+        }
+        else {
+            $this->error("Sessione inesistente.");
+        }
+    }
+    
+    
+    
+    /*
+     * RICERCA GENERICA
+     */
+    
+    private function openSearch(){
+        require_once 'view/search.php';
+    }
+    
+    private function search(){
+        $c = new SearchController();
+        $this->model = $c->search($_GET['startDate'], $_GET['location']);
+        require_once 'view/search.php';
+    }
+    
+    
+    
+    /*
      * ITINERARY
      */
     
@@ -162,7 +208,7 @@ class NavigationController {
     
     private function provideBasicInfo(){
         $c = new ManagementController();
-        if($this->model = $c->createItinerary($_GET['name'], $_GET['description'])){
+        if($this->model = $c->createItinerary($_GET['name'], $_GET['description'], $_GET['location'])){
             require_once 'view/itinerary.php';
         }
         else{
@@ -178,50 +224,6 @@ class NavigationController {
         else {
             $this->error("Errore");
         }
-    }
-    
-    private function getPersonalData(){
-        $c = new ManagementController();
-        if($this->model = $c->getPersonalData()){
-            require_once 'view/manage_account.php';
-        }
-        else {
-            $this->error("Sessione inesistente");
-        }
-    }
-    
-    
-    
-    public function searchMyItinerariesOrJourneys(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once 'view/error.php';
-        }
-        else{
-            $c = new SearchController();
-            $this->model = array();
-            $this->model['itineraries'] = $c->searchMyItineraries();
-            $this->model['journeys'] = $c->searchMyJourneys();
-            
-            require_once 'view/my_itineraries.php';
-        }
-    }
-    
-    public function openSearch(){
-        require_once 'view/search.php';
-    }
-    
-    public function search(){
-        $c = new SearchController();
-        $this->model = $c->search();
-        require_once 'view/search.php';
-    }
-    
-    public function searchStay(){
-        $c = new SearchController();
-        $this->model = $c->searchStay();
-        require_once 'view/stay_list.php';
     }
     
     public function selectItinerary(){
@@ -325,7 +327,6 @@ class NavigationController {
             $c = new ManagementController();
         }
     }
-    
 }
     
 ?>

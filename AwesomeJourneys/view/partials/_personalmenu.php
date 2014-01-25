@@ -13,6 +13,6 @@
                 <li><a href="#">Prenota un viaggio</a></li>
             </ul>
         </li>
-        <li><a href='index.php?op=searchItineraryOrJourney'>Cerca</a></li>
+        <li><a href='index.php?op=openSearch'>Cerca</a></li>
     </ul>    
 </div>

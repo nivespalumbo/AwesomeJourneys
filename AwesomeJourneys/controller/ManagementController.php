@@ -18,13 +18,13 @@ class ManagementController {
         return FALSE;
     }
     
-    public function createItinerary($name, $description){
+    public function createItinerary($name, $description, $location){
         session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
         $user = unserialize($_SESSION['utente']);
-        $user->createItinerary($name, $description);
+        $user->createItinerary($name, $description, $location);
         $_SESSION['utente'] = serialize($user);
         return $user->getItinerary();
     }

@@ -67,12 +67,15 @@ class SearchController {
      * @return FALSE se la sessione utente non è settata, altrimenti un
      * ItinerarySearchResult
      */
-    public function searchMyItineraries(){
-        if(!isset($_SESSION['utente']))
-            return FALSE;
-        
+    public function searchMyItineraries($user){
         $user = unserialize($_SESSION['utente']);
-        return $this->searchItineraries("SELECT * FROM itinerary WHERE itinerary_creator='".$user->getMail()."'");
+        $searchResult = new ItinerarySearchResult();
+        $searchResult->search("SELECT * FROM itinerary WHERE itinerary_creator='".$user->getMail()."'");
+        
+        $user->setItinerarySearchResult($searchResult);
+        $_SESSION['utente'] = serialize($user);
+        
+        return $searchResult;
     }
     
     /**
@@ -80,42 +83,43 @@ class SearchController {
      * @return FALSE se la sessione utente non è settata, altrimenti un
      * JourneySearchResult
      */
-    public function searchMyJourneys(){
-        if(!isset($_SESSION['utente']))
-            return FALSE;
-        
+    public function searchMyJourneys($user){
         $user = unserialize($_SESSION['utente']);
-        return $this->searchJourneys("SELECT * "
-                                   . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
-                                   . "WHERE journey.creator='".$user->getMail()."' "
-                                   . "ORDER BY start_date;");     
+        $searchResult = new JourneySearchResult();
+        $searchResult->search("SELECT * "
+                            . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
+                            . "WHERE journey.creator='".$user->getMail()."' "
+                            . "ORDER BY start_date;");
+        $user->setJourneySearchResult($searchResult);
+        $_SESSION['utente'] = serialize($user);
+
+        return $searchResult;  
     }
     
-//    public function search(){
-//        $location = ""; $startDate = "";
-//        if(isset($_GET['location']) && $_GET['location'] != ""){
-//            $location = "AND location='".$_GET['location']."'";
-//        }
-//        if(isset($_GET['startDate']) && $_GET['startDate'] != ""){
-//            $startDate = "AND journey.start_date = '".$_GET['startDate']."'";
-//        }
-//        
-//        $journeySearchResult = new JourneySearchResult();
-//        $itinerarySearchResult = new ItinerarySearchResult();
-//        $risultati = array();
-//        
-//        $queryJourney = "SELECT * "
-//                      . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
-//                      . "WHERE journey.published=1 $location $startDate ORDER BY start_date;";
-//        $journeySearchResult->search($queryJourney);
-//        $risultati['journeys'] = $journeySearchResult;
-//        
-//        $queryItinerary = "SELECT * FROM itinerary WHERE published=1 AND state=2;";
-//        $itinerarySearchResult->search($queryItinerary);
-//        $risultati['itineraries'] = $itinerarySearchResult;
-//        
-//        return $risultati;
-//    }
+    public function search($startDate, $location){
+        if(isset($location) && $location != ""){
+            $location = "AND (start_location='$location' OR end_location='$location')";
+        }
+        if(isset($startDate) && $startDate != ""){
+            $startDate = "AND journey.start_date = '$startDate'";
+        }
+        
+        $journeySearchResult = new JourneySearchResult();
+        $itinerarySearchResult = new ItinerarySearchResult();
+        $risultati = array();
+        
+        $queryJourney = "SELECT * "
+                      . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
+                      . "WHERE journey.published=1 $location $startDate ORDER BY start_date;";
+        $journeySearchResult->search($queryJourney);
+        $risultati['journeys'] = $journeySearchResult;
+        
+        $queryItinerary = "SELECT * FROM itinerary WHERE published=1 $location AND state=1;";
+        $itinerarySearchResult->search($queryItinerary);
+        $risultati['itineraries'] = $itinerarySearchResult;
+        
+        return $risultati;
+    }
 }
 
 ?>

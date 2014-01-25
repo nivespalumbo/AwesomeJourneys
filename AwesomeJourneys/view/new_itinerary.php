@@ -6,10 +6,11 @@ include_once 'partials/_personalmenu.php'
 ?>
                 
 <div> 
-    <form action="index.php" method="GET">
+    <form action="index.php" method="POST">
     <table>
         <tr><td>Nome:</td><td><input type="text" name="name" required/></td></tr>
         <tr><td>Descrizione:</td><td><input type="text" name="description" required/></td></tr>
+        <tr><td>Location:</td><td><input type="text" name="location" required /></td></tr>
     </table>
     <p><button type="submit" name="op" value="provideBasicInfo">Crea</button><button type="reset" name="annulla">Annulla</button></p>
     </form>

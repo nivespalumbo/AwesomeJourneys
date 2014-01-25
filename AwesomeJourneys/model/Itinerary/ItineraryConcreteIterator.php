@@ -18,7 +18,6 @@ class ItineraryConcreteIterator implements ItineraryIterator{
     public function __sleep() {
         return array("list", "current");
     }
-
     public function __wakeup() {
         
     }
@@ -30,8 +29,12 @@ class ItineraryConcreteIterator implements ItineraryIterator{
     }
     
     public function hasNext() {
-        if($this->list)
-            return ($this->current+1) < count($this->list, COUNT_NORMAL);
-        else return false;
+        if($this->list){
+            if(($this->current+1) < count($this->list, COUNT_NORMAL)){
+                return TRUE;
+            }
+            $this->current = -1;
+            return FALSE;
+        } else return false;
     }
 }

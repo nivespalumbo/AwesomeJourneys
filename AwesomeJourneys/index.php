@@ -31,7 +31,7 @@
         
         <script type="text/javascript">
         $(document).ready(function(){
-            $( ".datepicker" ).datepicker();
+            $( ".datepicker" ).datepicker({dateFormat: "yy-mm-dd"});
             $( ".tabs" ).tabs();
             $( ".menu" ).menu();
             $('#s3slider').s3Slider({

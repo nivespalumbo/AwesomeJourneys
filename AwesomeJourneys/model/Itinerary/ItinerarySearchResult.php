@@ -28,7 +28,7 @@ class ItinerarySearchResult {
         $c = new Connection();
         
         if($query == NULL){
-            $query = "SELECT * FROM itinerary WHERE published=1;";
+            $query = "SELECT * FROM itinerary WHERE published=1 AND state=1;";
         }
         
         if($c){
@@ -37,11 +37,13 @@ class ItinerarySearchResult {
             if($table){
                 foreach($table as $it){
                     if($it->state == 1){
-                        $itinerary = new CompleteItinerary($it->itinerary_creator, $it->name, $it->description, $it->ID, $it->photo);
+                        $itinerary = new CompleteItinerary($it->itinerary_creator, $it->name, $it->description, $it->start_location, $it->ID);
                     }
                     else{
-                        $itinerary = new PartialItinerary($it->itinerary_creator, $it->name, $it->description, $it->ID, $it->photo);
+                        $itinerary = new PartialItinerary($it->itinerary_creator, $it->name, $it->description, $it->start_location, $it->ID);
                     }
+                    $itinerary->setEndLocation($it->end_location);
+                    $itinerary->setPhoto($it->photo);
                     $itinerary->searchBricks();
                     $this->aggregator->add($itinerary);
                 }

@@ -1,14 +1,14 @@
 <?php $user = unserialize($_SESSION['utente']); ?>
 <?php 
-include_once '_login.php';
-include_once '_personalmenu.php' 
+include_once 'partials/_login.php';
+include_once 'partials/_personalmenu.php' 
 ?>
 <div id="my_itineray">
 <h2><?php echo $this->model->getName(); ?></h2>
 <p><?php echo $this->model->getDescription(); ?></p>
 </div>
 <div id="stage">
-<h3>Tappe</h3><a href="index.php?op=searchStay" >Search stay</a>
+<h3>Tappe</h3><a href="index.php?op=searchStays" >Search stay</a>
 </div>
 
 <div id="stages">

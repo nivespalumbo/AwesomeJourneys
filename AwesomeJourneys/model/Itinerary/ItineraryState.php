@@ -5,34 +5,44 @@ abstract class ItineraryState{
     protected $id;
     protected $name;
     protected $description;
+    protected $startLocation;
+    protected $endLocation;
     protected $photo;
     protected $creator;
     
     protected $staySearchResult;
     protected $itineraryBricks;
     
+    
+    
     public function getId() { return $this->id; }
     public function getName() { return $this->name; }
     public function getDescription() { return $this->description; }
+    public function getStartLocation() { return $this->startLocation; }
+    public function getEndLocation() { return $this->endLocation; }
     public function getPhoto() { return $this->photo; }
     public function getItineraryBricks() { return $this->itineraryBricks; }
-//    public function getBrick($idBrick) {
-//        if(array_key_exists($idBrick, $this->itineraryBricks)){
-//            return $this->itineraryBricks[$idBrick];
-//        }
-//        return NULL;
-//    }
     abstract function getType();
     public function getStaySearchResult(){
         if($this->staySearchResult == NULL){
             $this->staySearchResult = new StaySearchResult();
-            $this->staySearchResult->searchStay();
+            $this->staySearchResult->searchStay("SELECT * "
+                                              . "FROM stay_template "
+                                              . "WHERE start_location='$this->startLocation' "
+                                                    . "OR end_location='$this->startLocation';");
         }
         return $this->staySearchResult; 
     } 
     
+    
+    
     public function setPhoto($photo) { $this->photo = $photo; }
+    public function setStartLocation($startLocation) { $this->startLocation = $startLocation; }
+    public function setEndLocation($endLocation) { $this->endLocation = $endLocation; }
 
+ 
+ 
+    
     public function addBrick(ItineraryBrick $brick){
         if(!array_key_exists($brick->getId(), $this->itineraryBricks)){
             if($this->saveBrickInDb($brick)){
@@ -76,8 +86,8 @@ abstract class ItineraryState{
     }
     
     protected function saveInDb(){
-        $insert1 = "INSERT INTO itinerary(itinerary_creator, state, name, description";
-        $insert2 = " VALUES('$this->creator', ".$this->getType().", '$this->name', '$this->description'";
+        $insert1 = "INSERT INTO itinerary(itinerary_creator, state, name, description, start_location";
+        $insert2 = " VALUES('$this->creator', ".$this->getType().", '$this->name', '$this->description', '$this->startLocation'";
         if($this->photo != NULL){
             $insert1 .= ", photo";
             $insert2 .= ", '$this->photo'";

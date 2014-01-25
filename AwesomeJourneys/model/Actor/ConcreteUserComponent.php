@@ -60,8 +60,8 @@ class ConcreteUserComponent extends UserComponent{
         return $this->itineraryContext->getItinerary();
     }
     
-    public function createItinerary($name, $description){
-        $itinerary = new PartialItinerary($this->mail, $name, $description);
+    public function createItinerary($name, $description, $location){
+        $itinerary = new PartialItinerary($this->mail, $name, $description, $location);
         $this->itineraryContext = new ItineraryContext($itinerary);
     }
     

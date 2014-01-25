@@ -32,4 +32,4 @@ while($journey = $this->model->fetchObject()){
           </div>";
 }
 ?>
-<div id="search_link"><a href="index.php?op=searchItineraryOrJourney" >Cerca</a></div>
+<div id="search_link"><a href="index.php?op=openSearch" >Cerca</a></div>

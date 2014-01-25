@@ -17,23 +17,19 @@ class JourneySearchResult {
     public function __sleep() {
         return array("aggregator", "iterator");
     }
-
     public function __wakeup() {
         
     }
 
     
-    /*
-     * DA MODIFICARE, CREARE UN'ALTRA FUNZIONE PRIVATA CHE RICERCA IN DB
-     */
     public function search($query = NULL){
         $c = new Connection();
         
         if($query == NULL){
             $query = "SELECT * "
-                   . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
-                   . "WHERE journey.published=1 "
-                   . "ORDER BY start_date;";
+                    . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
+                    . "WHERE journey.published=1 "
+                    . "ORDER BY start_date;";
         }
         
         if($c){
@@ -41,7 +37,9 @@ class JourneySearchResult {
             $c->close();
             if($table){
                 foreach($table as $j){
-                    $itinerary = new CompleteItinerary($j->itinerary_creator, $j->name, $j->description, $j->itinerary, $j->photo);
+                    $itinerary = new CompleteItinerary($j->itinerary_creator, $j->name, $j->description, $j->start_location, $j->itinerary);
+                    $itinerary->setEndLocation($j->end_location);
+                    $itinerary->setPhoto($j->photo);
                     if($j->published == 1){
                         $this->aggregator->add(new PublishedJourney($j->id_journey, $itinerary, $j->start_date, $j->end_date, $j->creator, $j->publish_date));
                     }
