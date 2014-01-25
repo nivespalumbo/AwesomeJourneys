@@ -49,12 +49,12 @@ include_once 'partials/_personalmenu.php'
             echo "<b>".$a->getName()."</b>"
                  . "<div><span>Tipo: ".$a->getAccomodationType()."</span>"
                  . "<span>Location: ".$a->getLocation()."</span></div>";
-            if($a->getId() != $tappa->getSelectedAccomodation()){ 
+            if($a->getId() != $tappa->getSelectedAccomodation()->getId()){ 
                 echo "<div class='add_remove_to_stage'><a href='index.php?op=addAccomodation&idStay=".$tappa->getId()."&idAccomodation=".$a->getId()."' >Scegli questo pernottamento</a></div>";
             }
             else {
-                echo "<div class='add_remove_to_stage'><a href='index.php?op=modifyAccomodation&id=".$a->getId()."' >Modifica</a></div>"
-                   . "<div class='add_remove_to_stage'><a href='index.php?op=removeAccomodation&id=".$a->getId()."' >Rimuovi</a></div>";
+                echo "<div class='add_remove_to_stage'><a href='index.php?op=modifyAccomodation&id=".$tappa->getId()."' >Modifica</a></div>"
+                   . "<div class='add_remove_to_stage'><a href='index.php?op=removeAccomodation&id=".$tappa->getId()."' >Rimuovi</a></div>";
             }
             echo "</div>";
         }

@@ -64,7 +64,7 @@ class NavigationController {
                 $this->addStay();
                 break;
             case 'modifyStay':
-                $this->modifyStay();
+                $this->openFormStay();
                 break;
             case 'removeStay':
                 $this->removeStay();
@@ -73,7 +73,7 @@ class NavigationController {
                 $this->addActivity();
                 break;
             case 'modifyActivity' :
-                $this->modifyActivity();
+                $this->openFormActivity();
                 break;
             case 'deleteActivity' :
                 $this->removeActivity();
@@ -82,7 +82,7 @@ class NavigationController {
                 $this->addAccomodation();
                 break;
             case 'modifyAccomodation':
-                $this->modifyAccomodation();
+                $this->openFormAccomodation();
                 break;
             case 'removeAccomodation' :
                 $this->removeAccomodatio();
@@ -111,6 +111,15 @@ class NavigationController {
                 break;
             case 'provideBasicInfo':
                 $this->provideBasicInfo(); //l'utente ha inserito le info base, si crea l'itinerario e viene visualizzato
+                break;
+            case 'setOptionStay':
+                $this->modifyStay();
+                break;
+            case 'setOptionActivity' :
+                $this->modifyActivity();
+                break;
+            case 'setOptionAccomodation' :
+                $this->modifyAccomodation();
                 break;
         }
     }
@@ -281,9 +290,19 @@ class NavigationController {
         }
     }
     
+    private function openFormStay(){
+        $c = new ManagementController();
+        if($this->model = $c->getBrick($_GET['id'])){
+            require_once 'view/personalize_stay.php';
+        }
+        else {
+            $this->error("Sessione inesistente.");
+        }
+    }
+    
     private function modifyStay(){
         $c = new ManagementController();
-        if($this->model = $c->modifyStay($_GET['id'])){
+        if($this->model = $c->modifyStay($_POST['id'])){
             require_once 'view/personalize_stay.php';
         }
         else {
@@ -311,9 +330,19 @@ class NavigationController {
         }
     }
     
+    private function openFormActivity(){
+        $c = new ManagementController();
+        if($this->model = $c->getBrickActivity($_GET['idStay'], $_GET['idActivity'])){
+            require_once 'view/personalize_activity.php';
+        }
+        else {
+            $this->error("Sessione inesistente.");
+        }
+    }
+    
     private function modifyActivity(){
         $c = new ManagementController();
-        if($this->model = $c->modifyActivity($_GET['idStay'], $_GET['idActivity'])){
+        if($this->model = $c->modifyActivity($_POST['idStay'], $_POST['idActivity'])){
             require_once 'view/personalize_activity.php';
         }
         else {
@@ -341,9 +370,19 @@ class NavigationController {
         }
     } 
     
+    private function openFormAccomodation(){
+        $c = new ManagementController();
+        if($this->model = $c->getBrickAccomodation($_GET['id'])){
+            require_once 'view/personalize_accomodation.php';
+        }
+        else {
+            $this->error("Sessione inesistente.");
+        }
+    }
+    
     private function modifyAccomodation(){
         $c = new ManagementController();
-        if($this->model = $c->modifyAccomodation($_GET['idStay'], $_GET['idAccomodation'])){
+        if($this->model = $c->modifyAccomodation($_POST['idStay'], $_POST['idAccomodation'])){
             require_once 'view/personalize_accomodation.php';
         }
         else {

@@ -84,6 +84,22 @@ class ConcreteUserComponent extends UserComponent{
         return $stay->getComponent($idAccomodation);
     }
     
+    public function getBrick($idBrick){
+        $itinerary = $this->itineraryContext->getItinerary();
+        return $itinerary->getBrick($idBrick);
+    }
+    
+    public function getBrickActivity($idBrick, $idActivity){
+        $itinerary = $this->itineraryContext->getItinerary();
+        $brick = $itinerary->getBrick($idBrick);
+        return $brick->getSelectedActivity($idActivity);
+    }
+    
+    public function getBrickAccomodation($idBrick){
+        $itinerary = $this->itineraryContext->getItinerary();
+        return $itinerary->getBrick($idBrick)->getSelectedAccomodation();
+    }
+    
     
     
     /*

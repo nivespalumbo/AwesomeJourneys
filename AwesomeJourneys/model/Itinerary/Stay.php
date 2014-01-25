@@ -62,6 +62,12 @@ class Stay implements ItineraryBrick{
     }
     
     public function getSelectedActivities() { return $this->selectedActivities; }
+    public function getSelectedActivity($idActivity) {
+        if(array_key_exists($idActivity, $this->selectedActivities)){
+            return $this->selectedActivities[$idActivity];
+        }
+        return NULL;
+    }
     public function setSelectedActivities(Activity $activity){
         if(!array_key_exists($activity->getId(), $this->selectedActivities)){
             $this->selectedActivities[$activity->getId()] = $activity;
@@ -90,7 +96,7 @@ class Stay implements ItineraryBrick{
     public function getAccomodation($idAccomodation){
         return $this->template->getComponent($idAccomodation);
     }
-    public function getSelectedAccomodation() { return $this->selectedAccomodation; }
+    public function getSelectedAccomodation() { return $this->template->getComponent($this->selectedAccomodation); }
     public function setSelectedAccomodation($idAccomodation){
         $this->selectedAccomodation = $idAccomodation;
     }
@@ -155,6 +161,23 @@ class Stay implements ItineraryBrick{
         return FALSE;
     }
     
+    private function insertSelectedActivities(){
+        $c = new Connection();
+        if($c){
+            $query = "SELECT id_activity "
+                   . "FROM activity_in_stay "
+                   . "WHERE activity_in_stay.id_stay = '$this->id';";
+            //DA CONTROLLARE
+            $table = $c->execute_query($query);
+            $c->close();
+            if($table){
+                foreach($table as $a){
+                    $this->setSelectedActivities($this->template->getComponent($a->id_activity));
+                }  
+            }
+        }
+    }
+    
     public function saveInDb(Connection $c){
         if($c){
             $sql = "INSERT INTO stay (ID, template_id) "
@@ -177,6 +200,7 @@ class Stay implements ItineraryBrick{
                 if($template = $searchTemplate->fetchObject()){
                     $stay = new Stay($template, $idItinerary, $idStay);
                     $stay->setSelectedAccomodation($table[0]->accomodation_id);
+                    $stay->insertSelectedActivities();
                     return $stay;
                 }
             }

@@ -78,6 +78,9 @@ class Transfer implements ItineraryBrick{
     public function getSelectedActivities() {
         return FALSE;
     }
+    public function getSelectedActivity($idActivity) {
+        return FALSE;
+    }
 
     public function getStartDate() {
         return $this->startDate;

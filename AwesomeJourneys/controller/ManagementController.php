@@ -73,6 +73,32 @@ class ManagementController {
         return $user->getAccomodation($idStay, $idAccomodation);
     }
     
+    public function getBrick($id){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        return $user->getBrick($id);
+    }
+    
+    public function getBrickActivity($idBrick, $idActivity){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        return $user->getBrickActivity($idBrick, $idActivity);
+    }
+    
+    public function getBrickAccomodation($idBrick){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        return $user->getBrickAccomodation($idBrick);
+    }
     
     
     public function addStay($id){
