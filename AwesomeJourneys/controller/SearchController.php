@@ -37,7 +37,9 @@ class SearchController {
         session_start();
         if(isset($_SESSION['utente'])){
             $user = unserialize($_SESSION['utente']);
-            return $user->searchStays();
+            $model = $user->searchStays();
+            $_SESSION['utente'] = serialize($user);
+            return $model;
         }
         return FALSE;
     }
@@ -46,21 +48,12 @@ class SearchController {
         session_start();
         if(isset($_SESSION['utente'])){
             $user = unserialize($_SESSION['utente']);
-            return $user->searchActivities();
+            $model = $user->searchActivities();
+            $_SESSION['utente'] = serialize($user);
+            return $model;
         }
         return FALSE;
     }
-    
-//    // Da riguardare
-//    public function searchStay(){
-//        session_start();
-//        if(!isset($_SESSION['utente']))
-//            return FALSE;
-//        $user = unserialize($_SESSION['utente']);
-//        $user->searchStay();
-//        $_SESSION['utente'] = serialize($user);
-//        return $user->getStaySearchResult();
-//    }
     
     /**
      * Cerca tutti gli itinerari creati dall'utente loggato
@@ -119,6 +112,34 @@ class SearchController {
         $risultati['itineraries'] = $itinerarySearchResult;
         
         return $risultati;
+    }
+    
+    public function getJourney($id){
+        session_start();
+        if(isset($_SESSION['utente'])){
+            $user = unserialize($_SESSION['utente']);
+            return $user->getJourney($id);
+        }
+        else {
+            $searchResult = new JourneySearchResult();
+            $searchResult->search("SELECT * "
+                                . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "
+                                . "WHERE journey.id_journey=$id");
+            return $searchResult->fetchObject();
+        }
+    }
+    
+    public function getItinerary($id){
+        session_start();
+        if(isset($_SESSION['utente'])){
+            $user = unserialize($_SESSION['utente']);
+            return $user->getItinerary($id);
+        }
+        else {
+            $searchResult = new ItinerarySearchResult();
+            $searchResult->search("SELECT * FROM itinerary WHERE ID=$id");
+            return $searchResult->fetchObject();
+        }
     }
 }
 

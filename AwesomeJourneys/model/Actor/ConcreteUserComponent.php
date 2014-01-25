@@ -53,31 +53,42 @@ class ConcreteUserComponent extends UserComponent{
     
     
     
+    public function getJourney($id){
+        if($this->searchResultJourney){
+            return $this->searchResultJourney->getObject($id);
+        }
+        return NULL;
+    }
+    
     public function getItinerary($id = NULL){
-        if($id != NULL){
+        if($this->searchResultItinerary && $id != NULL){
             $this->itineraryContext = new ItineraryContext($this->searchResultItinerary->getObject($id));
         }
         return $this->itineraryContext->getItinerary();
     }
+    
+    
+    
+    /*
+     * MANAGE ITINERARY
+     */
     
     public function createItinerary($name, $description, $location){
         $itinerary = new PartialItinerary($this->mail, $name, $description, $location);
         $this->itineraryContext = new ItineraryContext($itinerary);
     }
     
-    
-    
     public function searchStays(){
         $itinerary = $this->itineraryContext->getItinerary();
         return $itinerary->getStaySearchResult();
     }
     
-    public function selectStay($idStay){
+    public function getStay($idStay){
         $stays = $this->itineraryContext->getItinerary()->getStaySearchResult();
         return $stays->getObject($idStay);
     }
     
-    public function addStay($idStay){
+    public function addBrick($idStay){
         $itinerary = $this->itineraryContext->getItinerary();
         $itinerary->addBrick($idStay);
     }

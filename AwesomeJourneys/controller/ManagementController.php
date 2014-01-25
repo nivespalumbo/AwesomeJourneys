@@ -29,7 +29,31 @@ class ManagementController {
         return $user->getItinerary();
     }
     
+    public function manageItinerary($id){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $model = $user->getItinerary($id);
+        $_SESSION['utente'] = serialize($user);
+        return $model;
+    }
+    
+    public function getStay($id){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        return $user->getStay($id);
+    }
+    
     public function insertStay($id){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
         $user = unserialize($_SESSION['utente']);
         $user->addBrick($id);
         $_SESSION['utente'] = serialize($user);

@@ -22,7 +22,7 @@ class CompleteItinerary extends ItineraryState{
     }
     
     public function __sleep() {
-        return array("id", "name", "description", 'startLocation', 'endLocation', "photo", "itineraryBricks", 'creator');
+        return array("id", "name", "description", 'startLocation', 'endLocation', "photo", 'staySearchResult', "itineraryBricks", 'creator');
     }
     public function __wakeup() { }
     

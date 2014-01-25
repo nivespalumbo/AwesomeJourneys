@@ -26,7 +26,7 @@ while($journey = $this->model->fetchObject()){
     echo "<div class='viaggio grid'>
             <img src='images/journeys/".$itinerary->getPhoto()."'>
             <span>
-                <h3>".$itinerary->getName()."</h3>
+                <h3><a href='index.php?op=selectJourney&id=".$journey->getId()."' >".$itinerary->getName()."</a></h3>
                 <p>".$itinerary->getDescription()."</p>
             </span>
           </div>";

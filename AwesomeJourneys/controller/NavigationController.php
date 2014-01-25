@@ -43,16 +43,22 @@ class NavigationController {
             case 'search' :
                 $this->search();
                 break;
+            case 'selectJourney':
+                $this->selectJourney();
+                break;
+            case 'selectItinerary' :
+                $this->selectItinerary();
+                break;
             
             // MANAGE ITINERARY BASE
             case 'openNewItinerary' :
                 $this->openFormNewItinerary(); //per aprire form di inserimento basic info
                 break;
+            case 'manageItinerary' :
+                $this->manageItinerary();
+                break;
             case 'searchStays' :
                 $this->searchStays(); // cerca stays inerenti all'itinerario
-                break;
-            case 'selectItinerary' :
-                $this->selectItinerary();
                 break;
             case 'selectStay' :
                 $this->selectStay();
@@ -60,6 +66,8 @@ class NavigationController {
             case 'insertStay' :
                 $this->insertStay();
                 break;
+            
+            // MANAGE ACTIVITIES IN STAY
             case 'selectActivity' :
                 $this->selectActivity();
                 break;
@@ -190,6 +198,18 @@ class NavigationController {
         require_once 'view/search.php';
     }
     
+    private function selectJourney(){
+        $c = new SearchController();
+        $this->model = $c->getJourney($_GET['id']);
+        require_once 'view/journey.php';
+    }
+    
+    private function selectItinerary(){
+        $c = new SearchController();
+        $this->model = $c->getItinerary($_GET['id']);
+        require_once 'view/itinerary.php';
+    }
+    
     
     
     /*
@@ -216,6 +236,16 @@ class NavigationController {
         }
     }
     
+    private function manageItinerary(){
+        $c = new ManagementController();
+        if($this->model = $c->manageItinerary($_GET['id'])){
+            require_once 'view/manage_itinerary.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
     private function searchStays(){
         $c = new SearchController();
         if($this->model = $c->searchStays()){
@@ -226,45 +256,34 @@ class NavigationController {
         }
     }
     
-    public function selectItinerary(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once 'view/error.php';
-        }
-        else {
-            $user = unserialize($_SESSION['utente']);;
-            $this->model = $user->getItinerary($_GET['id']);
-            $_SESSION['utente'] = serialize($user);
-            require_once 'view/itinerary.php';
-        }
-    }
-    
-    public function selectStay(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once 'view/error.php';
-        }
-        else {
-            $user = unserialize($_SESSION['utente']);
-            $this->model = $user->getStay($_GET['id']);
-            $_SESSION['utente'] = serialize($user);
+    private function selectStay(){
+        $c = new ManagementController();
+        if($this->model = $c->getStay($_GET['id'])){
             require_once 'view/stay.php';
         }
+        else {
+            $this->error("Errore");
+        }
     }
     
-    public function insertStay(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once 'view/error.php';
+    private function insertStay(){
+        $c = new ManagementController();
+        if($this->model = $c->insertStay($_GET['id'])){
+            require_once 'view/manage_itinerary.php';
         }
         else {
-            $c = new ManagementController();
-            $this->model = $c->insertStay($_GET['id']);
-            require_once 'view/itinerary.php';
+            $this->error("Errore");
         }
+//        session_start();
+//        if(!isset($_SESSION['utente'])){
+//            $this->model = "SESSIONE INESISTENTE";
+//            require_once 'view/error.php';
+//        }
+//        else {
+//            $c = new ManagementController();
+//            $this->model = $c->insertStay($_GET['id']);
+//            require_once 'view/itinerary.php';
+//        }
     }
     
     public function selectActivity(){

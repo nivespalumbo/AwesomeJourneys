@@ -43,8 +43,15 @@ abstract class ItineraryState{
  
  
     
-    public function addBrick(ItineraryBrick $brick){
-        if(!array_key_exists($brick->getId(), $this->itineraryBricks)){
+    public function addBrick($idBrick){
+        if(!array_key_exists($idBrick, $this->itineraryBricks)){
+            $brickTemplate = $this->staySearchResult->getObject($idBrick);
+            if($brickTemplate->getType() == STAY_TEMPLATE){
+                $brick = new Stay($brickTemplate, $this->id);
+            }
+            else {
+                $brick = new Transfer(0, $brickTemplate);
+            }
             if($this->saveBrickInDb($brick)){
                 $this->itineraryBricks[$brick->getId()] = $brick;
                 return TRUE;

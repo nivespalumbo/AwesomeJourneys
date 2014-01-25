@@ -20,7 +20,7 @@
                             if($photo != NULL){
                                 echo "<img src='images/journeys/".$photo."' />";
                             }
-                            echo "<h3>".$itinerary->getName()."</h3>";
+                            echo "<h3><a href='index.php?op=selectItinerary&id=".$itinerary->getId()."' >".$itinerary->getName()."</a></h3>";
                             echo "<p>".$itinerary->getDescription()."</p>";
                         }
                     }
@@ -39,7 +39,7 @@
                            if($photo != NULL){
                                 echo "<img src='images/journeys/".$photo."' />";
                            }
-                           echo "<h3>".$itinerary->getName()."</h3>";
+                           echo "<h3><a href='index.php?op=selectJourney&id=".$journey->getId()."' >".$itinerary->getName()."</a></h3>";
                            echo "<p>".$itinerary->getDescription()."</p>";
                            echo "<p>Dal <b>".$journey->getStartDate()."</b> al <b>".$journey->getEndDate()."</b></p>";
                            echo '</div>';
