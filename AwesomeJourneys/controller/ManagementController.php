@@ -33,6 +33,8 @@ class ManagementController {
         return $user->getItinerary();
     }
     
+    
+    
     public function manageItinerary($id){
         session_start();
         if(!isset($_SESSION['utente'])){
@@ -71,7 +73,9 @@ class ManagementController {
         return $user->getAccomodation($idStay, $idAccomodation);
     }
     
-    public function insertStay($id){
+    
+    
+    public function addStay($id){
         session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
@@ -82,6 +86,72 @@ class ManagementController {
         return $user->getItinerary();
     }
     
+    public function modifyStay($id){
+        
+    }
+    
+    public function removeStay($id){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $user->removeBrick($id);
+        $_SESSION['utente'] = serialize($user);
+        return $user->getItinerary();
+    }
+    
+    public function addActivity($idStay, $idActivity){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $model = $user->addActivity($idStay, $idActivity);
+        $_SESSION['utente'] = serialize($user);
+        return $model;
+    }
+    
+    public function modifyActivity($idStay, $idActivity){
+        
+    }
+    
+    public function removeActivity($idStay, $idActivity){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $user->removeActivity($idStay, $idActivity);
+        $_SESSION['utente'] = serialize($user);
+        return $user->getItinerary();
+    }
+    
+    public function addAccomodation($idStay, $idAccomodation){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $model = $user->addAccomodation($idStay, $idAccomodation);
+        $_SESSION['utente'] = serialize($user);
+        return $model;
+    }
+    
+    public function modifyAccomodation($idStay, $idAccomodation){
+        
+    }
+    
+    public function removeAccomodation($idStay){
+        session_start();
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $user->removeAccomodation($idStay);
+        $_SESSION['utente'] = serialize($user);
+        return $user->getItinerary();
+    }
 //    public function selectStay($id){
 //        if(!isset($_SESSION['utente']))
 //            return FALSE;
@@ -105,12 +175,7 @@ class ManagementController {
 //        return $user->manageActivityInStay($stayId);
 //    }
 //    
-//    public function searchActivity(){
-//        if(!isset($_SESSION['utente']))
-//            return FALSE;
-//        $user = unserialize($_SESSION['utente']);
-//        return $user->searchActivity();
-//    }
+//    
 //    
 //    public function saveStay(){
 //        if(!isset($_SESSION['utente']))
@@ -119,11 +184,7 @@ class ManagementController {
 //        $user->saveStay();
 //        return TRUE;
 //    }
-//    
-//    public function searchStay(){
-//        $searchController = new SearchController();
-//        return $searchController->searchStay();
-//    }
+
 //    
 //    public function removeActivity($idList){
 //        if(!isset($_SESSION['utente']))

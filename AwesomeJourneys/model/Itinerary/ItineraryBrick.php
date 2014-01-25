@@ -26,7 +26,7 @@ interface ItineraryBrick {
     /**
      * Salva in database l'attività e la inserisce tra le attività selezionate
      */
-    public function selectActivity($idActivity);
+    public function addActivity($idActivity);
     /**
      * Rimuove dal database l'attività e la rimuove anche dalle attività selezionate
      */
@@ -47,7 +47,7 @@ interface ItineraryBrick {
     /**
      * Salva in database l'accomodation e la setta
      */
-    public function selectAccomodation($idAccomodation);
+    public function addAccomodation($idAccomodation);
     /**
      * Rimuove dal database l'accomodation e la rende nulla
      */

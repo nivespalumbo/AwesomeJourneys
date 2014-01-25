@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Gen 25, 2014 alle 11:46
+-- Generato il: Gen 25, 2014 alle 16:17
 -- Versione del server: 5.6.12-log
 -- Versione PHP: 5.4.12
 
@@ -280,15 +280,14 @@ CREATE TABLE IF NOT EXISTS `itinerary_brick` (
   `id_itinerary` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `id_itinerary` (`id_itinerary`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dump dei dati per la tabella `itinerary_brick`
 --
 
 INSERT INTO `itinerary_brick` (`ID`, `start_location`, `end_location`, `start_date`, `end_date`, `type`, `id_itinerary`) VALUES
-(9, 'Champoluc', 'Champoluc', '2014-07-16 00:00:00', '2014-07-20 00:00:00', 0, 41),
-(10, 'Champoluc', 'Champoluc', '2014-07-16 00:00:00', '2014-07-20 00:00:00', 0, 41);
+(15, 'Champoluc', 'Champoluc', '2014-07-16 00:00:00', '2014-07-20 00:00:00', 0, 41);
 
 -- --------------------------------------------------------
 
@@ -367,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `stay` (
 --
 
 INSERT INTO `stay` (`ID`, `template_id`, `accomodation_id`, `id_going_transport`, `id_return_transport`) VALUES
-(9, 8, NULL, NULL, NULL);
+(15, 8, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -554,8 +553,8 @@ ALTER TABLE `activity`
 -- Limiti per la tabella `activity_in_stay`
 --
 ALTER TABLE `activity_in_stay`
-  ADD CONSTRAINT `activity_in_stay_ibfk_1` FOREIGN KEY (`id_stay`) REFERENCES `stay` (`ID`),
-  ADD CONSTRAINT `activity_in_stay_ibfk_2` FOREIGN KEY (`id_activity`) REFERENCES `activity` (`ID`);
+  ADD CONSTRAINT `activity_in_stay_ibfk_2` FOREIGN KEY (`id_activity`) REFERENCES `activity` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `activity_in_stay_ibfk_1` FOREIGN KEY (`id_stay`) REFERENCES `stay` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `activity_in_stay_template`
@@ -587,11 +586,11 @@ ALTER TABLE `journey`
 -- Limiti per la tabella `stay`
 --
 ALTER TABLE `stay`
+  ADD CONSTRAINT `stay_ibfk_6` FOREIGN KEY (`id_return_transport`) REFERENCES `transport` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `stay_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `stay_template` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `stay_ibfk_2` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodation` (`ID`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `stay_ibfk_2` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodation` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `stay_ibfk_4` FOREIGN KEY (`ID`) REFERENCES `itinerary_brick` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `stay_ibfk_5` FOREIGN KEY (`id_going_transport`) REFERENCES `transport` (`ID`) ON DELETE SET NULL ON UPDATE SET NULL,
-  ADD CONSTRAINT `stay_ibfk_6` FOREIGN KEY (`id_return_transport`) REFERENCES `transport` (`ID`) ON DELETE SET NULL ON UPDATE SET NULL;
+  ADD CONSTRAINT `stay_ibfk_5` FOREIGN KEY (`id_going_transport`) REFERENCES `transport` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `stay_template`

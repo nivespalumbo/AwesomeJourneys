@@ -67,7 +67,7 @@ class Stay implements ItineraryBrick{
             $this->selectedActivities[$activity->getId()] = $activity;
         }
     }
-    public function selectActivity($idActivity){
+    public function addActivity($idActivity){
         if($this->saveActivityInDb($idActivity)){
             $this->selectedActivities[$idActivity] = $this->template->getActivities()[$idActivity];
             return TRUE;
@@ -87,11 +87,14 @@ class Stay implements ItineraryBrick{
     public function getAccomodations(){
         return $this->template->getAccomodations();
     }
+    public function getAccomodation($idAccomodation){
+        return $this->template->getComponent($idAccomodation);
+    }
     public function getSelectedAccomodation() { return $this->selectedAccomodation; }
     public function setSelectedAccomodation($idAccomodation){
         $this->selectedAccomodation = $idAccomodation;
     }
-    public function selectAccomodation($idAccomodation) {
+    public function addAccomodation($idAccomodation) {
         if($this->saveAccomodationInDb($idAccomodation)){
             $this->selectedAccomodation = $idAccomodation;
             return TRUE;
@@ -122,7 +125,7 @@ class Stay implements ItineraryBrick{
     private function removeActivityFromDb($idActivity){
         $c = new Connection();
         if($c){
-            $query = "REMOVE FROM activity_in_stay WHERE id_stay=$this->id AND id_activity=$idActivity;";
+            $query = "DELETE FROM activity_in_stay WHERE id_stay=$this->id AND id_activity=$idActivity;";
             if($c->execute_non_query($query)){
                 return TRUE;
             }
@@ -197,27 +200,10 @@ class Stay implements ItineraryBrick{
 //        $this->selectedReturn = $transport;
 //    }
 //    
-//    public function selectAccomodation($accomodation) {
-//        $this->accomodationComponents[$accomodation->getId()] = $accomodation;
-//        return TRUE;
-//    }
-//    
-//    public function removeSelectedActivity($idList){
-//        foreach($idList as $id){
-//            if(isset($this->attivita[$id])){
-//                unset($this->attivita[$id]);
-//            }
-//        }
-//    }
-//    
 //    public function visualizza_tappe() {
 //        $ris = array();
 //        $ris[$this->stayId] = $this;
 //        return $ris;
-//    }
-//
-//    public function getId() {
-//        return $this->stayId;
 //    }
 //
 //    public function selectActivity($activityIdList, $stayId) {
@@ -230,10 +216,6 @@ class Stay implements ItineraryBrick{
 //            }    
 //        }
 //        return $ris;
-//    }
-//
-//    public function getAccomodations() {
-//        return $this->stayTemplate->getAccomodations();
 //    }
 //
 //    public function getLocation() {

@@ -60,8 +60,14 @@ class NavigationController {
             case 'searchStays' :
                 $this->searchStays(); // cerca stays inerenti all'itinerario
                 break;
-            case 'insertStay' :
-                $this->insertStay();
+            case 'addStay' :
+                $this->addStay();
+                break;
+            case 'modifyStay':
+                $this->modifyStay();
+                break;
+            case 'removeStay':
+                $this->removeStay();
                 break;
             case 'addActivity' :
                 $this->addActivity();
@@ -70,10 +76,16 @@ class NavigationController {
                 $this->modifyActivity();
                 break;
             case 'deleteActivity' :
-                $this->deleteActivity();
+                $this->removeActivity();
                 break;
             case 'addAccomodation' :
                 $this->addAccomodation();
+                break;
+            case 'modifyAccomodation':
+                $this->modifyAccomodation();
+                break;
+            case 'removeAccomodation' :
+                $this->removeAccomodatio();
                 break;
             
             // SELEZIONE OGGETTI
@@ -259,20 +271,106 @@ class NavigationController {
         }
     }
     
-    private function selectStay(){
+    private function addStay(){
         $c = new ManagementController();
-        if($this->model = $c->getStay($_GET['id'])){
-            require_once 'view/stay.php';
+        if($this->model = $c->addStay($_GET['id'])){
+            require_once 'view/personalize_stay.php';
         }
         else {
             $this->error("Errore");
         }
     }
     
-    private function insertStay(){
+    private function modifyStay(){
         $c = new ManagementController();
-        if($this->model = $c->insertStay($_GET['id'])){
+        if($this->model = $c->modifyStay($_GET['id'])){
+            require_once 'view/personalize_stay.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
+    private function removeStay(){
+        $c = new ManagementController();
+        if($this->model = $c->removeStay($_GET['id'])){
             require_once 'view/manage_itinerary.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
+    private function addActivity(){
+        $c = new ManagementController();
+        if($this->model = $c->addActivity($_GET['idStay'], $_GET['idActivity'])){
+            require_once 'view/personalize_activity.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
+    private function modifyActivity(){
+        $c = new ManagementController();
+        if($this->model = $c->modifyActivity($_GET['idStay'], $_GET['idActivity'])){
+            require_once 'view/personalize_activity.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
+    private function removeActivity(){
+        $c = new ManagementController();
+        if($this->model = $c->removeActivity($_GET['idStay'], $_GET['idActivity'])){
+            require_once 'view/manage_itinerary.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
+    private function addAccomodation(){
+        $c = new ManagementController();
+        if($this->model = $c->addAccomodation($_GET['idStay'], $_GET['idAccomodation'])){
+            require_once 'view/personalize_accomodation.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    } 
+    
+    private function modifyAccomodation(){
+        $c = new ManagementController();
+        if($this->model = $c->modifyAccomodation($_GET['idStay'], $_GET['idAccomodation'])){
+            require_once 'view/personalize_accomodation.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
+    private function removeAccomodation(){
+        $c = new ManagementController();
+        if($this->model = $c->removeAccomodation($_GET['id'])){
+            require_once 'view/manage_itinerary.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
+    
+    
+    /*
+     * SELEZIONE OGGETTI
+     */
+    
+    private function selectStay(){
+        $c = new ManagementController();
+        if($this->model = $c->getStay($_GET['id'])){
+            require_once 'view/stay.php';
         }
         else {
             $this->error("Errore");
@@ -298,45 +396,6 @@ class NavigationController {
             $this->error("Errore");
         }
     }
-    
-    private function addActivity(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once 'view/error.php';
-        }
-        else {
-            $user = unserialize($_SESSION['utente']);
-            $this->model = $user->getActivity($_GET['id']);
-        }
-    }
-    
-    private function modifyActivity(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once 'view/error.php';
-        }
-        else {
-            $user = unserialize($_SESSION['utente']);
-            
-        }
-    }
-    
-    private function deleteActivity(){
-        session_start();
-        if(!isset($_SESSION['utente'])){
-            $this->model = "SESSIONE INESISTENTE";
-            require_once 'view/error.php';
-        }
-        else {
-            $c = new ManagementController();
-        }
-    }
-    
-    private function addAccomodation(){
-        
-    } 
 }
     
 ?>

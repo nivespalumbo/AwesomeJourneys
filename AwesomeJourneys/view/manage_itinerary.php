@@ -19,6 +19,8 @@ include_once 'partials/_personalmenu.php'
         echo "<div id='select_stages'>"
             . "<label>".$tappa->getTemplate()->getName()."</label>"
             . "<p>".$tappa->getTemplate()->getDescription()."</p>"
+            . "<div class='add_remove_to_stage'><a href='index.php?op=modifyStay&id=".$tappa->getId()."' >Modifica tappa</a></div>"
+            . "<div class='add_remove_to_stage'><a href='index.php?op=removeStay&id=".$tappa->getId()."' >Elimina tappa</a></div>"
             . "<div>"
             . "<div class='activity_title'><h3>Attivita'</h3></div>"; 
         $attivitaPreviste = $tappa->getActivities();
@@ -28,11 +30,12 @@ include_once 'partials/_personalmenu.php'
             echo "<b>".$attivita->getName()."</b>"
                  . "<p>".$attivita->getDescription()."</p>";
             if(array_key_exists($attivita->getId(), $attivitaSelezionate)){
-                echo "<a href='index.php?op=modifyActivity&id=".$attivita->getId()."' >Modifica</a>";
-                echo "<a href='index.php?op=deleteActivity&id=".$attivita->getId()."' >Elimina</a>";
+                echo "<div class='add_remove_to_stage'><a href='index.php?op=modifyActivity&idStay=".$tappa->getId()."&idActivity=".$attivita->getId()."' >Modifica</a></div>";
+                echo "<div class='add_remove_to_stage'><a href='index.php?op=deleteActivity&idStay=".$tappa->getId()."&idActivity=".$attivita->getId()."' >Elimina</a></div>";
             }
             else {
-                echo "<div class='add_remove_to_stage'><a href='index.php?op=addActivity&id=".$attivita->getId()."' >Aggiungi alla tappa</a></div>";
+                echo "<div class='add_remove_to_stage'>"
+                     . "<a href='index.php?op=addActivity&idStay=".$tappa->getId()."&idActivity=".$attivita->getId()."' >Aggiungi alla tappa</a></div>";
             }
             echo "</div>";
         }
@@ -47,10 +50,11 @@ include_once 'partials/_personalmenu.php'
                  . "<div><span>Tipo: ".$a->getAccomodationType()."</span>"
                  . "<span>Location: ".$a->getLocation()."</span></div>";
             if($a->getId() != $tappa->getSelectedAccomodation()){ 
-                echo "<div class='add_remove_to_stage'><a href='index.php?op=chooseAccomodation&id=".$a->getId()."' >Scegli questo pernottamento</a></div>";
+                echo "<div class='add_remove_to_stage'><a href='index.php?op=addAccomodation&idStay=".$tappa->getId()."&idAccomodation=".$a->getId()."' >Scegli questo pernottamento</a></div>";
             }
             else {
-                echo "<div class='add_remove_to_stage'><a href='index.php?op=removeAccomodation&id=".$a->getId()."' >Rimuovi</a></div>";
+                echo "<div class='add_remove_to_stage'><a href='index.php?op=modifyAccomodation&id=".$a->getId()."' >Modifica</a></div>"
+                   . "<div class='add_remove_to_stage'><a href='index.php?op=removeAccomodation&id=".$a->getId()."' >Rimuovi</a></div>";
             }
             echo "</div>";
         }

@@ -22,6 +22,12 @@ abstract class ItineraryState{
     public function getEndLocation() { return $this->endLocation; }
     public function getPhoto() { return $this->photo; }
     public function getItineraryBricks() { return $this->itineraryBricks; }
+    public function getBrick($idBrick){
+        if(array_key_exists($idBrick, $this->itineraryBricks)){
+            return $this->itineraryBricks[$idBrick];
+        }
+        return NULL;
+    }
     abstract function getType();
     public function getStaySearchResult(){
         if($this->staySearchResult == NULL){
@@ -43,19 +49,17 @@ abstract class ItineraryState{
  
  
     
-    public function addBrick($idBrick){
-        if(!array_key_exists($idBrick, $this->itineraryBricks)){
-            $brickTemplate = $this->staySearchResult->getObject($idBrick);
-            if($brickTemplate->getType() == STAY_TEMPLATE){
-                $brick = new Stay($brickTemplate, $this->id);
-            }
-            else {
-                $brick = new Transfer(0, $brickTemplate);
-            }
-            if($this->saveBrickInDb($brick)){
-                $this->itineraryBricks[$brick->getId()] = $brick;
-                return TRUE;
-            }
+    public function addBrick($idTemplate){
+        $brickTemplate = $this->staySearchResult->getObject($idTemplate);
+        if($brickTemplate->getType() == STAY_TEMPLATE){
+            $brick = new Stay($brickTemplate, $this->id);
+        }
+        else {
+            $brick = new Transfer(0, $brickTemplate);
+        }
+        if($this->saveBrickInDb($brick)){
+            $this->itineraryBricks[$brick->getId()] = $brick;
+            return TRUE;
         }
         return FALSE;
     }
@@ -65,6 +69,9 @@ abstract class ItineraryState{
     }
     
     public function removeBrick($idBrick){
+        if(!array_key_exists($idBrick, $this->itineraryBricks)){
+            return TRUE;
+        }
         if($this->removeBrickFromDb($idBrick)){
             unset($this->itineraryBricks[$idBrick]);
             return TRUE;

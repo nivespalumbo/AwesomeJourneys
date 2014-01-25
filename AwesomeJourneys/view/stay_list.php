@@ -12,7 +12,7 @@ while($stay = $this->model->fetchObject()){
          . "<div><span class='date'><label>Disponibile dal </label>".$stay->getStartDate()."</span>"
          . "<span class='date'><label>al </label>".$stay->getEndDate()."</span></div>"
          . "<span class='see_more'><a href='index.php?op=selectStay&id=".$stay->getId()."'>Vedi di pi&ugrave</a>"
-         . "<a href='index.php?op=insertStay&id=".$stay->getId()."'>Aggiungi all'itinerario</a></span>"
+         . "<a href='index.php?op=addStay&id=".$stay->getId()."'>Aggiungi all'itinerario</a></span>"
          ."</div>";
 }
 ?>

@@ -44,7 +44,7 @@ class StaySearchResult {
             $table = $c->execute_query($query);
             if($table){
                 foreach($table as $acc){
-                    $accomodation = new Accomodation($acc->ID, $template->getId(), $acc->numero_disponibilita, $acc->template, $acc->address, $acc->type, $acc->description, $acc->category, $acc->name, $acc->link, $acc->photo, $acc->location);
+                    $accomodation = new Accomodation($acc->accomodation_id, $template->getId(), $acc->numero_disponibilita, $acc->template, $acc->address, $acc->type, $acc->description, $acc->category, $acc->name, $acc->link, $acc->photo, $acc->location);
                     $template->addComponent($accomodation);
                 }  
             }
