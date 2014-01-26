@@ -3,14 +3,14 @@ include_once 'StayTemplateComposite.php';
 include_once 'model/Activity/Activity.php';
 include_once 'model/Accomodation/Accomodation.php';
 include_once 'model/connection.php';
-include_once 'StayConcreteAggregator.php';
+include_once 'model/AJConcreteAggregator.php';
 
 class StaySearchResult {
     private $aggregator;
     private $iterator;
     
     public function __construct() {
-        $this->aggregator = new StayConcreteAggregator();
+        $this->aggregator = new AJConcreteAggregator();
     }
     
     public function __sleep() {
@@ -90,7 +90,7 @@ class StaySearchResult {
                         $stayTemplate->setDescription($st->description);
                         $this->insertAccomodation($stayTemplate, $c);
                         $this->insertActivity($stayTemplate, $c);
-                        $this->aggregator->add($stayTemplate);
+                        $this->aggregator->add($stayTemplate->getId(), $stayTemplate);
                     }
                 }  
             }
@@ -98,6 +98,7 @@ class StaySearchResult {
         }
         
         $this->iterator = $this->aggregator->getIterator(); 
+        
         while($stayTemplate = $this->fetchObject()){
             if(array_key_exists($stayTemplate->getId(), $struttura)){
                 foreach($struttura[$stayTemplate->getId()] as $childTemplateId){
@@ -105,7 +106,6 @@ class StaySearchResult {
                 }
             }
         }
-        $this->iterator->replay();
     }
     
     public function fetchObject() {

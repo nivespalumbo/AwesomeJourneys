@@ -1,7 +1,6 @@
 <?php
 include_once 'model/connection.php';
-include_once 'model/Journey/JourneyConcreteAggregator.php';
-include_once 'model/Journey/JourneyConcreteIterator.php';
+include_once 'model/AJConcreteAggregator.php';
 include_once 'model/Journey/Journey.php';
 include_once 'model/Journey/PublishedJourney.php';
 include_once 'model/Itinerary/CompleteItinerary.php';
@@ -11,7 +10,7 @@ class JourneySearchResult {
     private $iterator;
     
     public function __construct() {
-        $this->aggregator = new JourneyConcreteAggregator();
+        $this->aggregator = new AJConcreteAggregator();
     }
     
     public function __sleep() {
@@ -41,10 +40,10 @@ class JourneySearchResult {
                     $itinerary->setEndLocation($j->end_location);
                     $itinerary->setPhoto($j->photo);
                     if($j->published == 1){
-                        $this->aggregator->add(new PublishedJourney($j->id_journey, $itinerary, $j->start_date, $j->end_date, $j->creator, $j->publish_date));
+                        $this->aggregator->add($j->id_journey, new PublishedJourney($j->id_journey, $itinerary, $j->start_date, $j->end_date, $j->creator, $j->publish_date));
                     }
                     else{
-                        $this->aggregator->add (new Journey($j->id_journey, $itinerary, $j->start_date, $j->end_date, $j->creator));
+                        $this->aggregator->add ($j->id_journey, new Journey($j->id_journey, $itinerary, $j->start_date, $j->end_date, $j->creator));
                     }
                 }
             }
@@ -57,10 +56,6 @@ class JourneySearchResult {
             return $this->iterator->next();
         else
             return NULL;
-    }
-    
-    public function replay(){
-        $this->iterator->replay();
     }
     
     public function getObject($id){

@@ -60,6 +60,9 @@ class NavigationController {
             case 'searchStays' :
                 $this->searchStays(); // cerca stays inerenti all'itinerario
                 break;
+            case 'searchActivities':
+                $this->searchActivities();
+                break;
             case 'addStay' :
                 $this->addStay();
                 break;
@@ -280,6 +283,16 @@ class NavigationController {
         }
     }
     
+    private function searchActivities(){
+        $c = new SearchController();
+        if($this->model = $c->searchActivities()){
+            require_once 'view/activity_list.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
     private function addStay(){
         $c = new ManagementController();
         if($this->model = $c->addStay($_GET['id'])){
@@ -418,7 +431,7 @@ class NavigationController {
     
     private function selectActivity(){
         $c = new ManagementController();
-        if($this->model = $c->getActivity($_GET['idStay'], $_GET['idActivity'])){
+        if($this->model = $c->getActivity($_GET['id'])){
             require_once 'view/activity.php';
         }
         else {

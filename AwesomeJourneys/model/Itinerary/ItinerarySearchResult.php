@@ -1,7 +1,6 @@
 <?php
 include_once 'model/connection.php';
-include_once 'model/Itinerary/ItineraryConcreteAggregator.php';
-include_once 'model/Itinerary/ItineraryConcreteIterator.php';
+include_once 'model/AJConcreteAggregator.php';
 include_once 'model/Itinerary/CompleteItinerary.php';
 include_once 'model/Itinerary/PartialItinerary.php';
 
@@ -15,7 +14,7 @@ class ItinerarySearchResult {
     private $iterator;
     
     public function __construct() {
-        $this->aggregator = new ItineraryConcreteAggregator();
+        $this->aggregator = new AJConcreteAggregator();
     }
     
     public function __sleep() {
@@ -45,7 +44,7 @@ class ItinerarySearchResult {
                     $itinerary->setEndLocation($it->end_location);
                     $itinerary->setPhoto($it->photo);
                     $itinerary->searchBricks();
-                    $this->aggregator->add($itinerary);
+                    $this->aggregator->add($itinerary->getId(), $itinerary);
                 }
             }
         }

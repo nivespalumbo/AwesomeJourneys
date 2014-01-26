@@ -51,7 +51,7 @@ class ActivityTemplate implements Serializable{
         $this->endDate = $data['endDate'];
     }
 
-    public function getIdTemplate() {
+    public function getId() {
         return $this->idTemplate;
     }
     public function getName() {

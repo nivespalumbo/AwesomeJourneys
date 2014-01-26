@@ -1,7 +1,6 @@
 <?php
-include_once 'ActivityConcreteAggregator.php';
-include_once 'ActivityIterator.php';
-include_once 'Activity.php';
+include_once 'model/AJConcreteAggregator.php';
+include_once 'ActivityTemplate.php';
 /**
  * Description of ActivitySearchResult
  *
@@ -12,7 +11,7 @@ class ActivitySearchResult {
     private $iterator;
     
     public function __construct() {
-        $this->aggregator = new ActivityConcreteAggregator();
+        $this->aggregator = new AJConcreteAggregator();
     }
     
     public function __sleep() {
@@ -30,17 +29,17 @@ class ActivitySearchResult {
         $c = new Connection();
         
         if($query == NULL){
-            $query = "SELECT activity.ID as ID, activity_template.ID as IDTemplate, * "
-                   . "FROM activity INNER JOIN activity_template ON activity.template = activity_template.ID;";
+            $query = "SELECT * "
+                   . "FROM activity_template;";
         }
         
         if($c){
             $table = $c->execute_query($query);
             $c->close();
             if($table){
-                foreach($table as $act){
-                    $activity = new Activity($act->ID, $act->start_date, $act->stay_template, $act->end_date, $act->IDTemplate, $act->name, $act->address, $act->expected_duration, $act->location, $act->description);
-                    $this->aggregator->add($activity);
+                foreach($table as $row){
+                    $activity = new ActivityTemplate($row->ID, $row->name, $row->address, $row->expected_duration, $row->location, $row->description);
+                    $this->aggregator->add($activity->getId(), $activity);
                 }
             }
         }

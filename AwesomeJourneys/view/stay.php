@@ -11,10 +11,10 @@
         $activities = $this->model->getActivities();
         foreach($activities as $a){
             echo "<li>"
-                 . "<b>".$a->getName()."</b>"
-                 . "<p>".$a->getDescription()."</p>"
-                 . "<a href='index.php?op=selectActivity&idStay=".$this->model->getId()."&idActivity=".$a->getId()."'>Dimmi di più</a>"
-                 . "</li>";
+                 .  "<b>".$a->getName()."</b>"
+                 .  "<p>".$a->getDescription()."</p>"
+                 .  "<a href='index.php?op=selectActivity&id=".$a->getId()."&idStay=".$this->model->getId()."'>Dimmi di pi&ugrave</a>"
+                 ."</li>";
         }
         ?>
     </ul>

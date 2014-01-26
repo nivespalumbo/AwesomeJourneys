@@ -20,7 +20,6 @@
 
 <div id="our_journeys"><h2>I nostri viaggi</h2></div>
 <?php
-$this->model->replay();
 while($journey = $this->model->fetchObject()){
     $itinerary = $journey->getItinerary();
     echo "<div class='viaggio grid'>

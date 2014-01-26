@@ -51,8 +51,6 @@ abstract class UserComponent{
     abstract function getAddress();
     abstract function getTelephone();
     abstract function getMail();
-    abstract function setAddress($address);
-    abstract function setTelephone($telephone);
     
 //    abstract function searchStay();
 //    abstract function getStaySearchResult();

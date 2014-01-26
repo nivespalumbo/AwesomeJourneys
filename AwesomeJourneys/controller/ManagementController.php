@@ -55,13 +55,16 @@ class ManagementController {
         return $user->getStay($id);
     }
     
-    public function getActivity($idStay, $idActivity){
+    public function getActivity($id){
         session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
         $user = unserialize($_SESSION['utente']);
-        return $user->getActivity($idStay, $idActivity);
+        if(isset($_GET['idStay'])){
+            return $user->getActivity($id, $_GET['idStay']);
+        }
+        return $user->getActivity($id);
     }
     
     public function getAccomodation($idStay, $idAccomodation){

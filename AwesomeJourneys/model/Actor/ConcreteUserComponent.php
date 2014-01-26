@@ -13,9 +13,11 @@ class ConcreteUserComponent extends UserComponent{
     private $address;
     private $telephone;
     private $itineraryContext;
+    
     private $searchResultJourney = NULL;
     private $searchResultItinerary = NULL;
-
+    private $searchResultStay = NULL;
+    private $searchResultActivity = NULL;
 
     public function __construct($id, $mail, $name, $surname, $address, $telephone) {
         $this->session_id = $id;
@@ -25,11 +27,10 @@ class ConcreteUserComponent extends UserComponent{
         $this->address = $address;
         $this->telephone = $telephone;
         $this->itineraryContext = NULL;
-        $this->itinerary = NULL;
     }
     
     public function __sleep() {
-        return array('session_id', 'mail', 'name', 'surname', 'address', 'telephone', 'searchResultItinerary', 'searchResultJourney', 'itineraryContext');
+        return array('session_id', 'mail', 'name', 'surname', 'address', 'telephone', 'searchResultItinerary', 'searchResultJourney', 'searchResultStay', 'searchResultActivity', 'itineraryContext');
     }
     public function __wakeup() {
         
@@ -42,13 +43,19 @@ class ConcreteUserComponent extends UserComponent{
     public function getTelephone() {return $this->telephone; }
     public function getMail() {return $this->mail; }
     
-    public function setAddress($newAddress) { }
-    public function setTelephone($newTelephone) { }
+    
+    
     public function setJourneySearchResult(JourneySearchResult $searchResultJourney) {
         $this->searchResultJourney = $searchResultJourney;
     }
     public function setItinerarySearchResult(ItinerarySearchResult $searchResultItinerary) {
         $this->searchResultItinerary = $searchResultItinerary;
+    }
+    public function setStaySearchResult(StaySearchResult $searchResultStay) {
+        $this->searchResultStay = $searchResultStay;
+    }
+    public function setActivitySearchResult(ActivitySearchResult $searchResultActivity) {
+        $this->searchResultActivity = $searchResultActivity;
     }
     
     
@@ -67,21 +74,30 @@ class ConcreteUserComponent extends UserComponent{
         return $this->itineraryContext->getItinerary();
     }
     
-    public function getStay($idStay){
-        $stays = $this->itineraryContext->getItinerary()->getStaySearchResult();
-        return $stays->getObject($idStay);
+    public function getStay($id){
+        if($this->searchResultStay){
+            return $this->searchResultStay->getObject($id);
+        }
+        return NULL;
     }
     
-    public function getActivity($idStay, $idActivity){
-        $itinerary = $this->itineraryContext->getItinerary();
-        $stay = $itinerary->getStaySearchResult()->getObject($idStay);
-        return $stay->getComponent($idActivity);
+    public function getActivity($id, $idStay = NULL){
+        if($idStay != NULL){
+            if($this->searchResultStay){
+                return $this->searchResultStay->getObject($idStay)->getComponent($id);
+            }
+        }
+        else if($this->searchResultActivity){
+            return $this->searchResultActivity->getObject($id);           
+        }
+        return NULL;
     }
     
     public function getAccomodation($idStay, $idAccomodation){
-        $itinerary = $this->itineraryContext->getItinerary();
-        $stay = $itinerary->getStaySearchResult()->getObject($idStay);
-        return $stay->getComponent($idAccomodation);
+        if($this->searchResultStay){
+            return $this->searchResultStay->getObject($idStay)->getComponent($idAccomodation);
+        }
+        return NULL;
     }
     
     public function getBrick($idBrick){
@@ -112,8 +128,15 @@ class ConcreteUserComponent extends UserComponent{
     }
     
     public function searchStays(){
-        $itinerary = $this->itineraryContext->getItinerary();
-        return $itinerary->getStaySearchResult();
+        $this->searchResultStay = new StaySearchResult();
+        $this->searchResultStay->searchStay();
+        return $this->searchResultStay;
+    }
+    
+    public function searchActivities(){
+        $this->searchResultActivity = new ActivitySearchResult();
+        $this->searchResultActivity->search();
+        return $this->searchResultActivity;
     }
     
     public function addBrick($idTemplate){
