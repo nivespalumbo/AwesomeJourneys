@@ -1,0 +1,457 @@
+@import "reset.css";
+
+@font-face {
+    font-family: "Sprinklescolors";
+    src: url("Sprinklescolors.eot"); /* per IE */
+    src: local("Sprinklescolors.ttf"), url("Sprinklescolors.ttf") format('truetype');
+}
+
+a:link, a:hover, a:active, a:visited, a:focus {
+    color: #000000;
+    text-decoration: none;
+}
+
+body {
+    background-image: url("wallpaper.png");
+    background-position: 0% 0%;
+    background-origin: border-box;
+    background-attachment: fixed;
+    background-size: cover;
+    background-clip: border-box;
+    background-repeat: no-repeat;
+}
+
+h1, h2, h3, h4 {
+    font-family: "Sprinklescolors";
+}
+h1{
+    font-size: 50px;
+}
+h2{
+    font-size: 40px;
+}
+h3{
+    font-size: 30px;
+}
+h4{
+    font-size: 20px;
+}
+
+td{
+    padding: 5px;
+}
+
+button {
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9) );
+    background:-moz-linear-gradient( center top, #f9f9f9 5%, #e9e9e9 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9');
+    background-color:#f9f9f9;
+    -webkit-border-top-left-radius:20px;
+    -moz-border-radius-topleft:20px;
+    border-top-left-radius:20px;
+    -webkit-border-top-right-radius:20px;
+    -moz-border-radius-topright:20px;
+    border-top-right-radius:20px;
+    -webkit-border-bottom-right-radius:20px;
+    -moz-border-radius-bottomright:20px;
+    border-bottom-right-radius:20px;
+    -webkit-border-bottom-left-radius:20px;
+    -moz-border-radius-bottomleft:20px;
+    border-bottom-left-radius:20px;
+    text-indent:0;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#666666;
+    font-family:Arial;
+    font-size:15px;
+    font-weight:bold;
+    font-style:normal;
+    height:30px;
+    line-height:30px;
+    width:131px;
+    text-decoration:none;
+    text-align:center;
+    text-shadow:1px 1px 0px #ffffff;
+}
+button:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9) );
+    background:-moz-linear-gradient( center top, #e9e9e9 5%, #f9f9f9 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9');
+    background-color:#e9e9e9;
+}
+button:active {
+	position:relative;
+	top:1px;
+}
+/*DIV LOGIN*/
+#div_login{
+    margin-left: 5%;
+    width: auto;   
+    position:initial;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+#div_login > p > a{
+    /*background-color: #FFF;*/
+    padding: 10px 10px 5px 10px;
+    font-weight: bold;
+    border-radius: 2em 2em 3em 3em;
+}
+#div_login > p > a:hover, #div_login > p > a:focus{
+    background-color: #88cfdf; /*dodgerblue;*/
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
+}
+#s3slider {
+    width: 500px; /* important to be same as image width */
+    height: 300px; /* important to be same as image height */
+    box-shadow: 0px 0px 30px #57b6ce;
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-bottom: 5%;
+    position: relative; /* important */
+    overflow: hidden; /* important */
+    border-radius: 30px 60px 20px 20px;
+}
+#s3sliderContent {
+    width: 800px; /* important to be same as image width or wider */
+    position: absolute; /* important */
+    top: 0; /* important */
+    margin-left: 0; /* important */
+}
+.s3sliderImage {
+    float: left; /* important */
+    position: relative; /* important */
+    display: none; /* important */
+}
+.s3sliderImage span {
+    position: absolute; /* important */
+    left: 0;
+    font: 10px/15px Arial, Helvetica, sans-serif;
+    padding: 10px 13px;
+    width: 374px;
+    background-color: #000;
+    border-radius: 0px 25px 5px 5px;
+    filter: alpha(opacity=70); /* here you can set the opacity of box with text */
+    -moz-opacity: 0.7; /* here you can set the opacity of box with text */
+    -khtml-opacity: 0.7; /* here you can set the opacity of box with text */
+    opacity: 0.7; /* here you can set the opacity of box with text */
+    color: #fff;
+    display: none; /* important */
+    top: 0; /*
+        if you put top: 0;  -> the box with text will be shown 
+                                at the top of the image
+        if you put bottom: 0;  -> the box with text will be shown 
+                                at the bottom of the image
+    */
+}
+
+.clear {
+    clear: both;
+}
+
+#container {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+/*    padding: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 0.15em 0.15em 0.20em #000000;
+    border-radius: 2em 8em 2em 2em;
+    font-family: sans-serif;*/
+}
+
+#content-wrapper {
+    background-color: rgba(255, 255, 255, 0.4);
+    font-family: sans-serif;
+    padding: 10px;
+    min-width: 700px;
+    margin: 3px 0px 3px 0px;
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+    width: 100%;
+}
+
+#menu_personale{
+    z-index: 200;
+    float: left;
+    width: 20%;
+    height: 100%;
+}
+#menu_personale > ul{
+    z-index: 200;
+}
+#menu_personale > ul > li{
+    z-index: 200;
+}
+#menu_personale > ul > li > ul{
+     z-index: 200;
+}
+#menu_personale > ul > li > ul > li{
+    z-index: 200;
+}
+#content{
+    min-width: 700px;
+    z-index: 0;
+    float: left;
+    width: 80%;
+}
+
+header, footer{
+    clear: both;
+    width: 100%;
+    min-width: 700px;
+    padding: 10px;
+    background-color: #FFFFFF;
+}
+header{
+    border-radius: 2em 8em 0.5em 0.5em;
+}
+
+footer{
+    border-radius: 0.5em 0.5em 2em 2em;
+}
+
+/*menu*/
+header h1 {
+    font-size: 65px;
+    line-height: 95px;
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
+}
+
+header img {
+    float: left;
+    clear: none;
+    margin: 20px;
+}
+
+header p {
+    float:right;
+    color: #A8A8A8;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+header a {
+    color: #A8A8A8;
+}
+
+#menu {    
+    font-family: sans-serif;
+    float: right;
+    width: 80%;
+    text-align: center;
+    border-radius: 2em 2em 3em 3em;
+    background-color: #FFF;
+    //background: -webkit-linear-gradient(#2e94af, #88cfdf); /* For Safari */
+    //background: -o-linear-gradient(#2e94af, #88cfdf); /* For Opera 11.1 to 12.0 */
+    //background: -moz-linear-gradient(#2e94af, #88cfdf); /* For Firefox 3.6 to 15 */
+    //background: linear-gradient(#2e94af, #88cfdf); /* Standard syntax (must be last) */
+    //box-shadow: 0px 0px 5px #57b6ce;*/
+    /*box-shadow: 0.15em 0.15em 0.20em #000000;*/
+}
+
+#menu > ul > li {
+    display: inline-block;
+    padding: 10px 15px 10px 15px;
+    font-weight: bold;
+    border-radius: 2em 2em 3em 3em;
+}
+
+#menu > ul > li:hover, #menu > ul > li:focus, #menu > ul > li:active {
+    background-color: #88cfdf; /*dodgerblue;*/
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
+}
+
+#menu > ul > li > a:hover, #menu > ul > li > a:focus, #menu > ul > li >  a:active {
+    color: #FFFFFF;
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 1);
+}
+/*VIAGGI IN HOME PAGE*/
+.grid{
+    border-radius: 30px 60px 20px 20px;
+    background-color: rgba(214, 234, 240, 0.8);
+    box-shadow: 0px 0px 30px #57b6ce;
+    width:40%;
+    float:left;
+    margin-left:5%;
+    margin-right: 5%;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    
+    /*padding:5px;*/
+}
+.grid > img{
+    width: 100%;
+    box-shadow: 0px 0px 30px #57b6ce;
+    border-radius: 30px 60px 20px 20px;
+}
+
+.grid > span{
+    padding: 10px;
+}
+.grid > span > h3{
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
+    margin-left: 10px;
+}
+.grid > span > p{
+    margin-left: 10px;
+    margin-top: 5px;
+    text-overflow:ellipsis;
+}
+/*i nostri viaggi*/
+#our_journeys{
+    width:100%;
+    margin-left: 5%;
+}
+#our_journeys > h2{
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
+}
+
+/*STAY*/
+.stay{
+    border-radius: 30px 60px 20px 20px;
+    background-color: rgba(214, 234, 240, 0.8);
+    box-shadow: 0px 0px 30px #57b6ce;
+    width:40%;
+    float:left;
+    margin-left:2%;
+    margin-right: 3%;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    padding:10px;
+}
+.date{
+    width: 100%;
+    float: left;
+    margin-top:5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    margin-right: 30px;
+}
+.see_more{
+    width: 100%;
+    margin-top: 6px;
+    float: left;
+}
+.see_more > a{
+    /*background-color: #FFF;*/
+    padding: 10px 10px 5px 10px;
+    font-weight: bold;
+    border-radius: 2em 2em 3em 3em;
+}
+.see_more > a:hover, .see_more > a:hover{
+    background-color: #88cfdf; /*dodgerblue;*/
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
+}
+/*CERCA ITINERARIO*/
+#search_link{
+    float:left;
+    width: 100%;
+    margin-top: 1%;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+#search_link > a{
+    margin-left: 5%;
+    padding: 10px 10px 5px 10px;
+    border-radius: 2em 2em 3em 3em;
+}
+#search_link > a:hover, #search_link > a:focus{
+    background-color: #88cfdf; /*dodgerblue;*/
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
+}
+/*ITINERARY*/ 
+#my_itineray{
+    width: 60%;
+    float: left;
+    margin-left: 20%;
+}
+#my_itineray > h2{
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
+}
+#my_itineray > p {
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
+}
+#stage{
+    margin-left: 3%;
+    width: 100%;
+    float: left;
+}
+#stage > h3{
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
+}
+/*#stage > a{
+    margin-top: 10px;
+    padding: 10px 10px 5px 10px;
+    border-radius: 2em 2em 3em 3em;
+}
+#stage > a:hover, #stage > a:focus{
+    background-color: #88cfdf; 
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
+}*/
+#stages{
+    width: 100%;
+    float: left;
+    margin-top:2%;
+    
+}
+#select_stages{
+    margin-bottom: 2%;
+     border-radius: 30px 60px 20px 20px;
+    background-color: rgba(214, 234, 240, 0.8);
+    box-shadow: 0px 0px 30px #57b6ce;
+    float:left;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    padding:10px;
+}
+#select_stages > label{
+    margin-left: 3%;
+}
+#select_stages > p{
+    margin-left: 3%;
+}
+.activity_title{
+    float:left;
+    width: 80%;
+    margin-top: 2%;
+    margin-left:3%;
+}
+.activity_title > h3{
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
+}
+.activity{
+    border-radius: 30px 60px 20px 20px;
+    background-color: rgba(214, 234, 240, 0.8);
+    box-shadow: 0px 0px 30px #57b6ce;
+    width:40%;
+    float:left;
+    margin-left:3%;
+    margin-right: 3%;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    padding:10px;
+}
+.activity > b{
+    font-weight: bold;
+    text-shadow: 0.05em 0.05em 0.05em rgba(0, 0, 0, 0.3);
+    font-size: 1.2em;
+}
+.add_remove_to_stage{
+    margin: 3%;
+}
+.add_remove_to_stage > a{
+    padding: 10px 10px 5px 10px;
+    border-radius: 2em 2em 3em 3em;
+}
+.add_remove_to_stage > a:hover, .add_to_stage > a:focus{
+    background-color: #88cfdf; 
+    box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
+}

@@ -10,7 +10,6 @@ abstract class ItineraryState{
     protected $photo;
     protected $creator;
     
-    protected $staySearchResult;
     protected $itineraryBricks;
     
     
@@ -22,23 +21,28 @@ abstract class ItineraryState{
     public function getEndLocation() { return $this->endLocation; }
     public function getPhoto() { return $this->photo; }
     public function getItineraryBricks() { return $this->itineraryBricks; }
-    public function getBrick($idBrick){
-        if(array_key_exists($idBrick, $this->itineraryBricks)){
-            return $this->itineraryBricks[$idBrick];
+    abstract function getType();
+    
+    
+    
+    public function getBrick($id){
+        foreach($this->itineraryBricks as $brick){
+            if($brick->getId() == $id){
+                return $brick;
+            }
         }
         return NULL;
     }
-    abstract function getType();
-    public function getStaySearchResult(){
-        if($this->staySearchResult == NULL){
-            $this->staySearchResult = new StaySearchResult();
-            $this->staySearchResult->searchStay("SELECT * "
-                                              . "FROM stay_template "
-                                              . "WHERE start_location='$this->startLocation' "
-                                                    . "OR end_location='$this->startLocation';");
+    
+    public function getBrickIndex($id){
+        $index = -1;
+        while($this->itineraryBricks[++$index]->getId() != $id){}
+        if(array_count($this->itineraryBricks, COUNT_NORMAL) == $index){
+            return FALSE;
         }
-        return $this->staySearchResult; 
+        return $index;
     }
+    
     
     
     
@@ -58,23 +62,42 @@ abstract class ItineraryState{
             $brick = new Transfer(0, $brickTemplate);
         }
         if($this->saveBrickInDb($brick)){
-            $this->itineraryBricks[$brick->getId()] = $brick;
+            $this->insertInOrder($brick); //$this->itineraryBricks[$brick->getId()] = $brick;
             return TRUE;
         }
         return FALSE;
     }
     
-    public function insertBrick(ItineraryBrick $brick){
-        $this->itineraryBricks[$brick->getId()] = $brick;
+    public function addActivityFromTemplate($idStay, ActivityTemplate $template){
+        if($brick = $this->getBrick($idStay)){
+            $brick->addActivity();
+        }
+    }
+
+    public function insertInOrder(ItineraryBrick $brick){
+        $endLocation = $brick->getEndLocation();
+        
+        $temp = array();
+        while($b = array_shift($this->itineraryBricks)){
+            if(($b->getStartLocation() == $endLocation) || array_count($this->itineraryBricks, COUNT_NORMAL) == 0){
+                array_merge($temp, array($brick), $this->itineraryBricks);
+                break;
+            }
+            else {
+                array_push($temp, $b);
+            }
+        }
+        $this->itineraryBricks = $temp;
     }
     
     public function removeBrick($idBrick){
-        if(!array_key_exists($idBrick, $this->itineraryBricks)){
-            return TRUE;
-        }
-        if($this->removeBrickFromDb($idBrick)){
-            unset($this->itineraryBricks[$idBrick]);
-            return TRUE;
+        if($index = $this->getBrickIndex($idBrick)){
+            if($this->removeBrickFromDb($index)){
+                $upper = array_slice($this->itineraryBricks, 0, $index);
+                $lower = array_slice($this->itineraryBricks, $index+1);
+                $this->itineraryBricks = array_merge($upper, $lower);
+                return TRUE;
+            }
         }
         return FALSE;
     }
@@ -93,7 +116,7 @@ abstract class ItineraryState{
                     else{
                         $brick = Transfer::getTransfer($row->ID, $this->id);
                     }
-                    $this->insertBrick($brick);
+                    $this->insertInOrder($brick);
                 }
             }
         }

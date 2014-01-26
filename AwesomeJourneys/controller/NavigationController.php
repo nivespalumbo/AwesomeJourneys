@@ -63,6 +63,7 @@ class NavigationController {
             case 'searchActivities':
                 $this->searchActivities();
                 break;
+            
             case 'addStay' :
                 $this->addStay();
                 break;
@@ -72,6 +73,7 @@ class NavigationController {
             case 'removeStay':
                 $this->removeStay();
                 break;
+            
             case 'addActivity' :
                 $this->addActivity();
                 break;
@@ -81,6 +83,7 @@ class NavigationController {
             case 'deleteActivity' :
                 $this->removeActivity();
                 break;
+            
             case 'addAccomodation' :
                 $this->addAccomodation();
                 break;
@@ -255,7 +258,7 @@ class NavigationController {
     
     private function provideBasicInfo(){
         $c = new ManagementController();
-        if($this->model = $c->createItinerary($_GET['name'], $_GET['description'], $_GET['location'])){
+        if($this->model = $c->createItinerary($_POST['name'], $_POST['description'], $_POST['location'])){
             require_once 'view/itinerary.php';
         }
         else{
@@ -285,7 +288,8 @@ class NavigationController {
     
     private function searchActivities(){
         $c = new SearchController();
-        if($this->model = $c->searchActivities()){
+        if($this->model['activities'] = $c->searchActivities()){
+            $this->model['stay'] = $_GET['idStay'];
             require_once 'view/activity_list.php';
         }
         else {
@@ -335,7 +339,7 @@ class NavigationController {
     
     private function addActivity(){
         $c = new ManagementController();
-        if($this->model = $c->addActivity($_GET['idStay'], $_GET['idActivity'])){
+        if($this->model = $c->addActivity($_GET['idStay'], $_GET['id'])){
             require_once 'view/personalize_activity.php';
         }
         else {
@@ -416,7 +420,7 @@ class NavigationController {
     
     
     /*
-     * SELEZIONE OGGETTI
+     * VISUALIZZAZIONE SCHEDA INFO OGGETTI
      */
     
     private function selectStay(){
