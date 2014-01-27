@@ -2,6 +2,7 @@
 
 include_once 'ActivityTemplate.php';
 include_once 'model/StayTemplate/StayTemplateLeaf.php';
+include_once 'model/AJConnection.php';
 /**
  * Description of Activity
  *
@@ -40,6 +41,28 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
     }
 
     public function removeComponent($key) {
+        return FALSE;
+    }
+    
+    public function saveIntoDb(){
+        $c = new AJConnection();
+        try{
+            $c->beginTransaction();
+            $sql = "INSERT INTO stay_template_component(type, is_composite) "
+                 . "VALUES (".ACTIVITY.", 0);";
+            $c->executeNonQuery($sql);
+            $this->id = $c->lastInsertedId();
+            $sql = "INSERT INTO activity(ID, template, start_date, end_date) "
+                 . "VALUES ($this->id, $this->idTemplate, '$this->start', '$this->end');";
+            $c->executeNonQuery($sql);
+            $c->commit();
+            $c->close();
+            return TRUE;
+        } catch (Exception $ex) {
+            $c->rollback();
+            $c->close();
+            return FALSE;
+        }
         return FALSE;
     }
 

@@ -42,7 +42,7 @@ class JourneySearchResult {
             $c->close();
             if($table){
                 foreach($table as $row){
-                    $itinerary = new CompleteItinerary($row->itinerary, $row->name, $row->description);
+                    $itinerary = new CompleteItinerary($row->itinerary, $row->name, $row->description, $row->itinerary_creator);
                     $itinerary->setPhoto($row->photo);
                     
                     if($row->published == 1){

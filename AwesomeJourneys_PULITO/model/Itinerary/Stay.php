@@ -9,16 +9,16 @@ class Stay implements ItineraryBrick{
     private $id;
     private $startLocation;
     private $endLocation;
-    private $templateId;
+    private $template;
     
     private $selectedActivities;
     private $selectedAccomodation;
     
-    function __construct($id, $startLocation, $endLocation, $templateId) {
+    function __construct($id, $startLocation, $endLocation, StayTemplateComposite $template) {
         $this->id = $id;
         $this->startLocation = $startLocation;
         $this->endLocation = $endLocation;
-        $this->templateId = $templateId;
+        $this->template = $template;
         
         $this->selectedActivities = array();
         $this->selectedAccomodation = NULL;
@@ -44,8 +44,8 @@ class Stay implements ItineraryBrick{
         return STAY;
     }
 
-    public function getTemplateId() {
-        return $this->templateId;
+    public function getTemplate() {
+        return $this->template;
     }
 
     public function setStartLocation($startLocation) {
@@ -57,6 +57,9 @@ class Stay implements ItineraryBrick{
     }
     
     public function addActivity(Activity $a){
+        if($a->getId() == NULL){
+            $a->saveIntoDb();
+        }
         if($this->saveActivityInDb($a->getId())){
             $this->selectedActivities[$a->getId()] = $a;
         }
@@ -91,14 +94,14 @@ class Stay implements ItineraryBrick{
     public function insertInDb(AJConnection $c){
         if($c){
             $sql = "INSERT INTO stay (ID, template_id) "
-                 . "VALUES ($this->id, $this->templateId);";
+                 . "VALUES ($this->id, ".$this->template->getId().");";
             $c->executeNonQuery($sql);
             return TRUE;
         }
         return FALSE;
     }
     
-    private function saveActivityInDb($idActivity){
+    private function saveActivityInDb($idActivity = NULL){
         $c = new AJConnection();
         if($c){
             $query = "INSERT INTO activity_in_stay(id_stay, id_activity) VALUES ($this->id, $idActivity);";
@@ -151,7 +154,7 @@ class Stay implements ItineraryBrick{
     }
 
     public function __sleep() {
-        return array('id', 'startLocation', 'endLocation', 'templateId', 'selectedActivities', 'selectedAccomodation');
+        return array('id', 'startLocation', 'endLocation', 'template', 'selectedActivities', 'selectedAccomodation');
     }
 
     public function __wakeup() {
