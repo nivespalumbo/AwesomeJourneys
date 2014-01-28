@@ -6,7 +6,7 @@
     }
     else{
         echo "<div id='div_login'>"
-             . "<p><a href='index.php?op=openLogin'>Area clienti</a>  <a href='index.php?op=openRegister'>Registrati</a></p>"
+             . "<p><a href='index.php?op=areaRiservata'>Area clienti</a>  <a href='index.php?op=openRegister'>Registrati</a></p>"
            . "</div>";
     }
 ?>

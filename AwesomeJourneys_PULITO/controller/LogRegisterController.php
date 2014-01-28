@@ -25,4 +25,14 @@ class LogRegisterController {
         }
         return FALSE;
     }
+    
+    public function isAuthenticated(){
+        session_start();
+        if(isset($_SESSION['utente'])){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
