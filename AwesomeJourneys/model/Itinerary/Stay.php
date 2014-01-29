@@ -5,11 +5,10 @@ include_once 'model/Enumerations/ItineraryBrickType.php';
 
 class Stay implements ItineraryBrick{
     private $id;
-    private $itineraryId;
-    private $template;
-    
     private $startLocation;
     private $endLocation;
+    private $template;
+
     private $startDate;
     private $endDate;
     
@@ -18,19 +17,11 @@ class Stay implements ItineraryBrick{
     //private $selectedGoing; //trasporto che rappresenta l'andata della tappa
     //private $selectedReturn; //trasporto che rappresenta il ritorno dalla tappa
 
-    public function __construct(StayTemplateComposite $stayTemplate, $idItinerary, $id = NULL) {
-        if($id != NULL){
-            $this->id = $id;
-        } else {
-            $this->id = -1;
-        }
-        $this->template = $stayTemplate;
-        $this->itineraryId = $idItinerary;
-        
-        $this->startDate = $stayTemplate->getStartDate();
-        $this->endDate = $stayTemplate->getEndDate();
-        $this->startLocation = $stayTemplate->getStartLocation();
-        $this->endLocation = $stayTemplate->getEndLocation();
+    function __construct($id, $startLocation, $endLocation, StayTemplateComposite $template) {
+        $this->id = $id;
+        $this->startLocation = $startLocation;
+        $this->endLocation = $endLocation;
+        $this->template = $template;
         
         $this->selectedActivities = array();
         $this->selectedAccomodation = NULL;
@@ -198,7 +189,7 @@ class Stay implements ItineraryBrick{
                 $searchTemplate = new StaySearchResult();
                 $searchTemplate->searchStay("SELECT * FROM stay_template WHERE ID=".$table[0]->template_id.";");
                 if($template = $searchTemplate->fetchObject()){
-                    $stay = new Stay($template, $idItinerary, $idStay);
+                    $stay = new Stay($table->ID, $table->start_location, $table->end_location, $template);
                     $stay->setSelectedAccomodation($table[0]->accomodation_id);
                     $stay->insertSelectedActivities();
                     return $stay;

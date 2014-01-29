@@ -4,25 +4,19 @@ include_once 'model/Enumerations/ItineraryBrickType.php';
 
 class Transfer implements ItineraryBrick{
     private $id;
-    private $stayId;
-    private $itineraryId;
-    private $name;
-    private $description;
     private $startLocation;
     private $endLocation;
-    private $trasportSelected;//array contenente tutti i trasporti
-    private $transferTemplate;
-    private $startDate;
-    private $endDate;
-
-    public function __construct($stayId, $transferTemplate) {
-        $this->stayId = $stayId;
-        $this->trasportSelected = NULL;
+    private $template;
+    
+    private $selectedTransport;
+    
+    function __construct($id, $startLocation, $endLocation, Transport $template) {
+        $this->id = $id;
+        $this->startLocation = $startLocation;
+        $this->endLocation = $endLocation;
+        $this->template = $template;
         
-        $this->transferTemplate = $transferTemplate;
-        
-        $this->startLocation = $transferTemplate->getStartLocation();
-        $this->endLocation = $transferTemplate->getEndLocation();
+        $this->selectedTransport = NULL;
     }
     
     public function __sleep(){
@@ -110,6 +104,15 @@ class Transfer implements ItineraryBrick{
         return FALSE;
     }
 
+    public function insertInDb(Connection $c){
+        if($c){
+            $sql = "INSERT INTO transfer (ID, template_id) "
+                 . "VALUES ($this->id, ".$this->template->getId().");";
+            $c->executeNonQuery($sql);
+            return TRUE;
+        }
+        return FALSE;
+    }
     
 //    public function setLocation($location){
 //        return FALSE;

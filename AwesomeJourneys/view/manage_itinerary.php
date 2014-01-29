@@ -16,7 +16,7 @@ include_once 'partials/_personalmenu.php'
 
     <div id="stages">
     <?php
-    $tappe = $this->model->getItineraryBricks();
+    $tappe = $this->model->getBricks();
     foreach($tappe as $tappa){ 
         echo "<div id='select_stages'>"
             .  "<label>".$tappa->getTemplate()->getName()."</label>"

@@ -6,7 +6,7 @@
 <div id="stages">
     <h3>Tappe</h3>
     <?php
-    $tappe = $this->model->getItineraryBricks();
+    $tappe = $this->model->getBricks();
     foreach($tappe as $tappa){
         echo "<div id='select_stages'>"
             . "<label>".$tappa->getTemplate()->getName()."</label>"

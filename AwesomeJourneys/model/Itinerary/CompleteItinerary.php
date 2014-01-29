@@ -14,7 +14,7 @@ class CompleteItinerary extends ItineraryState{
         $this->creator = $creator;
         
         $this->staySearchResult = NULL;
-        $this->itineraryBricks = array();
+        $this->bricks = array();
         
         if($id == NULL){
             $this->saveInDb();

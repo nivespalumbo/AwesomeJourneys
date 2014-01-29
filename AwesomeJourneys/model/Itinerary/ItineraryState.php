@@ -10,7 +10,7 @@ abstract class ItineraryState{
     protected $photo;
     protected $creator;
     
-    protected $itineraryBricks;
+    protected $bricks;
     
     
     
@@ -20,13 +20,13 @@ abstract class ItineraryState{
     public function getStartLocation() { return $this->startLocation; }
     public function getEndLocation() { return $this->endLocation; }
     public function getPhoto() { return $this->photo; }
-    public function getItineraryBricks() { return $this->itineraryBricks; }
+    public function getBricks() { return $this->bricks; }
     abstract function getType();
     
     
     
     public function getBrick($id){
-        foreach($this->itineraryBricks as $brick){
+        foreach($this->bricks as $brick){
             if($brick->getId() == $id){
                 return $brick;
             }
@@ -36,8 +36,8 @@ abstract class ItineraryState{
     
     public function getBrickIndex($id){
         $index = -1;
-        while($this->itineraryBricks[++$index]->getId() != $id){}
-        if(array_count($this->itineraryBricks, COUNT_NORMAL) == $index){
+        while($this->bricks[++$index]->getId() != $id){}
+        if(array_count($this->bricks, COUNT_NORMAL) == $index){
             return FALSE;
         }
         return $index;
@@ -53,19 +53,27 @@ abstract class ItineraryState{
  
  
     
-    public function addBrick($idTemplate){
-        $brickTemplate = $this->staySearchResult->getObject($idTemplate);
+    public function addBrick(StayTemplateComponent $brickTemplate){
         if($brickTemplate->getType() == STAY_TEMPLATE){
-            $brick = new Stay($brickTemplate, $this->id);
+            $brick = new Stay(NULL, $brickTemplate->getStartLocation(), $brickTemplate->getEndLocation(), $brickTemplate);
+            if($this->insertBrickInDb($brick)){
+                $this->insertInOrder($brick);
+            }
+            
+            $temp = $brickTemplate->getComponentsOfType(STAY_TEMPLATE);
+            foreach ($temp as $sottoTemplate){
+                $this->addBrick($sottoTemplate);
+            }
+        }
+        else if($brickTemplate->getType() == TRANSPORT) {
+            $brick = new Transfer();
+            if($this->insertBrickInDB($brick)){
+                $this->insertInOrder($brick);
+            }
         }
         else {
-            $brick = new Transfer(0, $brickTemplate);
+            return;
         }
-        if($this->saveBrickInDb($brick)){
-            $this->insertInOrder($brick); //$this->itineraryBricks[$brick->getId()] = $brick;
-            return TRUE;
-        }
-        return FALSE;
     }
     
     public function addActivityFromTemplate($idStay, ActivityTemplate $template){
@@ -78,24 +86,24 @@ abstract class ItineraryState{
         $endLocation = $brick->getEndLocation();
         
         $temp = array();
-        while($b = array_shift($this->itineraryBricks)){
-            if(($b->getStartLocation() == $endLocation) || array_count($this->itineraryBricks, COUNT_NORMAL) == 0){
-                array_merge($temp, array($brick), $this->itineraryBricks);
+        while($b = array_shift($this->bricks)){
+            if(($b->getStartLocation() == $endLocation) || array_count($this->bricks, COUNT_NORMAL) == 0){
+                array_merge($temp, array($brick), $this->bricks);
                 break;
             }
             else {
                 array_push($temp, $b);
             }
         }
-        $this->itineraryBricks = $temp;
+        $this->bricks = $temp;
     }
     
     public function removeBrick($idBrick){
         if($index = $this->getBrickIndex($idBrick)){
             if($this->removeBrickFromDb($index)){
-                $upper = array_slice($this->itineraryBricks, 0, $index);
-                $lower = array_slice($this->itineraryBricks, $index+1);
-                $this->itineraryBricks = array_merge($upper, $lower);
+                $upper = array_slice($this->bricks, 0, $index);
+                $lower = array_slice($this->bricks, $index+1);
+                $this->bricks = array_merge($upper, $lower);
                 return TRUE;
             }
         }
@@ -216,4 +224,69 @@ abstract class ItineraryState{
 //    abstract function save(ItineraryContext $itineraryContext);
 //    
 //    abstract function newJourney();
+    
+    protected function insertBrickInDB(ItineraryBrick $brick){
+        $c = new AJConnection();
+        if($c){
+            $sql = "INSERT INTO itinerary_brick(start_location, end_location, start_date, end_date, type, id_itinerary) "
+                 . "VALUES ('".$brick->getStartLocation()."', "
+                    . "'".$brick->getEndLocation()."', "
+                    . "".$brick->getType().", "
+                    . "".$this->id.");";
+            $c->beginTransaction();
+            try{
+                if($c->executeNonQuery($sql)){
+                    $brick->setId($c->lastInsertedId());
+                    $brick->insertInDb($c);
+                }
+                $c->commit();
+                $c->close();
+                return TRUE;
+            } catch (Exception $ex) {
+                $c->rollback();
+                $c->close();
+                return FALSE;
+            }
+        }   
+        return FALSE;
+    }
+    
+    protected function removeBrickFromDb($brickId){
+        $c = new AJConnection();
+        if($c){
+            $sql = "DELETE FROM itinerary_brick WHERE ID=$brickId";
+            if($c->executeNonQuery($sql)){
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
+    protected function saveIntoDb(){
+        $insert1 = "INSERT INTO itinerary(itinerary_creator, state, name, description, start_location";
+        $insert2 = " VALUES('$this->creator', ".$this->getType().", '$this->name', '$this->description', '$this->startLocation'";
+        if($this->photo != NULL){
+            $insert1 .= ", photo";
+            $insert2 .= ", '$this->photo'";
+        }
+        $insert1 .= ")";
+        $insert2 .= ");";
+        
+        $c = new Connection();
+        if($c){
+            $c->begin_transaction();
+            try{
+                $c->execute_non_query($insert1.$insert2);
+                $this->id = $c->last_inserted_id();
+                $c->commit();
+                $c->close();
+                return TRUE;
+            } catch (Exception $ex) {
+                $c->rollback();
+                $c->close();
+                return FALSE;
+            }
+        }
+        return FALSE;
+    }
 }

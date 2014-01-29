@@ -19,8 +19,8 @@ class ConcreteUserComponent extends UserComponent{
     private $searchResultStay = NULL;
     private $searchResultActivity = NULL;
 
-    public function __construct($id, $mail, $name, $surname, $address, $telephone) {
-        $this->session_id = $id;
+    public function __construct($sessionId, $mail, $name, $surname, $address, $telephone) {
+        $this->session_id = $sessionId;
         $this->mail = $mail;
         $this->name = $name;
         $this->surname = $surname;
@@ -43,8 +43,19 @@ class ConcreteUserComponent extends UserComponent{
     public function getTelephone() {return $this->telephone; }
     public function getMail() {return $this->mail; }
     
-    
-    
+    public function getSearchResultJourney() {
+        return $this->searchResultJourney;
+    }
+    public function getSearchResultItinerary() {
+        return $this->searchResultItinerary;
+    }
+    public function getSearchResultStay() {
+        return $this->searchResultStay;
+    }
+    public function getSearchResultActivity() {
+        return $this->searchResultActivity;
+    }
+     
     public function setJourneySearchResult(JourneySearchResult $searchResultJourney) {
         $this->searchResultJourney = $searchResultJourney;
     }
@@ -100,9 +111,9 @@ class ConcreteUserComponent extends UserComponent{
         return NULL;
     }
     
-    public function getBrick($idBrick){
+    public function getBrick($id){
         $itinerary = $this->itineraryContext->getItinerary();
-        return $itinerary->getBrick($idBrick);
+        return $itinerary->getBrick($id);
     }
     
     public function getBrickActivity($idBrick, $idActivity){
@@ -140,8 +151,10 @@ class ConcreteUserComponent extends UserComponent{
     }
     
     public function addBrick($idTemplate){
-        $itinerary = $this->itineraryContext->getItinerary();
-        $itinerary->addBrick($idTemplate);
+        if($stayTemplate = $this->searchResultStay->getObject($idTemplate)){
+            $itinerary = $this->itineraryContext->getItinerary();
+            $itinerary->addBrick($stayTemplate);
+        }
     }
     
     public function removeBrick($idBrick){

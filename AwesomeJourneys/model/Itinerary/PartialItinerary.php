@@ -12,7 +12,7 @@ class PartialItinerary extends ItineraryState{
         $this->description = $description;
         
         $this->staySearchResult = NULL;
-        $this->itineraryBricks = array();
+        $this->bricks = array();
         
         if($id == NULL){
             $this->saveInDb();

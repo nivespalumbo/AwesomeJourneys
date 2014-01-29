@@ -43,11 +43,22 @@ class NavigationController {
             case 'search' :
                 $this->search();
                 break;
+            
+            // VISUALIZZAZIONE OGGETTI
             case 'selectJourney':
                 $this->selectJourney();
                 break;
             case 'selectItinerary' :
                 $this->selectItinerary();
+                break;
+            case 'selectStay' :
+                $this->selectStay();
+                break;
+            case 'selectActivity' :
+                $this->selectActivity();
+                break;
+            case 'selectAccomodation' :
+                $this->selectAccomodation();
                 break;
             
             // MANAGE ITINERARY BASE
@@ -92,17 +103,6 @@ class NavigationController {
                 break;
             case 'removeAccomodation' :
                 $this->removeAccomodatio();
-                break;
-            
-            // SELEZIONE OGGETTI
-            case 'selectStay' :
-                $this->selectStay();
-                break;
-            case 'selectActivity' :
-                $this->selectActivity();
-                break;
-            case 'selectAccomodation' :
-                $this->selectAccomodation();
                 break;
         }
     }
