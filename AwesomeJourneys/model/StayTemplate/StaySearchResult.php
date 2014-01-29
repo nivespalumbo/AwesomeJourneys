@@ -2,7 +2,7 @@
 include_once 'StayTemplateComposite.php';
 include_once 'model/Activity/Activity.php';
 include_once 'model/Accomodation/Accomodation.php';
-include_once 'model/connection.php';
+include_once 'model/AJConnection.php';
 include_once 'model/AJConcreteAggregator.php';
 
 class StaySearchResult {
@@ -19,13 +19,13 @@ class StaySearchResult {
     public function __wakeup() { }
 
     
-    private function insertActivity($template, Connection $c){
+    private function insertActivity($template, AJConnection $c){
         if($c){
             $query = "SELECT * "
                    . "FROM (activity_in_stay_template INNER JOIN activity ON activity_in_stay_template.activity_id = activity.ID) INNER JOIN activity_template ON activity.template = activity_template.ID "
                    . "WHERE activity_in_stay_template.stay_template = '".$template->getId()."';";
             //DA CONTROLLARE
-            $table = $c->execute_query($query);
+            $table = $c->executeQuery($query);
             if($table){
                 foreach($table as $a){
                     $activity = new Activity($a->activity_id, $template->getId(), $a->template, $a->name, $a->address, $a->expected_duration, $a->location, $a->description);
@@ -35,13 +35,13 @@ class StaySearchResult {
         }
     }
     
-    private function insertAccomodation($template, Connection $c){
+    private function insertAccomodation($template, AJConnection $c){
         if($c){
             $query = "SELECT * "
                    . "FROM (accomodation_in_stay_template INNER JOIN accomodation ON accomodation_in_stay_template.accomodation_id = accomodation.ID) INNER JOIN accomodation_template ON accomodation.template = accomodation_template.ID "
                    . "WHERE accomodation_in_stay_template.stay_template = '".$template->getId()."';";
             //DA CONTROLLARE
-            $table = $c->execute_query($query);
+            $table = $c->executeQuery($query);
             if($table){
                 foreach($table as $acc){
                     $accomodation = new Accomodation($acc->accomodation_id, $template->getId(), $acc->numero_disponibilita, $acc->template, $acc->address, $acc->type, $acc->description, $acc->category, $acc->name, $acc->link, $acc->photo, $acc->location);
@@ -68,7 +68,7 @@ class StaySearchResult {
      * DA MODIFICARE, CREARE UN'ALTRA FUNZIONE PRIVATA CHE RICERCA IN DB
      */
     public function searchStay($query = NULL){
-        $c = new Connection();
+        $c = new AJConnection();
         
         if($query == NULL){
             $query = "SELECT * FROM stay_template;";
@@ -76,8 +76,8 @@ class StaySearchResult {
         $queryStructure = "SELECT * FROM stay_template_structure;";
         
         if($c){
-            $table = $c->execute_query($query);
-            $struttura = $this->creaStruttura($c->execute_query($queryStructure));
+            $table = $c->executeQuery($query);
+            $struttura = $this->creaStruttura($c->executeQuery($queryStructure));
             if($table){
                 foreach($table as $st){
                     if($st->type == STAY_TEMPLATE){

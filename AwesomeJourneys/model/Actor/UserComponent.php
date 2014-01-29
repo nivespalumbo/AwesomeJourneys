@@ -1,12 +1,12 @@
 <?php
-include_once 'model/connection.php';
+include_once 'model/AJConnection.php';
 include_once 'ConcreteUserComponent.php';
 include_once 'TravelAgent.php';
 
 abstract class UserComponent{   
     public static function login($mail, $pass){
-        $conn = new Connection();
-        $us = $conn->verifica_login($mail, sha1($pass));
+        $conn = new AJConnection();
+        $us = $conn->verificaLogin($mail, sha1($pass));
         $conn->close();
         if($us != FALSE){
             session_start();
@@ -20,11 +20,11 @@ abstract class UserComponent{
     }
     
     public static function register($name, $surname, $address, $tel, $mail, $pass, $passBis) {
-        $conn = new Connection();
+        $conn = new AJConnection();
         if($pass === $passBis){
             $rx = $conn->registra($name, $surname, $address, $tel, $mail);
             if($rx){
-                $conn->new_creator ($mail, sha1($pass));
+                $conn->newCreator ($mail, sha1($pass));
                 return self::login ($mail, sha1($pass));
             }
         }

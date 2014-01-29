@@ -1,5 +1,5 @@
 <?php
-include_once 'model/connection.php';
+include_once 'model/AJConnection.php';
 include_once 'model/AJConcreteAggregator.php';
 include_once 'model/Itinerary/CompleteItinerary.php';
 include_once 'model/Itinerary/PartialItinerary.php';
@@ -24,14 +24,14 @@ class ItinerarySearchResult {
 
     
     public function search($query = NULL){
-        $c = new Connection();
+        $c = new AJConnection();
         
         if($query == NULL){
             $query = "SELECT * FROM itinerary WHERE published=1 AND state=1;";
         }
         
         if($c){
-            $table = $c->execute_query($query);
+            $table = $c->executeQuery($query);
             $c->close();
             if($table){
                 foreach($table as $it){

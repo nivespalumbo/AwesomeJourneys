@@ -1,6 +1,7 @@
 <?php
 include_once 'ItineraryBrick.php';
 include_once 'model/Enumerations/ItineraryBrickType.php';
+include_once 'model/AJConnection.php';
 
 class Transfer implements ItineraryBrick{
     private $id;
@@ -20,96 +21,102 @@ class Transfer implements ItineraryBrick{
     }
     
     public function __sleep(){
-        return array('stayId', 'itineraryId', 'name', 'description', 'startLocation', 'endLocation', 'transportSelected', 'transferTemplate', 'startDate', 'endDate');
+        return array('id', 'startLocation', 'endLocation', 'selectedTransport', 'template');
     }
-    public function __wakeup() {
-        }
+    public function __wakeup() { }
+
     
-    public static function getTransfer($idTransfer, $idItinerary){
-        return NULL;
+    
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getType(){
+        return TRANSFER;
     }
     
-    public function addAccomodation($idAccomodation) {
-        return FALSE;
-    }
-
-    public function addActivity($idActivity) {
-        return FALSE;
-    }
-
-    public function getAccomodations() {
-        return FALSE;
-    }
-
-    public function getActivities() {
-        return FALSE;
-    }
-
-    public function getActivity($idActivity) {
-        return FALSE;
-    }
-
-    public function getEndDate() {
-        return $this->endDate;
+    public function getStartLocation() {
+        return $this->startLocation;
     }
 
     public function getEndLocation() {
         return $this->endLocation;
     }
 
-    public function getId() {
-        return $this->id;
-    }
-
-    public function getItineraryId() {
-        return $this->itineraryId;
-    }
-
-    public function getSelectedAccomodation() {
-        return FALSE;
-    }
-
-    public function getSelectedActivities() {
-        return FALSE;
-    }
-    public function getSelectedActivity($idActivity) {
-        return FALSE;
-    }
-
-    public function getStartDate() {
-        return $this->startDate;
-    }
-
-    public function getStartLocation() {
-        return $this->startLocation;
-    }
-
     public function getTemplate() {
-        return $this->transferTemplate;
+        return $this->template;
+    }
+
+    public function getSelectedTransport() {
+        return $this->selectedTransport;
+    }
+
+    
+    
+    public function addAccomodation(\Accomodation $a) {
+        return FALSE;
+    }
+
+    public function addActivity(\Activity $a) {
+        return FALSE;
     }
 
     public function removeAccomodation() {
         return FALSE;
     }
 
-    public function removeActivity($idActivity) {
+    public function removeActivity($id) {
+        return false;
+    }
+    
+    public function addTransport(\Transport $t) {
+        if($this->saveTransportInDb($t->getId())){
+            $this->selectedTransport = $t;
+        }
+    }
+    
+    public function removeTransport() {
+        if($this->removeTransportFromDb()){
+            $this->selectedTransport = NULL;
+            return TRUE;
+        }
         return FALSE;
     }
 
-    public function setSelectedAccomodation($idAccomodation) {
-        return FALSE;
-    }
-
-    public function setSelectedActivities(\Activity $activity) {
-        return FALSE;
-    }
-
-    public function insertInDb(Connection $c){
+    
+    
+    public function insertInDb(AJConnection $c){
         if($c){
             $sql = "INSERT INTO transfer (ID, template_id) "
                  . "VALUES ($this->id, ".$this->template->getId().");";
             $c->executeNonQuery($sql);
             return TRUE;
+        }
+        return FALSE;
+    }
+    
+    private function saveTransportInDb($idTransport){
+        $c = new AJConnection();
+        if($c){
+            $query = "UPDATE transfer SET transport_id=$idTransport WHERE ID=$this->id;";
+            if($c->executeNonQuery($query)){
+                $c->close();
+                return TRUE;
+            }
+            $c->close();
+        }
+        return FALSE;
+    }
+    
+    private function removeTransportFromDb(){
+        $c = new AJConnection();
+        if($c){
+            $query = "UPDATE transfer SET transport_id=NULL WHERE ID=$this->id;";
+            if($c->executeNonQuery($query)){
+                $c->close();
+                return TRUE;
+            }
+            $c->close();
         }
         return FALSE;
     }

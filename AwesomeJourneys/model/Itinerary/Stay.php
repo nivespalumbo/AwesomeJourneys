@@ -1,6 +1,6 @@
 <?php
 include_once 'ItineraryBrick.php';
-include_once 'model/connection.php';
+include_once 'model/AJConnection.php';
 include_once 'model/Enumerations/ItineraryBrickType.php';
 
 class Stay implements ItineraryBrick{
@@ -8,12 +8,10 @@ class Stay implements ItineraryBrick{
     private $startLocation;
     private $endLocation;
     private $template;
-
-    private $startDate;
-    private $endDate;
     
     private $selectedActivities; //array contenete tutte le attivita
     private $selectedAccomodation; //accomodation selezionata
+ 
     //private $selectedGoing; //trasporto che rappresenta l'andata della tappa
     //private $selectedReturn; //trasporto che rappresenta il ritorno dalla tappa
 
@@ -28,78 +26,44 @@ class Stay implements ItineraryBrick{
     }
     
     public function __sleep() {
-        return array('id', 'itineraryId', 'startLocation', 'endLocation', 'startDate', 'endDate', 'selectedActivities', 'selectedAccomodation', 'template');
+        return array('id', 'startLocation', 'endLocation', 'template', 'selectedActivities', 'selectedAccomodation');
     }
     public function __wakeup() { }
     
     
     public function getId(){ return $this->id; }
     public function getTemplate() { return $this->template; }
-    public function getItineraryId() { return $this->itineraryId; }
     public function getType() { return STAY; }
-    public function getStartDate() { return $this->startDate; }
-    public function getEndDate() { return $this->endDate; }
     public function getStartLocation() { return $this->startLocation; }
     public function getEndLocation() { return $this->endLocation; }
- 
-
-    public function setId($id) { $this->id = $id; }
     
-    public function getActivities(){
-        return $this->template->getActivities();
-    }
-    public function getActivity($idActivity){
-        return $this->template->getComponent($idActivity);
-    }
     
-    public function getSelectedActivities() { return $this->selectedActivities; }
-    public function getSelectedActivity($idActivity) {
-        if(array_key_exists($idActivity, $this->selectedActivities)){
-            return $this->selectedActivities[$idActivity];
+    
+    public function addActivity(Activity $a){
+        if($a->getId() == NULL){
+            $a->saveIntoDb();
         }
-        return NULL;
-    }
-    public function setSelectedActivities(Activity $activity){
-        if(!array_key_exists($activity->getId(), $this->selectedActivities)){
-            $this->selectedActivities[$activity->getId()] = $activity;
+        if($this->saveActivityInDb($a->getId())){
+            $this->selectedActivities[$a->getId()] = $a;
         }
     }
-    public function addActivity($idActivity){
-        if($this->saveActivityInDb($idActivity)){
-            $this->selectedActivities[$idActivity] = $this->template->getActivities()[$idActivity];
+    public function removeActivity($id){
+        if(array_key_exists($id, $this->selectedActivities) && $this->removeActivityFromDb($id)){
+            unset($this->selectedActivities[$id]);
             return TRUE;
         }
-        return FALSE;
-    }
-    public function removeActivity($idActivity){
-        if(array_key_exists($idActivity, $this->selectedActivities)){
-            if($this->removeActivityFromDb($idActivity)){
-                unset($this->selectedActivities[$idActivity]);
-                return TRUE;
-            }
-        }
-        return FALSE;
+        return false;
     }
     
-    public function getAccomodations(){
-        return $this->template->getAccomodations();
-    }
-    public function getAccomodation($idAccomodation){
-        return $this->template->getComponent($idAccomodation);
-    }
-    public function getSelectedAccomodation() { return $this->template->getComponent($this->selectedAccomodation); }
-    public function setSelectedAccomodation($idAccomodation){
-        $this->selectedAccomodation = $idAccomodation;
-    }
-    public function addAccomodation($idAccomodation) {
-        if($this->saveAccomodationInDb($idAccomodation)){
-            $this->selectedAccomodation = $idAccomodation;
-            return TRUE;
+    
+    
+    public function addAccomodation(Accomodation $a) {
+        if($this->saveAccomodationInDb($a->getId())){
+            $this->selectedAccomodation = $a;
         }
-        return FALSE;
     }
     public function removeAccomodation(){
-        if($this->removeAccomodationFromDb($this->selectedAccomodation->getId())){
+        if($this->removeAccomodationFromDb()){
             $this->selectedAccomodation = NULL;
             return TRUE;
         }
@@ -108,82 +72,83 @@ class Stay implements ItineraryBrick{
     
     
     
-    private function saveActivityInDb($idActivity){
-        $c = new Connection();
-        if($c){
-            $query = "INSERT INTO activity_in_stay(id_stay, id_activity) VALUES (".$this->id.", $idActivity);";
-            if($c->execute_non_query($query)){
-                return TRUE;
-            }
-        }
+    public function addTransport(\Transport $t) {
         return FALSE;
     }
     
-    private function removeActivityFromDb($idActivity){
-        $c = new Connection();
-        if($c){
-            $query = "DELETE FROM activity_in_stay WHERE id_stay=$this->id AND id_activity=$idActivity;";
-            if($c->execute_non_query($query)){
-                return TRUE;
-            }
-        }
+    public function removeTransport() {
         return FALSE;
     }
     
-    private function saveAccomodationInDb($idAccomodation){
-        $c = new Connection();
-        if($c){
-            $query = "UPDATE stay SET accomodation_id=$idAccomodation WHERE ID=$this->id;";
-            if($c->execute_non_query($query)){
-                return TRUE;
-            }
-        }
-        return FALSE;
-    }
     
-    private function removeAccomodationFromDb($idAccomodation){
-        $c = new Connection();
-        if($c){
-            $query = "UPDATE stay SET accomodation_id=NULL WHERE ID=$this->id;";
-            if($c->execute_non_query($query)){
-                return TRUE;
-            }
-        }
-        return FALSE;
-    }
     
-    private function insertSelectedActivities(){
-        $c = new Connection();
-        if($c){
-            $query = "SELECT id_activity "
-                   . "FROM activity_in_stay "
-                   . "WHERE activity_in_stay.id_stay = '$this->id';";
-            //DA CONTROLLARE
-            $table = $c->execute_query($query);
-            $c->close();
-            if($table){
-                foreach($table as $a){
-                    $this->setSelectedActivities($this->template->getComponent($a->id_activity));
-                }  
-            }
-        }
-    }
-    
-    public function saveInDb(Connection $c){
+    public function insertInDb(AJConnection $c){
         if($c){
             $sql = "INSERT INTO stay (ID, template_id) "
                  . "VALUES ($this->id, ".$this->template->getId().");";
-            $c->execute_non_query($sql);
+            $c->executeNonQuery($sql);
             return TRUE;
         }
         return FALSE;
     }
     
+    private function saveActivityInDb($idActivity = NULL){
+        $c = new AJConnection();
+        if($c){
+            $query = "INSERT INTO activity_in_stay(id_stay, id_activity) VALUES ($this->id, $idActivity);";
+            if($c->executeNonQuery($query)){
+                $c->close();
+                return TRUE;
+            }
+            $c->close();
+        }
+        return FALSE;
+    }
+    
+    private function removeActivityFromDb($idActivity){
+        $c = new AJConnection();
+        if($c){
+            $query = "DELETE FROM activity_in_stay WHERE id_stay=$this->id AND id_activity=$idActivity;";
+            if($c->executeNonQuery($query)){
+                $c->close();
+                return TRUE;
+            }
+            $c->close();
+        }
+        return FALSE;
+    }
+    
+    private function saveAccomodationInDb($idAccomodation){
+        $c = new AJConnection();
+        if($c){
+            $query = "UPDATE stay SET accomodation_id=$idAccomodation WHERE ID=$this->id;";
+            if($c->executeNonQuery($query)){
+                $c->close();
+                return TRUE;
+            }
+            $c->close();
+        }
+        return FALSE;
+    }
+    
+    private function removeAccomodationFromDb(){
+        $c = new AJConnection();
+        if($c){
+            $query = "UPDATE stay SET accomodation_id=NULL WHERE ID=$this->id;";
+            if($c->executeNonQuery($query)){
+                $c->close();
+                return TRUE;
+            }
+            $c->close();
+        }
+        return FALSE;
+    }
+    
     public static function getStay($idStay, $idItinerary){
-        $c = new Connection();
+        $c = new AJConnection();
         if($c){
             $sql = "SELECT * FROM stay WHERE ID=$idStay;";
-            $table = $c->execute_query($sql);
+            $table = $c->executeQuery($sql);
             $c->close();
             if($table){
                 $searchTemplate = new StaySearchResult();

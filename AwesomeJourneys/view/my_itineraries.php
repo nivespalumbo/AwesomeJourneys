@@ -42,7 +42,7 @@ include_once 'partials/_personalmenu.php'
                    }
                    echo "<h3>".$itinerary->getName()."</h3>";
                    echo "<p>".$itinerary->getDescription()."</p>";
-                   echo "<p>Dal <b>".$journey->getStartDate()."</b> al <b>".$journey->getEndDate()."</b></p>";
+                   echo "<p>Dal <b>".$journey->getAvailableFrom()."</b> al <b>".$journey->getAvailableTo()."</b></p>";
                    echo "<p style='color: #FF0000;'><b>".$journey->getPrice()." &euro;</b></p>";
                    echo '</div>';
                 }

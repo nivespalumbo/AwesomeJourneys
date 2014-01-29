@@ -1,25 +1,27 @@
 <?php
 include_once 'model/StayTemplate/StayTemplateLeaf.php';
 include_once 'ActivityTemplate.php';
+include_once 'model/AJConnection.php';
 
 class Activity extends ActivityTemplate implements StayTemplateLeaf{
     private $id;
-    private $compositeId;
     
     private $startDate;
     private $endDate;
     
-    function __construct($idActivity, $compositeId, $idTemplate, $name, $address, $expectedDuration, $location, $description) {
+    function __construct($idActivity, $idTemplate, $name, $address, $expectedDuration, $location, $description) {
         parent::__construct($idTemplate, $name, $address, $expectedDuration, $location, $description);
         $this->id = $idActivity;
-        $this->compositeId = $compositeId;
+        
+        if($this->id == NULL){
+            $this->saveIntoDB();
+        }
     }
     
     function serialize(){
         return serialize(
             array(
                 'id' => $this->id,
-                'compositeId' => $this->compositeId,
                 'startDate' => $this->startDate,
                 'endDate' => $this->endDate,
                 'idTemplate' => $this->idTemplate,
@@ -41,16 +43,12 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
         $this->expectedDuration = $data['expectedDuration'];
         $this->location = $data['location'];
         $this->id = $data['id'];
-        $this->compositeId = $data['compositeId'];
         $this->startDate = $data['startDate'];
         $this->endDate = $data['endDate'];
     }
         
     public function getId() {
         return $this->id;
-    }
-    public function getCompositeId() {
-        return $this->compositeId;
     }
     public function getStartDate() {
         return $this->startDate;
@@ -85,7 +83,24 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
     }
     
     public function saveIntoDB() {
-        parent::saveIntoDB();
+        $c = new AJConnection();
+        
+        try{
+            $c->beginTransaction();
+            $sql = "INSERT INTO stay_template_component (type, is_composite) VALUES (".ACTIVITY.", 0);";
+            $c->executeNonQuery($sql);
+            $this->id = $c->lastInsertedId();
+            $sql = "INSERT INTO activity(ID, start_date, end_date, template) "
+                 . "VALUES ($this->id, $this->startDate, $this->endDate, $this->idTemplate);";
+            $c->executeNonQuery($sql);
+            $c->commit();
+            $c->close();
+            return TRUE;
+        } catch (Exception $ex) {
+            $c->close();
+            return FALSE;
+        }
+        return FALSE;
     }
     
     public function addComponent(StayTemplateComponent $component) {

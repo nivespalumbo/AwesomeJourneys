@@ -8,8 +8,8 @@ include_once 'partials/_personalmenu.php'
     <h3><?php echo $this->model->getName(); ?></h3>
     <p><?php echo $this->model->getDescription(); ?></p>
     <div>
-        <span><label>Disponibile dal: </label><?php echo $this->model->getStartDate(); ?></span>
-        <span><label>Al: </label><?php echo $this->model-> getEndDate(); ?></span>
+        <span><label>Disponibile dal: </label><?php echo $this->model->getAvailableFrom(); ?></span>
+        <span><label>Al: </label><?php echo $this->model-> getAvailableTo(); ?></span>
     </div>
 
     <form action="index.php" method="POST" onreset="window.location = 'index.php?op=manageItinerary&id='">

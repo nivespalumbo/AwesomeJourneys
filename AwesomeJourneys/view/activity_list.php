@@ -9,8 +9,8 @@ while($activity = $this->model['activities']->fetchObject()){
     echo "<div class='stay'>"
          . "<h2>".$activity->getName()."</h2>"
          . "<p>".$activity->getDescription()."</p>"
-         . "<div><span class='date'><label>Disponibile dal </label>".$activity->getStartDate()."</span>"
-         . "<span class='date'><label>al </label>".$activity->getEndDate()."</span></div>"
+         . "<div><span class='date'><label>Disponibile dal </label>".$activity->getAvailableFrom()."</span>"
+         . "<span class='date'><label>al </label>".$activity->getAvailableTo()."</span></div>"
          . "<span class='see_more'><a href='index.php?op=selectActivity&id=".$activity->getId()."'>Vedi di pi&ugrave</a>"
          . "<a href='index.php?op=addActivity&id=".$activity->getId()."&idStay=$idStay'>Aggiungi alla tappa</a></span>"
          ."</div>";

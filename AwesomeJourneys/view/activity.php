@@ -9,8 +9,8 @@ if($this->model){
             . "<span><label>Location: </label>".$this->model->getLocation()."</span>"
          . "</div>"
          . "<div>"
-            . "<span><label>Disponibile dal: </label>".$this->model->getStartDate()."</span>"
-            . "<span><label>Al: </label>".$this->model->getEndDate()."</span>"
+            . "<span><label>Disponibile dal: </label>".$this->model->getAvailableFrom()."</span>"
+            . "<span><label>Al: </label>".$this->model->getAvailableTo()."</span>"
          . "</div>"
          . "<p><label>Durata: </label>".$this->model->getExpectedDuration()."</p>" 
        . "</div>";

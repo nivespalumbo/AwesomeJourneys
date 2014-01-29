@@ -1,5 +1,5 @@
 <?php
-include_once 'model/connection.php';
+include_once 'model/AJConnection.php';
 
 abstract class ItineraryState{
     protected $id;
@@ -11,8 +11,6 @@ abstract class ItineraryState{
     protected $creator;
     
     protected $bricks;
-    
-    
     
     public function getId() { return $this->id; }
     public function getName() { return $this->name; }
@@ -76,9 +74,42 @@ abstract class ItineraryState{
         }
     }
     
+    public function removeBrick($idBrick){
+        if($index = $this->getBrickIndex($idBrick)){
+            if($this->removeBrickFromDb($index)){
+                $upper = array_slice($this->bricks, 0, $index);
+                $lower = array_slice($this->bricks, $index+1);
+                $this->bricks = array_merge($upper, $lower);
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
+    public function searchBricks(){
+        $c = new AJConnection();
+        if($c){
+            $sql = "SELECT * FROM itinerary_brick WHERE id_itinerary=$this->id;";
+            $table = $c->executeQuery($sql);
+            $c->close();
+            if($table){
+                foreach($table as $row){
+                    if($row->type == STAY){
+                        $brick = Stay::getStay($row->ID, $this->id);
+                    }
+                    else{
+                        $brick = Transfer::getTransfer($row->ID, $this->id);
+                    }
+                    $this->insertInOrder($brick);
+                }
+            }
+        }
+    }
+    
     public function addActivityFromTemplate($idStay, ActivityTemplate $template){
         if($brick = $this->getBrick($idStay)){
-            $brick->addActivity();
+            $activity = new Activity(NULL, $template->getId(), $template->getName(), $template->getAddress(), $template->getExpectedDuration(), $template->getLocation(), $template->getDescription());
+            $brick->addActivity($activity);
         }
     }
 
@@ -98,105 +129,7 @@ abstract class ItineraryState{
         $this->bricks = $temp;
     }
     
-    public function removeBrick($idBrick){
-        if($index = $this->getBrickIndex($idBrick)){
-            if($this->removeBrickFromDb($index)){
-                $upper = array_slice($this->bricks, 0, $index);
-                $lower = array_slice($this->bricks, $index+1);
-                $this->bricks = array_merge($upper, $lower);
-                return TRUE;
-            }
-        }
-        return FALSE;
-    }
     
-    public function searchBricks(){
-        $c = new Connection();
-        if($c){
-            $sql = "SELECT * FROM itinerary_brick WHERE id_itinerary=$this->id;";
-            $table = $c->execute_query($sql);
-            $c->close();
-            if($table){
-                foreach($table as $row){
-                    if($row->type == STAY){
-                        $brick = Stay::getStay($row->ID, $this->id);
-                    }
-                    else{
-                        $brick = Transfer::getTransfer($row->ID, $this->id);
-                    }
-                    $this->insertInOrder($brick);
-                }
-            }
-        }
-    }
-    
-    protected function saveInDb(){
-        $insert1 = "INSERT INTO itinerary(itinerary_creator, state, name, description, start_location";
-        $insert2 = " VALUES('$this->creator', ".$this->getType().", '$this->name', '$this->description', '$this->startLocation'";
-        if($this->photo != NULL){
-            $insert1 .= ", photo";
-            $insert2 .= ", '$this->photo'";
-        }
-        $insert1 .= ")";
-        $insert2 .= ");";
-        
-        $c = new Connection();
-        if($c){
-            $c->begin_transaction();
-            try{
-                $c->execute_non_query($insert1.$insert2);
-                $this->id = $c->last_inserted_id();
-                $c->commit();
-                $c->close();
-                return TRUE;
-            } catch (Exception $ex) {
-                $c->rollback();
-                $c->close();
-                return FALSE;
-            }
-        }
-        return FALSE;
-    }
-    
-    protected function saveBrickInDb(ItineraryBrick $brick){
-        $c = new Connection();
-        if($c){
-            $sql = "INSERT INTO itinerary_brick(start_location, end_location, start_date, end_date, type, id_itinerary) "
-                 . "VALUES ('".$brick->getStartLocation()."', "
-                    . "'".$brick->getEndLocation()."', "
-                    . "'".$brick->getStartDate()."', "
-                    . "'".$brick->getEndDate()."', "
-                    . "".$brick->getType().", "
-                    . "".$brick->getItineraryId().");";
-            $c->begin_transaction();
-            try{
-                if($c->execute_non_query($sql)){
-                    $brick->setId($c->last_inserted_id());
-                    $brick->saveInDb($c);
-                }
-                $c->commit();
-                $c->close();
-                return TRUE;
-            } catch (Exception $ex) {
-                $c->rollback();
-                $c->close();
-                return FALSE;
-            }
-        }   
-        return FALSE;
-    }
-    
-    protected function removeBrickFromDb($idBrick){
-        $c = new Connection();
-        if($c){
-            $sql = "DELETE FROM itinerary_brick WHERE ID=$idBrick";
-            if($c->execute_non_query($sql)){
-                return TRUE;
-            }
-        }
-        return FALSE;
-    }
-
 
 //    protected function updateInDB(){
 //        $sql = "UPDATE itinerary SET state = '".$this->type."'";
@@ -224,6 +157,34 @@ abstract class ItineraryState{
 //    abstract function save(ItineraryContext $itineraryContext);
 //    
 //    abstract function newJourney();
+    
+    protected function insertIntoDb(){
+        $insert1 = "INSERT INTO itinerary(itinerary_creator, state, name, description, start_location";
+        $insert2 = " VALUES('$this->creator', ".$this->getType().", '$this->name', '$this->description', '$this->startLocation'";
+        if($this->photo != NULL){
+            $insert1 .= ", photo";
+            $insert2 .= ", '$this->photo'";
+        }
+        $insert1 .= ")";
+        $insert2 .= ");";
+        
+        $c = new AJConnection();
+        if($c){
+            $c->beginTransaction();
+            try{
+                $c->executeNonQuery($insert1.$insert2);
+                $this->id = $c->lastInsertedId();
+                $c->commit();
+                $c->close();
+                return TRUE;
+            } catch (Exception $ex) {
+                $c->rollback();
+                $c->close();
+                return FALSE;
+            }
+        }
+        return FALSE;
+    }
     
     protected function insertBrickInDB(ItineraryBrick $brick){
         $c = new AJConnection();
@@ -257,34 +218,6 @@ abstract class ItineraryState{
             $sql = "DELETE FROM itinerary_brick WHERE ID=$brickId";
             if($c->executeNonQuery($sql)){
                 return TRUE;
-            }
-        }
-        return FALSE;
-    }
-    
-    protected function saveIntoDb(){
-        $insert1 = "INSERT INTO itinerary(itinerary_creator, state, name, description, start_location";
-        $insert2 = " VALUES('$this->creator', ".$this->getType().", '$this->name', '$this->description', '$this->startLocation'";
-        if($this->photo != NULL){
-            $insert1 .= ", photo";
-            $insert2 .= ", '$this->photo'";
-        }
-        $insert1 .= ")";
-        $insert2 .= ");";
-        
-        $c = new Connection();
-        if($c){
-            $c->begin_transaction();
-            try{
-                $c->execute_non_query($insert1.$insert2);
-                $this->id = $c->last_inserted_id();
-                $c->commit();
-                $c->close();
-                return TRUE;
-            } catch (Exception $ex) {
-                $c->rollback();
-                $c->close();
-                return FALSE;
             }
         }
         return FALSE;

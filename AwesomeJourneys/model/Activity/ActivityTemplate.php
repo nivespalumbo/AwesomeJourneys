@@ -12,8 +12,8 @@ class ActivityTemplate implements Serializable{
     protected $location;
     protected $description;
     
-    private $startDate;
-    private $endDate;
+    private $availableFrom;
+    private $availableTo;
     
     function __construct($id, $name, $address, $expectedDuration, $location, $description) {
         $this->idTemplate = $id;
@@ -33,8 +33,8 @@ class ActivityTemplate implements Serializable{
                 'expectedDuration' => $this->expectedDuration,
                 'location' => $this->location,
                 'description' => $this->description,
-                'startDate' => $this->startDate,
-                'endDate' => $this->endDate
+                'availableFrom' => $this->availableFrom,
+                'availableTo' => $this->availableTo
             )
         );
     }
@@ -47,8 +47,8 @@ class ActivityTemplate implements Serializable{
         $this->description = $data['description'];
         $this->expectedDuration = $data['expectedDuration'];
         $this->location = $data['location'];
-        $this->startDate = $data['startDate'];
-        $this->endDate = $data['endDate'];
+        $this->availableFrom = $data['availableFrom'];
+        $this->availableTo = $data['availableTo'];
     }
 
     public function getId() {
@@ -69,11 +69,11 @@ class ActivityTemplate implements Serializable{
     public function getDescription() {
         return $this->description;
     }
-    public function getStartDate() {
-        return $this->startDate;
+    public function getAvailableFrom() {
+        return $this->availableFrom;
     }
-    public function getEndDate() {
-        return $this->endDate;
+    public function getAvailableTo() {
+        return $this->availableTo;
     }
     
     public function setName($name) {
@@ -91,11 +91,11 @@ class ActivityTemplate implements Serializable{
     public function setDescription($description) {
         $this->description = $description;
     }
-    public function setStartDate($startDate) {
-        $this->startDate = $startDate;
+    public function setAvailableFrom($startDate) {
+        $this->availableFrom = $startDate;
     }
-    public function setEndDate($endDate) {
-        $this->endDate = $endDate;
+    public function setAvailableTo($endDate) {
+        $this->availableTo = $endDate;
     }
 
     

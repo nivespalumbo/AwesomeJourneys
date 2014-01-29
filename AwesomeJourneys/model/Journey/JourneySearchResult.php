@@ -1,5 +1,5 @@
 <?php
-include_once 'model/connection.php';
+include_once 'model/AJConnection.php';
 include_once 'model/AJConcreteAggregator.php';
 include_once 'model/Journey/Journey.php';
 include_once 'model/Journey/PublishedJourney.php';
@@ -22,7 +22,7 @@ class JourneySearchResult {
 
     
     public function search($query = NULL){
-        $c = new Connection();
+        $c = new AJConnection();
         
         if($query == NULL){
             $query = "SELECT * "
@@ -32,7 +32,7 @@ class JourneySearchResult {
         }
         
         if($c){
-            $table = $c->execute_query($query);
+            $table = $c->executeQuery($query);
             $c->close();
             if($table){
                 foreach($table as $j){

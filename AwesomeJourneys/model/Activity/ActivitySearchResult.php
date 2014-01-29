@@ -1,6 +1,8 @@
 <?php
 include_once 'model/AJConcreteAggregator.php';
 include_once 'ActivityTemplate.php';
+include_once 'model/AJConnection.php';
+
 /**
  * Description of ActivitySearchResult
  *
@@ -22,11 +24,8 @@ class ActivitySearchResult {
         
     }
 
-    /*
-     * DA MODIFICARE, CREARE UN'ALTRA FUNZIONE PRIVATA CHE RICERCA IN DB
-     */
     public function search($query = NULL){
-        $c = new Connection();
+        $c = new AJConnection();
         
         if($query == NULL){
             $query = "SELECT * "
@@ -34,7 +33,7 @@ class ActivitySearchResult {
         }
         
         if($c){
-            $table = $c->execute_query($query);
+            $table = $c->executeQuery($query);
             $c->close();
             if($table){
                 foreach($table as $row){

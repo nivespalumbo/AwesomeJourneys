@@ -1,8 +1,8 @@
 <h2><?php echo $this->model->getName() ?></h2>
 <p><?php echo $this->model->getDescription() ?></p>
 <div>
-    <span><label>Disponibile dal </label><?php echo $this->model->getStartDate();?></span>
-    <span><label>Al</label><?php echo $this->model->getEndDate(); ?></span>
+    <span><label>Disponibile dal </label><?php echo $this->model->getAvailableFrom();?></span>
+    <span><label>Al</label><?php echo $this->model->getAvailableTo(); ?></span>
 </div>
 <div>
     <h3>Attività disponibili</h3>

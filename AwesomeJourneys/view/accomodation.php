@@ -12,7 +12,7 @@ if($this->model){
             . "<span><label>Location: </label>".$this->model->getLocation()."</span>"
          . "</div>"
          . "<div>"
-            . "<span><label>Disponibile dal: </label>".$this->model->getStartDate()."</span>"
+            . "<span><label>Disponibile dal: </label>".$this->model->getAvailableFrom()."</span>"
             . "<span><label>Numero disponibilità: </label>".$this->model->getNumeroDisponibilita()."</span>"
          . "</div>"
          . "<div>"
