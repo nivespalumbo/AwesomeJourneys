@@ -198,7 +198,6 @@ class NavigationController {
         }
     }
     private function searchMyItinerariesOrJourneys(){
-        session_start();
         if(isset($_SESSION['utente'])){
             $user = unserialize($_SESSION['utente']);
             $c = new SearchController();

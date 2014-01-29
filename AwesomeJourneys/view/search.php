@@ -41,7 +41,7 @@
                            }
                            echo "<h3><a href='index.php?op=selectJourney&id=".$journey->getId()."' >".$itinerary->getName()."</a></h3>";
                            echo "<p>".$itinerary->getDescription()."</p>";
-                           echo "<p>Dal <b>".$journey->getAvailableFrom()."</b> al <b>".$journey->getAvailableTo()."</b></p>";
+                           echo "<p>Dal <b>".$journey->getStartDate()."</b> al <b>".$journey->getEndDate()."</b></p>";
                            echo '</div>';
                         }
                     }

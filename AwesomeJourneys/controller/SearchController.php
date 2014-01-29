@@ -9,7 +9,6 @@ class SearchController {
         $searchResult = new JourneySearchResult();
         $searchResult->search($query);
         
-        session_start();
         if(isset($_SESSION['utente'])){
             $user = unserialize($_SESSION['utente']);
             $user->setJourneySearchResult($searchResult);
@@ -23,7 +22,6 @@ class SearchController {
         $searchResult = new ItinerarySearchResult();
         $searchResult->search($query);
         
-        session_start();
         if(isset($_SESSION['utente'])){
             $user = unserialize($_SESSION['utente']);
             $user->setItinerarySearchResult($searchResult);
@@ -34,7 +32,6 @@ class SearchController {
     }
     
     public function searchStays(){
-        session_start();
         if(isset($_SESSION['utente'])){
             $user = unserialize($_SESSION['utente']);
             $model = $user->searchStays();
@@ -45,7 +42,6 @@ class SearchController {
     }
     
     public function searchActivities(){
-        session_start();
         if(isset($_SESSION['utente'])){
             $user = unserialize($_SESSION['utente']);
             $model = $user->searchActivities();
@@ -115,7 +111,6 @@ class SearchController {
     }
     
     public function getJourney($id){
-        session_start();
         if(isset($_SESSION['utente'])){
             $user = unserialize($_SESSION['utente']);
             return $user->getJourney($id);
@@ -130,7 +125,6 @@ class SearchController {
     }
     
     public function getItinerary($id){
-        session_start();
         if(isset($_SESSION['utente'])){
             $user = unserialize($_SESSION['utente']);
             return $user->getItinerary($id);

@@ -9,7 +9,6 @@ abstract class UserComponent{
         $us = $conn->verificaLogin($mail, sha1($pass));
         $conn->close();
         if($us != FALSE){
-            session_start();
             if($us->role == 'customer'){
                 return new ConcreteUserComponent(session_id (), $us->mail, $us->name, $us->surname, $us->address, $us->telephone);
             } else {
@@ -32,7 +31,6 @@ abstract class UserComponent{
     }
     
     public static function logout(){
-        session_start();
         unset($_SESSION['utente']);
         @session_destroy();
     }
