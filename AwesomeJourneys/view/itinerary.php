@@ -24,7 +24,7 @@
         
         echo "<div>
                     <div class='activity_title'><h3>Pernottamenti disponibili</h3></div>";
-        $accomodations = $tappa->getAccomodations();
+        $accomodations = $tappa->getComponentsOfType(ACCOMODATION);
         foreach($accomodations as $a){
             echo "<div class='activity'>";
             echo "<b>".$a->getName()."</b>"

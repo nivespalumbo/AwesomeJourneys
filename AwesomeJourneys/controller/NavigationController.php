@@ -78,7 +78,7 @@ class NavigationController {
             case 'addStay' :
                 $this->addStay();
                 break;
-            case 'modifyStay':
+            case 'setOptionStay':
                 $this->openFormStay();
                 break;
             case 'removeStay':
@@ -88,7 +88,10 @@ class NavigationController {
             case 'addActivity' :
                 $this->addActivity();
                 break;
-            case 'modifyActivity' :
+            case 'addActivityFromTemplate' :
+                $this->addActivityFromTemplate();
+                break;
+            case 'setOptionActivity' :
                 $this->openFormActivity();
                 break;
             case 'deleteActivity' :
@@ -98,7 +101,7 @@ class NavigationController {
             case 'addAccomodation' :
                 $this->addAccomodation();
                 break;
-            case 'modifyAccomodation':
+            case 'setOptionAccomodation':
                 $this->openFormAccomodation();
                 break;
             case 'removeAccomodation' :
@@ -118,13 +121,13 @@ class NavigationController {
             case 'provideBasicInfo':
                 $this->provideBasicInfo(); //l'utente ha inserito le info base, si crea l'itinerario e viene visualizzato
                 break;
-            case 'setOptionStay':
+            case 'modifyStay':
                 $this->modifyStay();
                 break;
-            case 'setOptionActivity' :
+            case 'modifyActivity' :
                 $this->modifyActivity();
                 break;
-            case 'setOptionAccomodation' :
+            case 'modifyAccomodation' :
                 $this->modifyAccomodation();
                 break;
         }
@@ -197,6 +200,7 @@ class NavigationController {
             $this->error("Sessione inesistente");
         }
     }
+    
     private function searchMyItinerariesOrJourneys(){
         if(isset($_SESSION['utente'])){
             $user = unserialize($_SESSION['utente']);
@@ -257,8 +261,8 @@ class NavigationController {
     
     private function provideBasicInfo(){
         $c = new ManagementController();
-        if($this->model = $c->createItinerary($_POST['name'], $_POST['description'], $_POST['location'])){
-            require_once 'view/itinerary.php';
+        if($this->model = $c->createItinerary($_POST['name'], $_POST['description'])){
+            require_once 'view/manage_itinerary.php';
         }
         else{
             $this->error("Errore");
@@ -318,7 +322,7 @@ class NavigationController {
     
     private function modifyStay(){
         $c = new ManagementController();
-        if($this->model = $c->modifyStay($_POST['id'])){
+        if($this->model = $c->modifyStay($_POST['idStay'])){
             require_once 'view/personalize_stay.php';
         }
         else {
@@ -339,6 +343,16 @@ class NavigationController {
     private function addActivity(){
         $c = new ManagementController();
         if($this->model = $c->addActivity($_GET['idStay'], $_GET['id'])){
+            require_once 'view/personalize_activity.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
+    private function addActivityFromTemplate(){
+        $c = new ManagementController();
+        if($this->model = $c->addActivityFromTemplate($_GET['idStay'], $_GET['id'])){
             require_once 'view/personalize_activity.php';
         }
         else {

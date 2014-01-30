@@ -133,8 +133,8 @@ class ConcreteUserComponent extends UserComponent{
      * MANAGE ITINERARY
      */
     
-    public function createItinerary($name, $description, $location){
-        $itinerary = new PartialItinerary($this->mail, $name, $description, $location);
+    public function createItinerary($name, $description){
+        $itinerary = new PartialItinerary($this->mail, $name, $description);
         $this->itineraryContext = new ItineraryContext($itinerary);
     }
     
@@ -153,7 +153,7 @@ class ConcreteUserComponent extends UserComponent{
     public function addBrick($idTemplate){
         if($stayTemplate = $this->searchResultStay->getObject($idTemplate)){
             $itinerary = $this->itineraryContext->getItinerary();
-            $itinerary->addBrick($stayTemplate);
+            return $itinerary->addBrick($stayTemplate);
         }
     }
     
@@ -172,7 +172,7 @@ class ConcreteUserComponent extends UserComponent{
     public function addActivityFromTemplate($idStay, $idActivityTemplate){
         $activityTemplate = $this->searchResultActivity->getObject($idActivityTemplate);
         $itinerary = $this->itineraryContext->getItinerary();
-        $itinerary->addActivityFromTemplate($idStay, $activityTemplate);
+        return $itinerary->addActivityFromTemplate($idStay, $activityTemplate);
     }
     
     public function removeActivity($idStay, $idActivity){

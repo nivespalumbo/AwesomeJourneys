@@ -23,12 +23,12 @@ class StaySearchResult {
         if($c){
             $query = "SELECT * "
                    . "FROM (activity_in_stay_template INNER JOIN activity ON activity_in_stay_template.activity_id = activity.ID) INNER JOIN activity_template ON activity.template = activity_template.ID "
-                   . "WHERE activity_in_stay_template.stay_template = '".$template->getId()."';";
+                   . "WHERE activity_in_stay_template.stay_template = ".$template->getId().";";
             //DA CONTROLLARE
             $table = $c->executeQuery($query);
             if($table){
                 foreach($table as $a){
-                    $activity = new Activity($a->activity_id, $template->getId(), $a->template, $a->name, $a->address, $a->expected_duration, $a->location, $a->description);
+                    $activity = new Activity($a->activity_id, $a->template, $a->name, $a->address, $a->expected_duration, $a->location, $a->description, $a->available_from, $a->available_to);
                     $template->addComponent($activity);
                 }  
             }
@@ -39,13 +39,29 @@ class StaySearchResult {
         if($c){
             $query = "SELECT * "
                    . "FROM (accomodation_in_stay_template INNER JOIN accomodation ON accomodation_in_stay_template.accomodation_id = accomodation.ID) INNER JOIN accomodation_template ON accomodation.template = accomodation_template.ID "
-                   . "WHERE accomodation_in_stay_template.stay_template = '".$template->getId()."';";
+                   . "WHERE accomodation_in_stay_template.stay_template = ".$template->getId().";";
             //DA CONTROLLARE
             $table = $c->executeQuery($query);
             if($table){
                 foreach($table as $acc){
-                    $accomodation = new Accomodation($acc->accomodation_id, $template->getId(), $acc->numero_disponibilita, $acc->template, $acc->address, $acc->type, $acc->description, $acc->category, $acc->name, $acc->link, $acc->photo, $acc->location);
+                    $accomodation = new Accomodation($acc->accomodation_id, $acc->numero_disponibilita, $acc->template, $acc->address, $acc->type, $acc->description, $acc->category, $acc->name, $acc->link, $acc->photo, $acc->location); 
                     $template->addComponent($accomodation);
+                }  
+            }
+        }
+    }
+    
+    private function insertTransport($template, AJConnection $c){
+        if($c){
+            $query = "SELECT * "
+                   . "FROM (transport_in_stay_template INNER JOIN transport ON transport_in_stay_template.transport_id = transport.ID) INNER JOIN transport_template ON transport.template = transport_template.ID "
+                   . "WHERE transport_in_stay_template.stay_template = ".$template->getId().";";
+            //DA CONTROLLARE
+            $table = $c->executeQuery($query);
+            if($table){
+                foreach($table as $row){
+                    $transport = new Transport($row->transport_id, $row->start_date, $row->duration, $row->start_location, $row->end_location, $row->template, $row->name, $row->description, $row->vehicle);
+                    $template->addComponent($transport);
                 }  
             }
         }
@@ -84,12 +100,11 @@ class StaySearchResult {
                         $stayTemplate = new StayTemplateComposite($st->ID);
                         $stayTemplate->setStartLocation($st->start_location);
                         $stayTemplate->setEndLocation($st->end_location);
-                        $stayTemplate->setStartDate($st->start_date);
-                        $stayTemplate->setEndDate($st->end_date);
                         $stayTemplate->setName($st->name);
                         $stayTemplate->setDescription($st->description);
                         $this->insertAccomodation($stayTemplate, $c);
                         $this->insertActivity($stayTemplate, $c);
+                        $this->insertTransport($stayTemplate, $c);
                         $this->aggregator->add($stayTemplate->getId(), $stayTemplate);
                     }
                 }  

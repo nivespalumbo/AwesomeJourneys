@@ -36,11 +36,12 @@ class ItinerarySearchResult {
             if($table){
                 foreach($table as $it){
                     if($it->state == 1){
-                        $itinerary = new CompleteItinerary($it->itinerary_creator, $it->name, $it->description, $it->start_location, $it->ID);
+                        $itinerary = new CompleteItinerary($it->itinerary_creator, $it->name, $it->description, $it->ID);
                     }
                     else{
-                        $itinerary = new PartialItinerary($it->itinerary_creator, $it->name, $it->description, $it->start_location, $it->ID);
+                        $itinerary = new PartialItinerary($it->itinerary_creator, $it->name, $it->description, $it->ID);
                     }
+                    $itinerary->setStartLocation($it->start_location);
                     $itinerary->setEndLocation($it->end_location);
                     $itinerary->setPhoto($it->photo);
                     $itinerary->searchBricks();

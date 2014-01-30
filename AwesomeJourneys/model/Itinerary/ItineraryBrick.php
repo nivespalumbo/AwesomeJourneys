@@ -7,6 +7,12 @@ interface ItineraryBrick {
     public function getType();
     public function getStartLocation();
     public function getEndLocation();
+    public function getStartDate();
+    public function getEndDate();
+    
+    public function setId($id);
+    public function setStartDate($startDate);
+    public function setEndDate($endDate);
     
     public function addActivity(Activity $a);
     public function removeActivity($id);

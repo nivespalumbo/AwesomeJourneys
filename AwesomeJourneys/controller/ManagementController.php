@@ -2,7 +2,6 @@
 
 class ManagementController {
     public function getPersonalData(){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -15,20 +14,18 @@ class ManagementController {
      */
     
     public function newItinerary(){
-        session_start();
         if(isset($_SESSION['utente'])){
             return TRUE;
         }
         return FALSE;
     }
     
-    public function createItinerary($name, $description, $location){
-        session_start();
+    public function createItinerary($name, $description){
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
         $user = unserialize($_SESSION['utente']);
-        $user->createItinerary($name, $description, $location);
+        $user->createItinerary($name, $description);
         $_SESSION['utente'] = serialize($user);
         return $user->getItinerary();
     }
@@ -36,7 +33,6 @@ class ManagementController {
     
     
     public function manageItinerary($id){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -47,7 +43,6 @@ class ManagementController {
     }
     
     public function getStay($id){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -56,7 +51,6 @@ class ManagementController {
     }
     
     public function getActivity($id){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -68,7 +62,6 @@ class ManagementController {
     }
     
     public function getAccomodation($idStay, $idAccomodation){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -77,7 +70,6 @@ class ManagementController {
     }
     
     public function getBrick($id){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -86,7 +78,6 @@ class ManagementController {
     }
     
     public function getBrickActivity($idBrick, $idActivity){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -95,7 +86,6 @@ class ManagementController {
     }
     
     public function getBrickAccomodation($idBrick){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -105,22 +95,20 @@ class ManagementController {
     
     
     public function addStay($id){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
         $user = unserialize($_SESSION['utente']);
-        $user->addBrick($id);
+        $model = $user->addBrick($id);
         $_SESSION['utente'] = serialize($user);
-        return $user->getItinerary();
+        return $model;
     }
     
-    public function modifyStay($id){
+    public function modifyStay($idStay){
         
     }
     
     public function removeStay($id){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -131,7 +119,6 @@ class ManagementController {
     }
     
     public function addActivity($idStay, $idActivity){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -141,12 +128,21 @@ class ManagementController {
         return $model;
     }
     
+    public function addActivityFromTemplate($idStay, $idActivityTemplate){
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $model = $user->addActivityFromTemplate($idStay, $idActivityTemplate);
+        $_SESSION['utente'] = serialize($user);
+        return $model;
+    }
+    
     public function modifyActivity($idStay, $idActivity){
         
     }
     
     public function removeActivity($idStay, $idActivity){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -157,7 +153,6 @@ class ManagementController {
     }
     
     public function addAccomodation($idStay, $idAccomodation){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }
@@ -172,7 +167,6 @@ class ManagementController {
     }
     
     public function removeAccomodation($idStay){
-        session_start();
         if(!isset($_SESSION['utente'])){
             return FALSE;
         }

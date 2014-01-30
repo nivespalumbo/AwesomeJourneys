@@ -36,7 +36,8 @@ class JourneySearchResult {
             $c->close();
             if($table){
                 foreach($table as $j){
-                    $itinerary = new CompleteItinerary($j->itinerary_creator, $j->name, $j->description, $j->start_location, $j->itinerary);
+                    $itinerary = new CompleteItinerary($j->itinerary_creator, $j->name, $j->description, $j->itinerary);
+                    $itinerary->setStartLocation($j->start_location);
                     $itinerary->setEndLocation($j->end_location);
                     $itinerary->setPhoto($j->photo);
                     if($j->published == 1){

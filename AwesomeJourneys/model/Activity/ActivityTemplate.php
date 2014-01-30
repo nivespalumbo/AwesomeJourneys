@@ -15,13 +15,15 @@ class ActivityTemplate implements Serializable{
     private $availableFrom;
     private $availableTo;
     
-    function __construct($id, $name, $address, $expectedDuration, $location, $description) {
+    function __construct($id, $name, $address, $expectedDuration, $location, $description, $availableFrom, $availableTo) {
         $this->idTemplate = $id;
         $this->name = $name;
         $this->address = $address;
         $this->expectedDuration = $expectedDuration;
         $this->location = $location;
         $this->description = $description;
+        $this->availableFrom = $availableFrom;
+        $this->availableTo = $availableTo;
     }
         
     public function serialize() {

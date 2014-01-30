@@ -7,6 +7,8 @@ class Stay implements ItineraryBrick{
     private $id;
     private $startLocation;
     private $endLocation;
+    private $startDate;
+    private $endDate;
     private $template;
     
     private $selectedActivities; //array contenete tutte le attivita
@@ -36,12 +38,19 @@ class Stay implements ItineraryBrick{
     public function getType() { return STAY; }
     public function getStartLocation() { return $this->startLocation; }
     public function getEndLocation() { return $this->endLocation; }
-    public function setStartLocation($startLocation) {
-        $this->startLocation = $startLocation;
+    public function getStartDate() { return $this->startDate; }
+    public function getEndDate() { return $this->endDate; }
+    
+    public function setId($id){
+        $this->id = $id;
     }
-    public function setEndLocation($endLocation) {
-        $this->endLocation = $endLocation;
+    public function setStartDate($startDate){
+        $this->startDate = $startDate;
     }
+    public function setEndDate($endDate){
+        $this->endDate = $endDate;
+    }
+    
     public function setSelectedActivities(Activity $selectedActivity) {
         if(!array_key_exists($selectedActivity->getId(), $this->selectedActivities)){
             $this->selectedActivities[$selectedActivity->getId()] = $selectedActivity;
@@ -50,6 +59,7 @@ class Stay implements ItineraryBrick{
     public function setSelectedAccomodation(Accomodation $selectedAccomodation = NULL) {
         $this->selectedAccomodation = $selectedAccomodation;
     }
+    
 
      
     
@@ -158,17 +168,17 @@ class Stay implements ItineraryBrick{
         return FALSE;
     }
     
-    public static function getStay($idStay, $idItinerary){
+    public static function getStay($idStay){
         $c = new AJConnection();
         if($c){
             $sql = "SELECT * FROM stay WHERE ID=$idStay;";
             $table = $c->executeQuery($sql);
             $c->close();
-            if($table){
+            if($table && count($table, COUNT_NORMAL) == 1){
                 $searchTemplate = new StaySearchResult();
                 $searchTemplate->searchStay("SELECT * FROM stay_template WHERE ID=".$table[0]->template_id.";");
                 if($template = $searchTemplate->fetchObject()){
-                    $stay = new Stay($table->ID, $table->start_location, $table->end_location, $template);
+                    $stay = new Stay($table[0]->ID, $table[0]->start_location, $table[0]->end_location, $template);
                     $stay->setSelectedAccomodation($template->getComponent($table[0]->accomodation_id));
                     $stay->searchSelectedActivities();
                     return $stay;
@@ -182,13 +192,13 @@ class Stay implements ItineraryBrick{
         $c = new AJConnection();
         try{
             $sql = "SELECT * "
-                 . "FROM activity_in_stay INNER JOIN activity ON activity_in_stay.activity_id = activity.ID "
-                 . "WHERE activity_in_stay.stay_id = $this->id;";
+                 . "FROM (activity_in_stay INNER JOIN activity ON activity_in_stay.id_activity = activity.ID) INNER JOIN activity_template ON activity.template = activity_template.ID "
+                 . "WHERE activity_in_stay.id_stay=$this->id;";
             $table = $c->executeQuery($sql);
             $c->close();
             if($table){
                 foreach($table as $row){
-                    $activity = new Activity($row->ID, $row->template, $row->name, $row->address, $row->expected_duration, $row->location, $row->description);
+                    $activity = new Activity($row->ID, $row->template, $row->name, $row->address, $row->expected_duration, $row->location, $row->description, $row->available_from, $row->available_to);
                     $activity->setStartDate($row->start_date);
                     $activity->setEndDate($row->end_date);
                     

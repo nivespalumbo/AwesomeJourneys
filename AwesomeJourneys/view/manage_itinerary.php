@@ -16,14 +16,15 @@ include_once 'partials/_personalmenu.php'
 
     <div id="stages">
     <?php
-    $tappe = $this->model->getBricks();
-    foreach($tappe as $tappa){ 
-        echo "<div id='select_stages'>"
-            .  "<label>".$tappa->getTemplate()->getName()."</label>"
-            .  "<p>".$tappa->getTemplate()->getDescription()."</p>"
-            .  "<div class='add_remove_to_stage'><a href='index.php?op=modifyStay&id=".$tappa->getId()."' >Modifica tappa</a></div>"
-            .  "<div class='add_remove_to_stage'><a href='index.php?op=removeStay&id=".$tappa->getId()."' >Elimina tappa</a></div>"
-            ."</div>";
+    if($tappe = $this->model->getBricks()){
+        foreach($tappe as $tappa){ 
+            echo "<div id='select_stages'>"
+                .  "<label>".$tappa->getTemplate()->getName()."</label>"
+                .  "<p>".$tappa->getTemplate()->getDescription()."</p>"
+                .  "<div class='add_remove_to_stage'><a href='index.php?op=setOptionStay&id=".$tappa->getId()."' >Modifica tappa</a></div>"
+                .  "<div class='add_remove_to_stage'><a href='index.php?op=removeStay&id=".$tappa->getId()."' >Elimina tappa</a></div>"
+                ."</div>";
+        }
     }
     ?>
     </div>

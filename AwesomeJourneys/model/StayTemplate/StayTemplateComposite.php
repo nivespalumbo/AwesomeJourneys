@@ -7,9 +7,6 @@ class StayTemplateComposite implements StayTemplateComponent{
     private $name;
     private $description;
     
-    private $startDate;
-    private $endDate;
-    
     private $startLocation; //contiene la località di partenza che coincide con la località della tappa rappresentata dal template
     private $endLocation; //contiene la località finale della tappa rappresentata dal template. Se il template ha una sola località endLocation = startLocation
     
@@ -29,47 +26,15 @@ class StayTemplateComposite implements StayTemplateComponent{
     public function getName() { return $this->name; }
     public function getDescription() { return $this->description; }
     public function getType(){ return STAY_TEMPLATE; }
-    public function getStartDate() { return $this->startDate; }
-    public function getEndDate() { return $this->endDate; }
     public function getStartLocation(){ return $this->startLocation; }
     public function getEndLocation(){ return $this->endLocation; }
     
     public function setName($name) { $this->name = $name; }
     public function setDescription($description) { $this->description = $description; }
-    public function setStartDate($startDate) { $this->startDate = $startDate; }
-    public function setEndDate($endDate) { $this->endDate = $endDate; }
     public function setStartLocation($location){ $this->startLocation = $location; }
     public function setEndLocation($location){ $this->endLocation = $location; }
-//    
-    public function getActivities(){
-        return $this->getComponentsOfType(ACTIVITY);
-    }
-    public function getAccomodations(){
-        return $this->getComponentsOfType(ACCOMODATION);
-    }
-    public function getTransports(){
-        return $this->getComponentsOfType(TRANSPORT);
-//        $ris = array();
-//        foreach($this->components as $component){
-//            if($component->getType() == TRANSPORT){
-//                $ris[$component->getId()] = $component;
-//            } else if($component->getType() == TRANSFER_TEMPLATE){
-//                array_merge($ris, $component->getTransports());
-//            }
-//        }
-//        return $ris;
-    }
-    public function getCompositeTemplates(){
-        $ris = array();
-        foreach($this->components as $component){
-            if($component->getType() == STAY_TEMPLATE || $component->getType() == TRANSFER_TEMPLATE){
-                $ris[$component->getId()] = $component;
-            }
-        }
-        return $ris;
-    }
     
-    private function getComponentsOfType($type){
+    public function getComponentsOfType($type){
         $ris = array();
         foreach($this->components as $component){
             if($component->getType() == $type){

@@ -9,8 +9,8 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
     private $startDate;
     private $endDate;
     
-    function __construct($idActivity, $idTemplate, $name, $address, $expectedDuration, $location, $description) {
-        parent::__construct($idTemplate, $name, $address, $expectedDuration, $location, $description);
+    function __construct($idActivity, $idTemplate, $name, $address, $expectedDuration, $location, $description, $availableFrom, $availableTo) {
+        parent::__construct($idTemplate, $name, $address, $expectedDuration, $location, $description, $availableFrom, $availableTo);
         $this->id = $idActivity;
         
         if($this->id == NULL){
@@ -106,21 +106,14 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
     public function addComponent(StayTemplateComponent $component) {
         return FALSE;
     }
-
-    public function getAccomodations() {
-        return FALSE;
-    }
-
-    public function getActivities() {
-        return $this;
-    }
-
-    public function getCompositeTemplates() {
-        return FALSE;
-    }
-
-    public function getTransports() {
-        return FALSE;
+    
+    public function getComponentsOfType($type) {
+        if($type == ACTIVITY){
+            return $this;
+        }
+        else {
+            return NULL;
+        }
     }
 
     public function isComposite() {

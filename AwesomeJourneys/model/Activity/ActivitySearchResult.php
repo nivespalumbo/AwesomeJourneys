@@ -37,7 +37,7 @@ class ActivitySearchResult {
             $c->close();
             if($table){
                 foreach($table as $row){
-                    $activity = new ActivityTemplate($row->ID, $row->name, $row->address, $row->expected_duration, $row->location, $row->description);
+                    $activity = new ActivityTemplate($row->ID, $row->name, $row->address, $row->expected_duration, $row->location, $row->description, $row->available_from, $row->available_to);
                     $this->aggregator->add($activity->getId(), $activity);
                 }
             }

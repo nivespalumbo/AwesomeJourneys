@@ -4,23 +4,21 @@ include_once 'ItineraryState.php';
 include_once 'ItineraryBrick.php';
 
 class PartialItinerary extends ItineraryState{
-    function __construct($creator, $name, $description, $location, $id = NULL) {
+    function __construct($creator, $name, $description, $id = NULL) {
         $this->id = $id;
         $this->creator = $creator;
         $this->name = $name;
-        $this->startLocation = $location;
         $this->description = $description;
-        
-        $this->staySearchResult = NULL;
+
         $this->bricks = array();
         
         if($id == NULL){
-            $this->saveInDb();
+            parent::insertIntoDb();
         }
     }
     
     public function __sleep() {
-        return array("id", "name", "description", 'startLocation', 'endLocation', "photo",'staySearchResult', "itineraryBricks", 'creator');
+        return array("id", "name", "description", 'startLocation', 'endLocation', "photo", "bricks", 'creator');
     }
     public function __wakeup() { }
     

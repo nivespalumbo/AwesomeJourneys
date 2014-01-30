@@ -12,10 +12,7 @@ interface StayTemplateComponent {
 //    public function getStartDate();
 //    public function getEndDate();
     
-    public function getActivities();
-    public function getAccomodations();
-    public function getTransports();
-    public function getCompositeTemplates();
+    public function getComponentsOfType($type);
     
     public function setName($name);
     public function setDescription($description);

@@ -4,18 +4,16 @@ include_once 'model/StayTemplate/StayTemplateLeaf.php';
 
 class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
     private $id;
-    private $compositeId;
-    private $numeroDisponibilita;
     
+    private $numeroDisponibilita;
     private $startDate;
     private $duration;
     
-    function __construct($id, $compositeId, $numeroDisponibilita, $idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location) {
+    function __construct($id, $numeroDisponibilita, $idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location) {
         parent::__construct($idTemplate, $address, $type, $description, $category, $name, $link, $photo, $location);
         $this->id = $id;
-        $this->compositeId = $compositeId;
-        $this->numeroDisponibilita = $numeroDisponibilita;
         
+        $this->numeroDisponibilita = $numeroDisponibilita;
         $this->startDate = NULL;
         $this->duration = NULL;
     }
@@ -24,7 +22,6 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
         return serialize(
             array(
                 'id' => $this->id,
-                'compositeId' => $this->compositeId,
                 'numeroDisponibilita' => $this->numeroDisponibilita,
                 'startDate' => $this->startDate,
                 'duration' => $this->duration,
@@ -44,7 +41,6 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
         $data = unserialize($serialized);
         
         $this->id = $data['id'];
-        $this->compositeId = $data['compositeId'];
         $this->numeroDisponibilita = $data['numeroDisponibilita'];
         $this->startDate = $data['startDate'];
         $this->duration = $data['duration'];
@@ -61,9 +57,6 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
 
     public function getId() {
         return $this->id;
-    }
-    public function getCompositeId(){
-        return $this->compositeId;
     }
     public function getNumeroDisponibilita() {
         return $this->numeroDisponibilita;
@@ -114,20 +107,13 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
         return FALSE;
     }
 
-    public function getAccomodations() {
-        return $this;
-    }
-
-    public function getActivities() {
-        return FALSE;
-    }
-
-    public function getCompositeTemplates() {
-        return FALSE;
-    }
-
-    public function getTransports() {
-        return FALSE;
+    public function getComponentsOfType($type) {
+        if($type == ACCOMODATION){
+            return $this;
+        }
+        else {
+            return NULL;
+        }
     }
 
     public function isComposite() {
@@ -137,5 +123,6 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
     public function removeComponent($id) {
         return FALSE;
     }
+
 }
 ?>

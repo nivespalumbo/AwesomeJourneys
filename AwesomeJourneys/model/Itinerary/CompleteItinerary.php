@@ -6,14 +6,12 @@ include_once 'ItineraryBrick.php';
 
 
 class CompleteItinerary extends ItineraryState{
-    function __construct($creator, $name, $description, $location, $id = NULL) {
+    function __construct($creator, $name, $description, $id = NULL) {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
-        $this->startLocation = $location;
         $this->creator = $creator;
         
-        $this->staySearchResult = NULL;
         $this->bricks = array();
         
         if($id == NULL){
@@ -22,7 +20,7 @@ class CompleteItinerary extends ItineraryState{
     }
     
     public function __sleep() {
-        return array("id", "name", "description", 'startLocation', 'endLocation', "photo", 'staySearchResult', "itineraryBricks", 'creator');
+        return array("id", "name", "description", 'startLocation', 'endLocation', "photo", "bricks", 'creator');
     }
     public function __wakeup() { }
     

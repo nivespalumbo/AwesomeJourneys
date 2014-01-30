@@ -52,7 +52,7 @@ class AccomodationTemplate implements Serializable {
         $this->location = $data['location'];
     }
 
-    public function getIdTemplate() {
+    public function getId() {
         return $this->idTemplate;
     }
     public function getAddress() {

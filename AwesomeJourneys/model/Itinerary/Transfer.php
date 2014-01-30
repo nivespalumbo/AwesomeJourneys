@@ -7,6 +7,8 @@ class Transfer implements ItineraryBrick{
     private $id;
     private $startLocation;
     private $endLocation;
+    private $startDate;
+    private $endDate;
     private $template;
     
     private $selectedTransport;
@@ -30,28 +32,39 @@ class Transfer implements ItineraryBrick{
     public function getId() {
         return $this->id;
     }
-
     public function getType(){
         return TRANSFER;
     }
-    
     public function getStartLocation() {
         return $this->startLocation;
     }
-
     public function getEndLocation() {
         return $this->endLocation;
     }
-
+    public function getStartDate() {
+        return $this->startDate;
+    }
+    public function getEndDate() {
+        return $this->endDate;
+    }    
     public function getTemplate() {
         return $this->template;
     }
-
     public function getSelectedTransport() {
         return $this->selectedTransport;
     }
-
     
+    public function setId($id){
+        $this->id = $id;
+    }
+    public function setStartDate($startDate) {
+        $this->startDate = $startDate;
+    }
+    public function setEndDate($endDate) {
+        $this->endDate = $endDate;
+    }
+
+        
     
     public function addAccomodation(\Accomodation $a) {
         return FALSE;

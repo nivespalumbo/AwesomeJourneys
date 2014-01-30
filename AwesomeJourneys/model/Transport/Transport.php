@@ -3,37 +3,33 @@ include_once 'TransportTemplate.php';
 
 class Transport extends TransportTemplate implements StayTemplateLeaf{
     private $id;
-    private $compositeId;
-    
-    private $startIndex;
-    private $endIndex;
     
     private $startDate;
+    private $duration;
+    private $startLocation;
+    private $endLocation;
     
-    function __construct($id, $startIndex, $endIndex, $startDate, $idTemplate, $name, $description, $vehicle, $locations, $start_hours, $durations, $data) {
-        parent::__construct($idTemplate, $name, $description, $vehicle, $locations, $start_hours, $durations, $data);
+    function __construct($id, $startDate, $duration, $startLocation, $endLocation, $idTemplate, $name, $description, $vehicle) {
+        parent::__construct($idTemplate, $name, $description, $vehicle);
         $this->id = $id;
-        $this->startIndex = $startIndex;
-        $this->endIndex = $endIndex;
         $this->startDate = $startDate;
+        $this->duration = $duration;
+        $this->startLocation = $startLocation;
+        $this->endLocation = $endLocation;
     }
     
     function serialize() {
         return serialize(
             array(
                 'id' => $this->id,
-                'compositeId' => $this->compositeId,
-                'startIndex' => $this->startIndex,
-                'endIndex' => $this->endIndex,
-                'date' => $this->startDate,
+                'startDate' => $this->startDate,
+                'duration' => $this->duration,
+                'startLocation' => $this->startLocation,
+                'endLocation' => $this->endLocation,
                 'idTemplate' => $this->idTemplate,
                 'name' => $this->name,
                 'description' => $this->description,
                 'vehicle' => $this->vehicle,
-                'locations' => $this->locations,
-                'start_hours' => $this->start_hours,
-                'durations' => $this->durations,
-                'date' => $this->date
             )
         );
     } 
@@ -41,27 +37,20 @@ class Transport extends TransportTemplate implements StayTemplateLeaf{
         $data = unserialize($serialized);
         
         $this->id = $data['id'];
-        $this->compositeId = $data['compositeId'];
-        $this->startIndex = $data['startIndex'];
-        $this->endIndex = $data['endIndex'];
         $this->startDate = $data['date'];
+        $this->duration = $data['duration'];
+        $this->startLocation = $data['startLocation'];
+        $this->endLocation = $data['endLocation'];
         $this->idTemplate = $data['idTemplate'];
         $this->name = $data['name'];
         $this->description = $data['description'];
         $this->vehicle = $data['vehicle'];
-        $this->locations = $data['locations'];
-        $this->start_hours = $data['start_hours'];
-        $this->durations = $data['durations'];
-        if($data['date'] != "") { $this->date = new DateTime($data['date']); }
     }
 
     public function getId() { return $this->id; }
     public function getStartDate() { return $this->startDate; }
     public function getDuration() {
-        return array_sum(array_slice($this->durations, $this->startIndex, $this->endIndex - $this->startIndex));
-    }
-    public function getEndDate() {
-        return date_add($this->startDate, $this->getDuration());
+        return $this->duration;
     }
     public function getStartLocation() {
         return $this->locations[$this->startIndex];
@@ -69,6 +58,10 @@ class Transport extends TransportTemplate implements StayTemplateLeaf{
     public function getEndLocation() {
         return $this->locations[$this->endIndex];
     }
+    public function getType() {
+        return TRANSPORT;
+    }
+    
     public function setStartDate($startDate){ $this->startDate = $startDate; }
     public function setStartLocation($location) {
         $this->startIndex = array_search($location, $this->locations);
@@ -86,28 +79,19 @@ class Transport extends TransportTemplate implements StayTemplateLeaf{
     
     
     
+    // STAY TEMPLATE LEAF
+    
     public function addComponent(StayTemplateComponent $component) {
         return FALSE;
     }
-
-    public function getAccomodations() {
-        return FALSE;
-    }
-
-    public function getActivities() {
-        return FALSE;
-    }
-
-    public function getCompositeTemplates() {
-        return FALSE;
-    }
-
-    public function getTransports() {
-        return $this;
-    }
-
-    public function getType() {
-        return TRANSPORT;
+    
+    public function getComponentsOfType($type) {
+        if($type == TRANSPORT){
+            return $this;
+        }
+        else {
+            return NULL;
+        }
     }
 
     public function isComposite() {

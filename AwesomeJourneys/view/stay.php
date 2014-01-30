@@ -1,14 +1,14 @@
 <h2><?php echo $this->model->getName() ?></h2>
 <p><?php echo $this->model->getDescription() ?></p>
-<div>
-    <span><label>Disponibile dal </label><?php echo $this->model->getAvailableFrom();?></span>
-    <span><label>Al</label><?php echo $this->model->getAvailableTo(); ?></span>
-</div>
+<!--<div>
+    <span><label>Disponibile dal </label><?php //echo $this->model->getAvailableFrom();?></span>
+    <span><label>Al</label><?php //echo $this->model->getAvailableTo(); ?></span>
+</div>-->
 <div>
     <h3>Attività disponibili</h3>
     <ul>
         <?php
-        $activities = $this->model->getActivities();
+        $activities = $this->model->getComponentsOfType(ACTIVITY);
         foreach($activities as $a){
             echo "<li>"
                  .  "<b>".$a->getName()."</b>"
@@ -23,7 +23,7 @@
     <h3>Pernottamenti disponibili</h3>
     <ul>
         <?php
-        $accomodations = $this->model->getAccomodations();
+        $accomodations = $this->model->getComponentsOfType(ACCOMODATION);
         foreach($accomodations as $a){
             echo "<li>"
                  . "<h4>".$a->getName()."</h4>"

@@ -51,15 +51,9 @@ class SearchController {
         return FALSE;
     }
     
-    /**
-     * Cerca tutti gli itinerari creati dall'utente loggato
-     * @return FALSE se la sessione utente non è settata, altrimenti un
-     * ItinerarySearchResult
-     */
     public function searchMyItineraries($user){
-        $user = unserialize($_SESSION['utente']);
         $searchResult = new ItinerarySearchResult();
-        $searchResult->search("SELECT * FROM itinerary WHERE itinerary_creator='".$user->getMail()."'");
+        $searchResult->search("SELECT * FROM itinerary WHERE itinerary_creator='".$user->getMail()."' ;");
         
         $user->setItinerarySearchResult($searchResult);
         $_SESSION['utente'] = serialize($user);
@@ -67,13 +61,7 @@ class SearchController {
         return $searchResult;
     }
     
-    /**
-     * Cerca tutti i viaggi creati dall'utente loggato
-     * @return FALSE se la sessione utente non è settata, altrimenti un
-     * JourneySearchResult
-     */
     public function searchMyJourneys($user){
-        $user = unserialize($_SESSION['utente']);
         $searchResult = new JourneySearchResult();
         $searchResult->search("SELECT * "
                             . "FROM journey INNER JOIN itinerary ON journey.itinerary = itinerary.ID "

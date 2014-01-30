@@ -72,6 +72,7 @@ abstract class ItineraryState{
         else {
             return;
         }
+        return $brick;
     }
     
     public function removeBrick($idBrick){
@@ -95,10 +96,10 @@ abstract class ItineraryState{
             if($table){
                 foreach($table as $row){
                     if($row->type == STAY){
-                        $brick = Stay::getStay($row->ID, $this->id);
+                        $brick = Stay::getStay($row->ID);
                     }
                     else{
-                        $brick = Transfer::getTransfer($row->ID, $this->id);
+                        $brick = Transfer::getTransfer($row->ID);
                     }
                     $this->insertInOrder($brick);
                 }
@@ -108,8 +109,9 @@ abstract class ItineraryState{
     
     public function addActivityFromTemplate($idStay, ActivityTemplate $template){
         if($brick = $this->getBrick($idStay)){
-            $activity = new Activity(NULL, $template->getId(), $template->getName(), $template->getAddress(), $template->getExpectedDuration(), $template->getLocation(), $template->getDescription());
+            $activity = new Activity(NULL, $template->getId(), $template->getName(), $template->getAddress(), $template->getExpectedDuration(), $template->getLocation(), $template->getDescription(), $template->getAvailableFrom(), $template->getAvailableTo());
             $brick->addActivity($activity);
+            return $activity;
         }
     }
 
@@ -189,7 +191,7 @@ abstract class ItineraryState{
     protected function insertBrickInDB(ItineraryBrick $brick){
         $c = new AJConnection();
         if($c){
-            $sql = "INSERT INTO itinerary_brick(start_location, end_location, start_date, end_date, type, id_itinerary) "
+            $sql = "INSERT INTO itinerary_brick(start_location, end_location, type, id_itinerary) "
                  . "VALUES ('".$brick->getStartLocation()."', "
                     . "'".$brick->getEndLocation()."', "
                     . "".$brick->getType().", "
