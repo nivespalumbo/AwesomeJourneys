@@ -79,7 +79,7 @@ class ConcreteUserComponent extends UserComponent{
     }
     
     public function getItinerary($id = NULL){
-        if($this->searchResultItinerary && $id != NULL){
+        if($this->searchResultItinerary != NULL && $id != NULL){
             $this->itineraryContext = new ItineraryContext($this->searchResultItinerary->getObject($id));
         }
         return $this->itineraryContext->getItinerary();
