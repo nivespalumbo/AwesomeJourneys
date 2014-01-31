@@ -1,11 +1,15 @@
 <?php
 
 class PublishedJourney extends Journey{
-    public $publish_date;
+    private $publishDate;
     
     public function __construct($id, CompleteItinerary $itinerary, $start_date, $end_date, $creator, $publish_date) {
         parent::__construct($id, $itinerary, $start_date, $end_date, $creator);
-        $this->publish_date = $publish_date;
+        $this->publishDate = $publish_date;
+    }
+    
+    public function __sleep(){
+        return array('id', 'itinerary', 'startDate', 'endDate', 'creator', 'publishDate');
     }
 }
 

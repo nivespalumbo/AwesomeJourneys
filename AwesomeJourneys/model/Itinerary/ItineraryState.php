@@ -35,7 +35,7 @@ abstract class ItineraryState{
     public function getBrickIndex($id){
         $index = -1;
         while($this->bricks[++$index]->getId() != $id){}
-        if(array_count($this->bricks, COUNT_NORMAL) == $index){
+        if(count($this->bricks, COUNT_NORMAL) == $index){
             return FALSE;
         }
         return $index;
@@ -76,8 +76,13 @@ abstract class ItineraryState{
     }
     
     public function removeBrick($idBrick){
-        if($index = $this->getBrickIndex($idBrick)){
-            if($this->removeBrickFromDb($index)){
+        $index = $this->getBrickIndex($idBrick);
+        if($index >= 0){
+            if($this->removeBrickFromDb($idBrick)){
+                if($index == 0){
+                    array_shift($this->bricks);
+                    return TRUE;
+                }
                 $upper = array_slice($this->bricks, 0, $index);
                 $lower = array_slice($this->bricks, $index+1);
                 $this->bricks = array_merge($upper, $lower);
@@ -125,7 +130,7 @@ abstract class ItineraryState{
         $temp = array();
         while($b = array_shift($this->bricks)){
             if(($b->getStartLocation() == $endLocation) || count($this->bricks, COUNT_NORMAL) == 0){
-                $this->bricks = array_merge($temp, array($brick), $this->bricks);
+                $this->bricks = array_merge($temp, array($brick), array($b), $this->bricks);
                 return;
             }
             else {

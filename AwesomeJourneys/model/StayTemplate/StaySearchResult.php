@@ -60,7 +60,7 @@ class StaySearchResult {
             $table = $c->executeQuery($query);
             if($table){
                 foreach($table as $row){
-                    $transport = new Transport($row->transport_id, $row->start_date, $row->duration, $row->start_location, $row->end_location, $row->template, $row->name, $row->description, $row->vehicle);
+                    $transport = new Transport($row->transport_id, $row->startDate, $row->duration, $row->start_location, $row->end_location, $row->template, $row->name, $row->description, $row->vehicle);
                     $template->addComponent($transport);
                 }  
             }

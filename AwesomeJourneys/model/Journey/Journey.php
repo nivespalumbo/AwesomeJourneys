@@ -2,29 +2,37 @@
 include_once 'model/Itinerary/ItineraryState.php';
 
 class Journey {
-    public $id;
-    public $itinerary;
-    public $start_date;
-    public $end_date;
-    private $creator;
+    protected $id;
+    protected $itinerary;
+    protected $startDate;
+    protected $endDate;
+    protected $creator;
     
     
     public function __construct($id, CompleteItinerary $itinerary, $start_date, $end_date, $creator) {
         $this->id = $id;
         $this->itinerary = $itinerary;
-        $this->start_date = $start_date;
-        $this->end_date = $end_date;
+        $this->startDate = $start_date;
+        $this->endDate = $end_date;
         $this->creator = $creator;
+    }
+    
+    public function __sleep(){
+        return array('id', 'itinerary', 'startDate', 'endDate', 'creator');
+    }
+    
+    public function __wakeup() {
+        
     }
     
     public function getId(){
         return $this->id;
     }
     public function getStartDate(){
-        return $this->start_date;
+        return $this->startDate;
     }
     public function getEndDate(){
-        return $this->end_date;
+        return $this->endDate;
     }
     public function getName(){
         return $this->name;

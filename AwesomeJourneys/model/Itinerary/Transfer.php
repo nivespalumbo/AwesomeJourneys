@@ -20,10 +20,12 @@ class Transfer implements ItineraryBrick{
         $this->template = $template;
         
         $this->selectedTransport = NULL;
+        $this->startDate = NULL;
+        $this->endDate = NULL;
     }
     
     public function __sleep(){
-        return array('id', 'startLocation', 'endLocation', 'selectedTransport', 'template');
+        return array('id', 'startLocation', 'endLocation', 'startDate', 'endDate', 'selectedTransport', 'template');
     }
     public function __wakeup() { }
 

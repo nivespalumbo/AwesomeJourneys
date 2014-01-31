@@ -25,10 +25,12 @@ class Stay implements ItineraryBrick{
         
         $this->selectedActivities = array();
         $this->selectedAccomodation = NULL;
+        $this->startDate = NULL;
+        $this->endDate = NULL;
     }
     
     public function __sleep() {
-        return array('id', 'startLocation', 'endLocation', 'template', 'selectedActivities', 'selectedAccomodation');
+        return array('id', 'startLocation', 'endLocation', 'startDate', 'endDate', 'template', 'selectedActivities', 'selectedAccomodation');
     }
     public function __wakeup() { }
     
@@ -171,7 +173,7 @@ class Stay implements ItineraryBrick{
     public static function getStay($idStay){
         $c = new AJConnection();
         if($c){
-            $sql = "SELECT * FROM stay WHERE ID=$idStay;";
+            $sql = "SELECT * FROM stay INNER JOIN itinerary_brick ON stay.ID = itinerary_brick.ID WHERE stay.ID=$idStay;";
             $table = $c->executeQuery($sql);
             $c->close();
             if($table && count($table, COUNT_NORMAL) == 1){
