@@ -116,19 +116,22 @@ abstract class ItineraryState{
     }
 
     public function insertInOrder(ItineraryBrick $brick){
+        if(count($this->bricks, COUNT_NORMAL) == 0){
+            array_push($this->bricks, $brick);
+            return;
+        }
         $endLocation = $brick->getEndLocation();
         
         $temp = array();
         while($b = array_shift($this->bricks)){
-            if(($b->getStartLocation() == $endLocation) || array_count($this->bricks, COUNT_NORMAL) == 0){
-                array_merge($temp, array($brick), $this->bricks);
-                break;
+            if(($b->getStartLocation() == $endLocation) || count($this->bricks, COUNT_NORMAL) == 0){
+                $this->bricks = array_merge($temp, array($brick), $this->bricks);
+                return;
             }
             else {
                 array_push($temp, $b);
             }
         }
-        $this->bricks = $temp;
     }
     
     
@@ -188,6 +191,15 @@ abstract class ItineraryState{
         return FALSE;
     }
     
+    protected function updateInDb(){
+        $c = new AJConnection();
+        try{
+            
+        } catch (Exception $ex) {
+
+        }
+    }
+
     protected function insertBrickInDB(ItineraryBrick $brick){
         $c = new AJConnection();
         if($c){

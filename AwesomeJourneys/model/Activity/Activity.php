@@ -90,8 +90,8 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
             $sql = "INSERT INTO stay_template_component (type, is_composite) VALUES (".ACTIVITY.", 0);";
             $c->executeNonQuery($sql);
             $this->id = $c->lastInsertedId();
-            $sql = "INSERT INTO activity(ID, start_date, end_date, template) "
-                 . "VALUES ($this->id, $this->startDate, $this->endDate, $this->idTemplate);";
+            $sql = "INSERT INTO activity(ID, template) "
+                 . "VALUES ($this->id, $this->idTemplate);";
             $c->executeNonQuery($sql);
             $c->commit();
             $c->close();
