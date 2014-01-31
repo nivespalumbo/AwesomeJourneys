@@ -114,9 +114,14 @@ abstract class ItineraryState{
     
     public function addActivityFromTemplate($idStay, ActivityTemplate $template){
         if($brick = $this->getBrick($idStay)){
-            $activity = new Activity(NULL, $template->getId(), $template->getName(), $template->getAddress(), $template->getExpectedDuration(), $template->getLocation(), $template->getDescription(), $template->getAvailableFrom(), $template->getAvailableTo());
-            $brick->addActivity($activity);
-            return $activity;
+            if(($brick->getStartLocation() == $template->getLocation()) || ($brick->getEndLocation() == $template->getLocation())){
+                $activity = new Activity(NULL, $template->getId(), $template->getName(), $template->getAddress(), $template->getExpectedDuration(), $template->getLocation(), $template->getDescription(), $template->getAvailableFrom(), $template->getAvailableTo());
+                $brick->addActivity($activity);
+                return $activity;
+            }
+            else {
+                return FALSE;
+            }
         }
     }
 

@@ -28,7 +28,23 @@ foreach($activities as $activity){
          . "<span class='date'><label>al </label>".$activity->getAvailableTo()."</span></div>"
          . "<span class='see_more'><a href='index.php?op=selectActivity&id=".$activity->getId()."'>Vedi di pi&ugrave</a>"
          . "<a href='index.php?op=addActivity&id=".$activity->getId()."&idStay=".$this->model->getId()."'>Aggiungi alla tappa</a></span>"
-         ."</div>";
+         . "</div>";
+}
+?>
+
+<h3>Attività prenotate</h3>
+<?php
+$selected = $this->model->getSelectedActivities();
+foreach($selected as $activity){
+    echo "<div class='stay'>"
+         . "<h2>".$activity->getName()."</h2>"
+         . "<p>".$activity->getDescription()."</p>"
+         . "<div><span class='date'><label>Prenotata dal </label>".$activity->getStartDate()."</span>"
+         . "<span class='date'><label>al </label>".$activity->getEndDate()."</span></div>"
+         . "<span class='see_more'><a href='index.php?op=selectActivity&id=".$activity->getId()."'>Vedi di pi&ugrave</a>"
+         . "<a href='index.php?op=setOptionActivity&idActivity=".$activity->getId()."&idStay=".$this->model->getId()."'>Modifica attivit&agrave</a></span>"
+         . "<a href='index.php?op=removeActivity&idActivity=".$activity->getId()."&idStay=".$this->model->getId()."'>Elimina attivit&agrave</a></span>"
+         . "</div>";
 }
 ?>
 

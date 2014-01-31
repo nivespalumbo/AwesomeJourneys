@@ -42,7 +42,14 @@ class Stay implements ItineraryBrick{
     public function getEndLocation() { return $this->endLocation; }
     public function getStartDate() { return $this->startDate; }
     public function getEndDate() { return $this->endDate; }
-    
+    public function getSelectedActivities() {
+        return $this->selectedActivities;
+    }
+    public function getSelectedAccomodation() {
+        return $this->selectedAccomodation;
+    }
+
+     
     public function setId($id){
         $this->id = $id;
     }

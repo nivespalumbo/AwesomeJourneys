@@ -165,8 +165,9 @@ class ConcreteUserComponent extends UserComponent{
     public function addActivity($idStay, $idActivity){
         $itinerary = $this->itineraryContext->getItinerary();
         $brick = $itinerary->getBrick($idStay);
-        $brick->addActivity($idActivity);
-        return $brick->getActivity($idActivity);
+        $activity = $brick->getTemplate()->getComponent($idActivity);
+        $brick->addActivity($activity);
+        return $brick->getSelectedActivities()[$idActivity];
     }
     
     public function addActivityFromTemplate($idStay, $idActivityTemplate){

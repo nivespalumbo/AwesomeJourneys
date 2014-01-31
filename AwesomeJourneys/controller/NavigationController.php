@@ -94,7 +94,7 @@ class NavigationController {
             case 'setOptionActivity' :
                 $this->openFormActivity();
                 break;
-            case 'deleteActivity' :
+            case 'removeActivity' :
                 $this->removeActivity();
                 break;
             

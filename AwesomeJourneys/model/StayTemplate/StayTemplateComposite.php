@@ -18,7 +18,7 @@ class StayTemplateComposite implements StayTemplateComponent{
     }
     
     public function __sleep() {
-        return array("id", "name", "description", "startDate", "endDate", "startLocation", "endLocation", "components");
+        return array("id", "name", "description", "startLocation", "endLocation", "components");
     }
     public function __wakeup() { }
     
