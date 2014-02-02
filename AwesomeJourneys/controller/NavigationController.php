@@ -74,6 +74,12 @@ class NavigationController {
             case 'searchActivities':
                 $this->searchActivities();
                 break;
+            case 'searchTransport':
+                $this->searchTransport();
+                break;
+            case 'removeItinerary':
+                $this->removeItinerary();
+                break;
             
             case 'addStay' :
                 $this->addStay();
@@ -83,6 +89,10 @@ class NavigationController {
                 break;
             case 'removeStay':
                 $this->removeStay();
+                break;
+            
+            case 'addTransport':
+                $this->addTransport();
                 break;
             
             case 'addActivity' :
@@ -279,6 +289,16 @@ class NavigationController {
         }
     }
     
+    private function removeItinerary(){
+        $c = new ManagementController();
+        if($this->model = $c->removeItinerary($_GET['id'])){
+            require_once 'view/area_riservata.php';
+        }
+        else {
+            $this->error("Impossibile eliminare l'itinerario.");
+        }
+    }
+    
     private function searchStays(){
         $c = new SearchController();
         if($this->model = $c->searchStays()){
@@ -300,10 +320,30 @@ class NavigationController {
         }
     }
     
+    private function searchTransport(){
+        $c = new SearchController();
+        if($this->model = $c->searchTransport($_GET['from'])){
+            require_once 'view/transport_list.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
     private function addStay(){
         $c = new ManagementController();
         if($this->model = $c->addStay($_GET['id'])){
             require_once 'view/personalize_stay.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
+    private function addTransport(){
+        $c = new ManagementController();
+        if($this->model = $c->addStay($_GET['id'])){
+            require_once 'view/manage_itinerary.php';
         }
         else {
             $this->error("Errore");
@@ -322,7 +362,7 @@ class NavigationController {
     
     private function modifyStay(){
         $c = new ManagementController();
-        if($this->model = $c->modifyStay($_POST['idStay'])){
+        if($this->model = $c->modifyStay($_POST['idStay'], $_POST['startDate'], $_POST['endDate'])){
             require_once 'view/personalize_stay.php';
         }
         else {
@@ -392,7 +432,7 @@ class NavigationController {
     
     private function addAccomodation(){
         $c = new ManagementController();
-        if($this->model = $c->addAccomodation($_GET['idStay'], $_GET['idAccomodation'])){
+        if($this->model = $c->addAccomodation($_GET['idStay'], $_GET['id'])){
             require_once 'view/personalize_accomodation.php';
         }
         else {

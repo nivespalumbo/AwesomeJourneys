@@ -71,6 +71,14 @@ class Stay implements ItineraryBrick{
     
 
      
+    public function update($startDate, $endDate){
+        if($this->updateInDb($startDate, $endDate)){
+            $this->startDate = $startDate;
+            $this->endDate = $endDate;
+            return TRUE;
+        }
+        return FALSE;
+    }
     
     public function addActivity(Activity $a){
         if($a->getId() == NULL){
@@ -123,6 +131,19 @@ class Stay implements ItineraryBrick{
             return TRUE;
         }
         return FALSE;
+    }
+    
+    private function updateInDb($startDate, $endDate){
+        $c = new AJConnection();
+        try{
+            $sql = "UPDATE itinerary_brick SET start_date='$startDate', end_date='$endDate' WHERE ID=$this->id;";
+            $c->executeNonQuery($sql);
+            $c->close();
+            return TRUE;
+        } catch (Exception $ex) {
+            $c->close();
+            return FALSE;
+        }
     }
     
     private function saveActivityInDb($idActivity = NULL){
@@ -189,6 +210,8 @@ class Stay implements ItineraryBrick{
                 if($template = $searchTemplate->fetchObject()){
                     $stay = new Stay($table[0]->ID, $table[0]->start_location, $table[0]->end_location, $template);
                     $stay->setSelectedAccomodation($template->getComponent($table[0]->accomodation_id));
+                    $stay->setStartDate($table[0]->start_date);
+                    $stay->setEndDate($table[0]->end_date);
                     $stay->searchSelectedActivities();
                     return $stay;
                 }

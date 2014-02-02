@@ -16,24 +16,26 @@
                     <?php
                     if($this->model['itineraries'] != NULL){
                         while($itinerary = $this->model['itineraries']->fetchObject()){
+							echo "<div class='viaggio grid'>";
                             $photo = $itinerary->getPhoto();
                             if($photo != NULL){
                                 echo "<img src='images/journeys/".$photo."' />";
                             }
                             echo "<h3><a href='index.php?op=selectItinerary&id=".$itinerary->getId()."' >".$itinerary->getName()."</a></h3>";
-                            echo "<p>".$itinerary->getDescription()."</p>";
+                            echo "<p>".$itinerary->getDescription()."</p></div>";
                         }
                     }
                     else{
                         echo "<p>Nessun itinerario trovato</p>";
                     }
                     ?>
+					<div class="clear"></div>
                 </div>
                 <div id="viaggi">
                     <?php
                     if($this->model['journeys'] != NULL){
                         while($journey = $this->model['journeys']->fetchObject()){
-                           echo "<div class='viaggio'>";
+                           echo "<div class='viaggio grid'>";
                            $itinerary = $journey->getItinerary();
                            $photo = $itinerary->getPhoto();
                            if($photo != NULL){
@@ -49,6 +51,7 @@
                         echo "<p>Nessun viaggio trovato</p>";
                     }
                     ?>
+					<div class="clear"></div>
                 </div>
             </div>
         <?php } ?>

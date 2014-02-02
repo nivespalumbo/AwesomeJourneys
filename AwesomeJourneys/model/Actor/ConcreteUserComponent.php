@@ -97,6 +97,12 @@ class ConcreteUserComponent extends UserComponent{
             if($this->searchResultStay){
                 return $this->searchResultStay->getObject($idStay)->getComponent($id);
             }
+            else {
+                $itinerary = $this->itineraryContext->getItinerary();
+                $brick = $itinerary->getBrick($idStay);
+                $template = $brick->getTemplate();
+                return $template->getComponent($id);
+            }
         }
         else if($this->searchResultActivity){
             return $this->searchResultActivity->getObject($id);           
@@ -108,7 +114,11 @@ class ConcreteUserComponent extends UserComponent{
         if($this->searchResultStay){
             return $this->searchResultStay->getObject($idStay)->getComponent($idAccomodation);
         }
-        return NULL;
+        else {
+            $itinerary = $this->itineraryContext->getItinerary();
+            $template = $itinerary->getBrick($idStay)->getTemplate();
+            return $template->getComponent($idAccomodation);
+        }
     }
     
     public function getBrick($id){
@@ -119,7 +129,7 @@ class ConcreteUserComponent extends UserComponent{
     public function getBrickActivity($idBrick, $idActivity){
         $itinerary = $this->itineraryContext->getItinerary();
         $brick = $itinerary->getBrick($idBrick);
-        return $brick->getSelectedActivity($idActivity);
+        return $brick->getSelectedActivities()[$idActivity];
     }
     
     public function getBrickAccomodation($idBrick){
@@ -138,9 +148,19 @@ class ConcreteUserComponent extends UserComponent{
         $this->itineraryContext = new ItineraryContext($itinerary);
     }
     
+    public function removeItinerary($id){
+        return ItineraryState::removeItinerary($id);
+    }
+    
     public function searchStays(){
         $this->searchResultStay = new StaySearchResult();
         $this->searchResultStay->searchStay();
+        return $this->searchResultStay;
+    }
+    
+    public function searchTransport($from){
+        $this->searchResultStay = new StaySearchResult();
+        $this->searchResultStay->searchTransport($from);
         return $this->searchResultStay;
     }
     
@@ -154,6 +174,16 @@ class ConcreteUserComponent extends UserComponent{
         if($stayTemplate = $this->searchResultStay->getObject($idTemplate)){
             $itinerary = $this->itineraryContext->getItinerary();
             return $itinerary->addBrick($stayTemplate);
+        }
+    }
+    
+    public function modifyStay($idStay, $startDate, $endDate){
+        $brick = $this->itineraryContext->getItinerary()->getBrick($idStay);
+        if($brick->update($startDate, $endDate)){
+            return $brick;
+        }
+        else {
+            return FALSE;
         }
     }
     
@@ -185,8 +215,9 @@ class ConcreteUserComponent extends UserComponent{
     public function addAccomodation($idStay, $idAccomodation){
         $itinerary = $this->itineraryContext->getItinerary();
         $brick = $itinerary->getBrick($idStay);
-        $brick->addAccomodation($idAccomodation);
-        return $brick->getAccomodation($idAccomodation);
+        $template = $brick->getTemplate();
+        $brick->addAccomodation($template->getComponent($idAccomodation));
+        return $brick->getSelectedAccomodation();
     }
     
     public function removeAccomodation($idStay){

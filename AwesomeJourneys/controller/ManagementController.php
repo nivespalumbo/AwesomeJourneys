@@ -42,6 +42,14 @@ class ManagementController {
         return $model;
     }
     
+    public function removeItinerary($id){
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        return $user->removeItinerary($id);
+    }
+    
     public function getStay($id){
         if(!isset($_SESSION['utente'])){
             return FALSE;
@@ -104,8 +112,24 @@ class ManagementController {
         return $model;
     }
     
-    public function modifyStay($idStay){
-        
+    public function addTransport($id){
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $user->addBrick($id);
+        $_SESSION['utente'] = serialize($user);
+        return $user->getItinerary();
+    }
+    
+    public function modifyStay($idStay, $startDate, $endDate){
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $user->modifyStay($idStay, $startDate, $endDate);
+        $_SESSION['utente'] = serialize($user);
+        return $user->getBrick($idStay);
     }
     
     public function removeStay($id){

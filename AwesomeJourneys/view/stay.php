@@ -1,25 +1,25 @@
 <h2><?php echo $this->model->getName() ?></h2>
 <p><?php echo $this->model->getDescription() ?></p>
 <!--<div>
-    <span><label>Disponibile dal </label><?php //echo $this->model->getAvailableFrom();?></span>
-    <span><label>Al</label><?php //echo $this->model->getAvailableTo(); ?></span>
+    <span><label>Disponibile dal </label><?php /*echo $this->model->getAvailableFrom();*/ ?></span>
+    <span><label>Al</label><?php /*echo $this->model->getAvailableTo();*/ ?></span>
 </div>-->
-<div>
-    <h3>Attività disponibili</h3>
-    <ul>
+<div class="stay">
+    <div class="title"><h3>Attività disponibili</h3></div>
+    <ul style="margin-top:2%; margin-bottom:2%;">
         <?php
         $activities = $this->model->getComponentsOfType(ACTIVITY);
         foreach($activities as $a){
             echo "<li>"
-                 .  "<b>".$a->getName()."</b>"
+                 .  "<h3>".$a->getName()."</h3>"
                  .  "<p>".$a->getDescription()."</p>"
-                 .  "<a href='index.php?op=selectActivity&id=".$a->getId()."&idStay=".$this->model->getId()."'>Dimmi di pi&ugrave</a>"
+                 .  "<div class='add_remove_to_stage'><a href='index.php?op=selectActivity&id=".$a->getId()."&idStay=".$this->model->getId()."'>Dimmi di pi&ugrave</a></div>"
                  ."</li>";
         }
         ?>
     </ul>
 </div>
-<div>
+<div class="stay">
     <h3>Pernottamenti disponibili</h3>
     <ul>
         <?php
@@ -30,7 +30,7 @@
                  . "<p>".$a->getDescription()."</p>"
                  . "<div><span>Tipo: ".$a->getAccomodationType()."</span>"
                  . "<span>Location: ".$a->getLocation()."</span></div>"
-                 . "<a href='index.php?op=selectAccomodation&idStay=".$this->model->getId()."&idAccomodation=".$a->getId()."'>Dimmi di più</a>"
+                 . "<div class='add_remove_to_stay'><a href='index.php?op=selectAccomodation&idStay=".$this->model->getId()."&idAccomodation=".$a->getId()."'>Dimmi di più</a></div>"
                  . "</li>";
         }
         ?>

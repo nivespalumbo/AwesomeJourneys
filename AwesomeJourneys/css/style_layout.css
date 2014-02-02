@@ -246,11 +246,11 @@ header a {
     text-align: center;
     border-radius: 2em 2em 3em 3em;
     background-color: #FFF;
-    //background: -webkit-linear-gradient(#2e94af, #88cfdf); /* For Safari */
-    //background: -o-linear-gradient(#2e94af, #88cfdf); /* For Opera 11.1 to 12.0 */
-    //background: -moz-linear-gradient(#2e94af, #88cfdf); /* For Firefox 3.6 to 15 */
-    //background: linear-gradient(#2e94af, #88cfdf); /* Standard syntax (must be last) */
-    //box-shadow: 0px 0px 5px #57b6ce;*/
+    /*background: -webkit-linear-gradient(#2e94af, #88cfdf); /* For Safari */
+    /*background: -o-linear-gradient(#2e94af, #88cfdf); /* For Opera 11.1 to 12.0 */
+    /*background: -moz-linear-gradient(#2e94af, #88cfdf); /* For Firefox 3.6 to 15 */
+    /*background: linear-gradient(#2e94af, #88cfdf); /* Standard syntax (must be last) */
+    /*box-shadow: 0px 0px 5px #57b6ce;*/
     /*box-shadow: 0.15em 0.15em 0.20em #000000;*/
 }
 
@@ -402,12 +402,14 @@ header a {
     margin-top:2%;
     
 }
-#select_stages{
-    margin-bottom: 2%;
-     border-radius: 30px 60px 20px 20px;
+.select_stages{
+    border-radius: 30px 60px 20px 20px;
     background-color: rgba(214, 234, 240, 0.8);
     box-shadow: 0px 0px 30px #57b6ce;
+    width:40%;
     float:left;
+    margin-left:2%;
+    margin-right: 3%;
     margin-bottom: 1%;
     margin-top: 1%;
     padding:10px;
@@ -450,8 +452,17 @@ header a {
 .add_remove_to_stage > a{
     padding: 10px 10px 5px 10px;
     border-radius: 2em 2em 3em 3em;
+	font-weight: bold;
 }
 .add_remove_to_stage > a:hover, .add_to_stage > a:focus{
     background-color: #88cfdf; 
     box-shadow: 0.05em 0.05em 0.05em rgba(136, 207, 223, 0.5);
+}
+
+/*titoli personalize stay*/
+.title{
+	float:left;
+	matgin-top:1%;
+	margin-bottom:1%;
+	width:100%;
 }

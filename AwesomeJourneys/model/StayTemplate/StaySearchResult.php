@@ -123,6 +123,23 @@ class StaySearchResult {
         }
     }
     
+    public function searchTransport($from){
+        $c = new AJConnection();
+        if($c){
+            $query = "SELECT * "
+                   . "FROM transport INNER JOIN transport_template ON transport.template = transport_template.ID "
+                   . "WHERE from_location='$from';";
+            $table = $c->executeQuery($query);
+            if($table){
+                foreach($table as $row){
+                    $transport = new Transport($row->transport_id, $row->start_date, $row->duration, $row->start_location, $row->end_location, $row->template, $row->name, $row->description, $row->vehicle);
+                    $this->aggregator->add($transport->getId(), $transport);
+                }  
+            }
+        }
+        $this->iterator = $this->aggregator->getIterator();
+    }
+    
     public function fetchObject() {
         if ($this->iterator->hasNext())
             return $this->iterator->next();

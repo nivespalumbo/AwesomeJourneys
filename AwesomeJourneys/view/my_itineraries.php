@@ -15,13 +15,16 @@ include_once 'partials/_personalmenu.php'
             <?php
             if($this->model['itineraries'] != NULL){
                 while($itinerary = $this->model['itineraries']->fetchObject()){
-                    echo "<div class='itinerary'>";
+                    echo "<div class='itinerary select_stages'>";
                     if($photo = $itinerary->getPhoto()){
                         echo "<img src='journeys/".$photo."' />";
                     }
                     echo "<h3>".$itinerary->getName()."</h3>";
                     echo "<p>".$itinerary->getDescription()."</p>";
-                    echo "<a href='index.php?op=manageItinerary&id=".$itinerary->getId()."' >Modifica</a>";
+                    echo "<div class='add_remove_to_stage'>"
+                         . "<a href='index.php?op=manageItinerary&id=".$itinerary->getId()."' >Modifica</a>"
+                         . "<a href='index.php?op=removeItinerary&id=".$itinerary->getId()."' >Elimina</a>"   
+                       . "</div>";
                     echo "</div>";
                 }
             }
@@ -29,12 +32,13 @@ include_once 'partials/_personalmenu.php'
                 echo "<p>Nessun itinerario creato</p>";
             }
             ?>
+			<div class="clear"></div>
         </div>
         <div id="viaggi">
             <?php
             if($this->model['journeys'] != NULL){
                 while($journey = $this->model['journeys']->fetchObject()){
-                   echo "<div class='viaggio'>";
+                   echo "<div class='viaggio select_stages'>";
                    $itinerary = $journey->getItinerary();
                    $photo = $itinerary->getPhoto();
                    if($photo != NULL){
@@ -51,6 +55,7 @@ include_once 'partials/_personalmenu.php'
                 echo "<p>Nessun viaggio trovato</p>";
             }
             ?>
+			<div class="clear"></div>
         </div>
     </div>
 </div>

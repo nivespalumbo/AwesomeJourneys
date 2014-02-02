@@ -51,6 +51,16 @@ class SearchController {
         return FALSE;
     }
     
+    public function searchTransport($from){
+        if(isset($_SESSION['utente'])){
+            $user = unserialize($_SESSION['utente']);
+            $model = $user->searchTransport($from);
+            $_SESSION['utente'] = serialize($user);
+            return $model;
+        }
+        return FALSE;
+    }
+    
     public function searchMyItineraries($user){
         $searchResult = new ItinerarySearchResult();
         $searchResult->search("SELECT * FROM itinerary WHERE itinerary_creator='".$user->getMail()."' ;");

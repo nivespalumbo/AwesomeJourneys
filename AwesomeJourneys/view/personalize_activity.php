@@ -15,8 +15,8 @@ include_once 'partials/_personalmenu.php'
     <form action="index.php" method="POST" onreset="window.location = 'index.php?op=manageItinerary&id='">
         <table>
             <tr>
-                <td>Quando vuoi prenotare l'attività?</td><td><input type='date' name='startDate' /></td>
-                <td>Quante persone parteciperanno?</td><td><input type='number' name='persons' /></td>
+                <td>Quando vuoi prenotare l'attività?</td><td><input type='text' class="datepicker" name='startDate' required /></td>
+                <td>Quante persone parteciperanno?</td><td><input type='number' name='persons' required /></td>
             </tr>
         </table>
         <button type='submit' name='op' value='setOptionActivity' >Salva</button>

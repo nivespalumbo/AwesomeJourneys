@@ -172,6 +172,18 @@ abstract class ItineraryState{
 //    abstract function save(ItineraryContext $itineraryContext);
 //    
 //    abstract function newJourney();
+    public static function removeItinerary($id){
+        $c = new AJConnection();
+        try{
+            $sql = "DELETE FROM itinerary WHERE ID=$id";
+            $c->executeNonQuery($sql);
+            $c->close();
+            return TRUE;
+        } catch (Exception $ex) {
+            $c->close();
+            return FALSE;
+        }
+    }
     
     protected function insertIntoDb(){
         $insert1 = "INSERT INTO itinerary(itinerary_creator, state, name, description, start_location";
