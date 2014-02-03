@@ -64,7 +64,7 @@ abstract class ItineraryState{
             }
         }
         else if($brickTemplate->getType() == TRANSPORT) {
-            $brick = new Transfer();
+            $brick = new Transfer(NULL, $brickTemplate->getStartLocation(), $brickTemplate->getEndLocation(), $brickTemplate);
             if($this->insertBrickInDB($brick)){
                 $this->insertInOrder($brick);
             }
