@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Gen 31, 2014 alle 10:27
+-- Generation Time: Feb 03, 2014 alle 10:39
 -- Versione del server: 5.6.15
 -- PHP Version: 5.4.17
 
@@ -130,6 +130,9 @@ CREATE TABLE IF NOT EXISTS `activity` (
 --
 
 INSERT INTO `activity` (`ID`, `template`) VALUES
+(15, 2),
+(14, 4),
+(13, 6),
 (5, 7),
 (6, 8),
 (7, 9);
@@ -148,6 +151,14 @@ CREATE TABLE IF NOT EXISTS `activity_in_stay` (
   PRIMARY KEY (`id_stay`,`id_activity`),
   KEY `id_activity` (`id_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `activity_in_stay`
+--
+
+INSERT INTO `activity_in_stay` (`id_stay`, `id_activity`, `start_date`, `end_date`) VALUES
+(50, 5, NULL, NULL),
+(50, 15, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -271,7 +282,14 @@ CREATE TABLE IF NOT EXISTS `itinerary_brick` (
   `id_itinerary` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `id_itinerary` (`id_itinerary`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
+
+--
+-- Dump dei dati per la tabella `itinerary_brick`
+--
+
+INSERT INTO `itinerary_brick` (`ID`, `start_location`, `end_location`, `start_date`, `end_date`, `type`, `id_itinerary`) VALUES
+(50, 'Champoluc', 'Champoluc', NULL, NULL, 0, 45);
 
 -- --------------------------------------------------------
 
@@ -340,6 +358,13 @@ CREATE TABLE IF NOT EXISTS `stay` (
   KEY `accomodation_id` (`accomodation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dump dei dati per la tabella `stay`
+--
+
+INSERT INTO `stay` (`ID`, `template_id`, `accomodation_id`) VALUES
+(50, 8, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -376,7 +401,7 @@ CREATE TABLE IF NOT EXISTS `stay_template_component` (
   `type` int(11) NOT NULL,
   `is_composite` tinyint(4) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
 -- Dump dei dati per la tabella `stay_template_component`
@@ -390,7 +415,14 @@ INSERT INTO `stay_template_component` (`ID`, `type`, `is_composite`) VALUES
 (7, 1, 0),
 (8, 0, 1),
 (9, 0, 1),
-(10, 0, 1);
+(10, 0, 1),
+(13, 1, 0),
+(14, 1, 0),
+(15, 1, 0),
+(16, 3, 0),
+(17, 3, 0),
+(18, 3, 0),
+(19, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -428,12 +460,22 @@ CREATE TABLE IF NOT EXISTS `transport` (
   `ID` int(11) NOT NULL,
   `template` int(11) NOT NULL,
   `duration` time NOT NULL,
-  `start_location` varchar(50) NOT NULL,
-  `end_location` varchar(50) NOT NULL,
+  `from_location` varchar(50) NOT NULL,
+  `to_location` varchar(50) NOT NULL,
   `start_date` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `template` (`template`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `transport`
+--
+
+INSERT INTO `transport` (`ID`, `template`, `duration`, `from_location`, `to_location`, `start_date`) VALUES
+(16, 7, '01:00:00', 'Torino Porta Nuova', 'Ivrea', NULL),
+(17, 8, '01:00:00', 'Ivrea', 'Aosta', NULL),
+(18, 9, '00:45:00', 'Aosta', 'Champoluc', NULL),
+(19, 1, '00:15:00', 'Champoluc', 'Frachey', NULL);
 
 -- --------------------------------------------------------
 
@@ -455,11 +497,28 @@ CREATE TABLE IF NOT EXISTS `transport_in_stay_template` (
 
 CREATE TABLE IF NOT EXISTS `transport_template` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `description` text,
   `vehicle` varchar(20) NOT NULL,
   `start_location` varchar(50) NOT NULL,
   `end_location` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+
+--
+-- Dump dei dati per la tabella `transport_template`
+--
+
+INSERT INTO `transport_template` (`ID`, `name`, `description`, `vehicle`, `start_location`, `end_location`) VALUES
+(1, NULL, NULL, 'Autobus', 'Champoluc', 'Frachey'),
+(2, NULL, NULL, 'Aereo', 'Milano Malpensa', 'Honolulu'),
+(3, NULL, NULL, 'Aereo', 'Milano Malpensa', 'Berlino'),
+(4, NULL, NULL, 'Aereo', 'Berlino', 'Stoccolma'),
+(5, NULL, NULL, 'Aereo', 'Stoccolma', 'Berlino'),
+(6, NULL, NULL, 'Aereo', 'Berlino', 'Roma'),
+(7, NULL, NULL, 'Treno', 'Torino Porta Nuova', 'Ivrea'),
+(8, NULL, NULL, 'Treno', 'Ivrea', 'Aosta'),
+(9, NULL, NULL, 'Autobus', 'Aosta', 'Champoluc');
 
 -- --------------------------------------------------------
 
