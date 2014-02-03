@@ -2,6 +2,7 @@
 include_once 'StayTemplateComposite.php';
 include_once 'model/Activity/Activity.php';
 include_once 'model/Accomodation/Accomodation.php';
+include_once 'model/Transport/Transport.php';
 include_once 'model/AJConnection.php';
 include_once 'model/AJConcreteAggregator.php';
 
@@ -60,7 +61,7 @@ class StaySearchResult {
             $table = $c->executeQuery($query);
             if($table){
                 foreach($table as $row){
-                    $transport = new Transport($row->transport_id, $row->startDate, $row->duration, $row->start_location, $row->end_location, $row->template, $row->name, $row->description, $row->vehicle);
+                    $transport = new Transport($row->transport_id, $row->startDate, $row->duration, $row->from_location, $row->to_location, $row->template, $row->name, $row->description, $row->vehicle);
                     $template->addComponent($transport);
                 }  
             }
@@ -132,7 +133,7 @@ class StaySearchResult {
             $table = $c->executeQuery($query);
             if($table){
                 foreach($table as $row){
-                    $transport = new Transport($row->transport_id, $row->start_date, $row->duration, $row->start_location, $row->end_location, $row->template, $row->name, $row->description, $row->vehicle);
+                    $transport = new Transport($row->ID, $row->start_date, $row->duration, $row->from_location, $row->to_location, $row->template, $row->name, $row->description, $row->vehicle);
                     $this->aggregator->add($transport->getId(), $transport);
                 }  
             }
