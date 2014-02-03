@@ -127,7 +127,7 @@ class StaySearchResult {
     public function searchTransport($from){
         $c = new AJConnection();
         if($c){
-            $query = "SELECT * "
+            $query = "SELECT transport.ID, transport.start_date, transport.duration, transport.from_location, transport.to_location, transport.template, transport_template.name, transport_template.description, transport_template.vehicle "
                    . "FROM transport INNER JOIN transport_template ON transport.template = transport_template.ID "
                    . "WHERE from_location='$from';";
             $table = $c->executeQuery($query);

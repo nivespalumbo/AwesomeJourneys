@@ -98,7 +98,23 @@ class Transfer implements ItineraryBrick{
         return FALSE;
     }
 
-    
+    public static function getTransfer($id){
+        $c = new AJConnection();
+        if($c){
+            $sql = "SELECT * FROM transfer INNER JOIN itinerary_brick ON transfer.ID = itinerary_brick.ID WHERE transfer.ID=$id;";
+            $table = $c->executeQuery($sql);
+            if($table && count($table, COUNT_NORMAL) == 1){
+                $template = $c->executeQuery("SELECT transport.ID, transport.start_date, transport.duration, transport.from_location, transport.to_location, transport.template, transport_template.name, transport_template.description, transport_template.vehicle "
+                                           . "FROM transport INNER JOIN transport_template ON transport.template = transport_template.ID "
+                                           . "WHERE transport.ID=".$table[0]->transport_id.";");
+                if(count($template, COUNT_NORMAL) == 1){
+                    $transfer = new Transfer($id, $template[0]->from_location, $template[0]->to_location, new Transport($template[0]->ID, $template[0]->start_date, $template[0]->duration, $template[0]->from_location, $template[0]->to_location, $template[0]->template, $template[0]->name, $template[0]->description, $template[0]->vehicle));
+                    return $transfer;
+                }
+            }
+        }
+        return NULL;
+    }
     
     public function insertInDb(AJConnection $c){
         if($c){

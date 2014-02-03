@@ -343,7 +343,7 @@ class NavigationController {
     private function addTransport(){
         $c = new ManagementController();
         if($this->model = $c->addStay($_GET['id'])){
-            require_once 'view/manage_itinerary.php';
+            require_once 'view/personalize_transport.php';
         }
         else {
             $this->error("Errore");
