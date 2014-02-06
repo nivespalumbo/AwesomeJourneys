@@ -402,7 +402,8 @@ class NavigationController {
     
     private function openFormActivity(){
         $c = new ManagementController();
-        if($this->model = $c->getBrickActivity($_GET['idStay'], $_GET['idActivity'])){
+        if($this->model['activity'] = $c->getBrickActivity($_GET['idStay'], $_GET['idActivity'])){
+            $this->model['idStay'] = $_GET['idStay'];
             require_once 'view/personalize_activity.php';
         }
         else {

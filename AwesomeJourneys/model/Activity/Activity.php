@@ -6,8 +6,8 @@ include_once 'model/AJConnection.php';
 class Activity extends ActivityTemplate implements StayTemplateLeaf{
     private $id;
     
-    private $startDate;
-    private $endDate;
+    private $date;
+    private $persons;
     
     function __construct($idActivity, $idTemplate, $name, $address, $expectedDuration, $location, $description, $availableFrom, $availableTo) {
         parent::__construct($idTemplate, $name, $address, $expectedDuration, $location, $description, $availableFrom, $availableTo);
@@ -22,8 +22,8 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
         return serialize(
             array(
                 'id' => $this->id,
-                'startDate' => $this->startDate,
-                'endDate' => $this->endDate,
+                'date' => $this->date,
+                'persons' => $this->persons,
                 'idTemplate' => $this->idTemplate,
                 'name' => $this->name,
                 'address' => $this->address,
@@ -43,18 +43,18 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
         $this->expectedDuration = $data['expectedDuration'];
         $this->location = $data['location'];
         $this->id = $data['id'];
-        $this->startDate = $data['startDate'];
-        $this->endDate = $data['endDate'];
+        $this->date = $data['date'];
+        $this->persons = $data['persons'];
     }
         
     public function getId() {
         return $this->id;
     }
-    public function getStartDate() {
-        return $this->startDate;
+    public function getDate() {
+        return $this->date;
     }
-    public function getEndDate() {
-        return $this->endDate;
+    public function getPersons() {
+        return $this->persons;
     }
     public function getStartLocation() {
         return $this->location;
@@ -66,23 +66,23 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
         return ACTIVITY;
     }
     public function getDuration() {
-        return date_diff($this->endDate, $this->startDate, true);
+        return $this->expectedDuration;
     }
     
-    public function setStartDate($startDate) {
-        $this->startDate = $startDate;
+    public function setDate($date) {
+        $this->date = $date;
     }
-    public function setEndDate($endDate) {
-        $this->endDate = $endDate;
-    }
-    public function setStartLocation($location) {
-        $this->location = $location;
-    }
-    public function setEndLocation($location) {
-        $this->location = $location;
+    public function setPersons($n){
+        $this->persons = $n;
     }
     
-    public function saveIntoDB() {
+    
+    
+    public function save(){
+        return $this->saveIntoDB();
+    }
+    
+    protected function saveIntoDB() {
         $c = new AJConnection();
         
         try{
@@ -101,6 +101,14 @@ class Activity extends ActivityTemplate implements StayTemplateLeaf{
             return FALSE;
         }
         return FALSE;
+    }
+    
+    public function delete(){
+        return $this->deleteFromDb();
+    }
+    
+    private function deleteFromDb(){
+        
     }
     
     public function addComponent(StayTemplateComponent $component) {

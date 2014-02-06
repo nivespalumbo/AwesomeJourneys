@@ -101,7 +101,7 @@ class ActivityTemplate implements Serializable{
     }
 
     
-    public function saveIntoDB(){
+    protected function saveIntoDB(){
         
     }
 }

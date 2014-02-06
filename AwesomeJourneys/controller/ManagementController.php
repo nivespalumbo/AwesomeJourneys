@@ -163,6 +163,12 @@ class ManagementController {
     }
     
     public function modifyActivity($idStay, $idActivity){
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $user->modifyActivity($idStay, $idActivity, $_POST['date'], $_POST['persons']);
+        $_SESSION['utente'] = serialize($user);
         
     }
     

@@ -5,7 +5,7 @@
     <span><label>Al</label><?php /*echo $this->model->getAvailableTo();*/ ?></span>
 </div>-->
 <div class="stay">
-    <div class="title"><h3>Attività disponibili</h3></div>
+    <div class="title"><h3>Attivit&agrave; disponibili</h3></div>
     <ul style="margin-top:2%; margin-bottom:2%;">
         <?php
         $activities = $this->model->getComponentsOfType(ACTIVITY);
@@ -20,17 +20,17 @@
     </ul>
 </div>
 <div class="stay">
-    <h3>Pernottamenti disponibili</h3>
-    <ul>
+    <div class="title"><h3>Pernottamenti disponibili</h3></div>
+    <ul style="margin-top:2%; margin-bottom:2%;">
         <?php
         $accomodations = $this->model->getComponentsOfType(ACCOMODATION);
         foreach($accomodations as $a){
             echo "<li>"
-                 . "<h4>".$a->getName()."</h4>"
+                 . "<h3>".$a->getName()."</h3>"
                  . "<p>".$a->getDescription()."</p>"
                  . "<div><span>Tipo: ".$a->getAccomodationType()."</span>"
                  . "<span>Location: ".$a->getLocation()."</span></div>"
-                 . "<div class='add_remove_to_stay'><a href='index.php?op=selectAccomodation&idStay=".$this->model->getId()."&idAccomodation=".$a->getId()."'>Dimmi di più</a></div>"
+                 . "<div class='add_remove_to_stay'><a href='index.php?op=selectAccomodation&idStay=".$this->model->getId()."&idAccomodation=".$a->getId()."'>Dimmi di pi&ugrave</a></div>"
                  . "</li>";
         }
         ?>

@@ -82,12 +82,24 @@ class Stay implements ItineraryBrick{
     
     public function addActivity(Activity $a){
         if($a->getId() == NULL){
-            $a->saveIntoDb();
+            $a->save();
         }
         if($this->saveActivityInDb($a->getId())){
             $this->selectedActivities[$a->getId()] = $a;
         }
     }
+    
+    public function updateActivity($id, $date, $persons){
+        if(array_key_exists($id, $this->selectedActivities)){
+            if($this->updateActivityInDb($id, $date, $persons)){
+                $this->selectedActivities[$id]->setDate($date);
+                $this->selectedActivities[$id]->setPersons($persons);
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+    
     public function removeActivity($id){
         if(array_key_exists($id, $this->selectedActivities) && $this->removeActivityFromDb($id)){
             unset($this->selectedActivities[$id]);
@@ -103,6 +115,11 @@ class Stay implements ItineraryBrick{
             $this->selectedAccomodation = $a;
         }
     }
+    
+    public function updateAccomodation($id ){
+        
+    }
+    
     public function removeAccomodation(){
         if($this->removeAccomodationFromDb()){
             $this->selectedAccomodation = NULL;
@@ -157,6 +174,22 @@ class Stay implements ItineraryBrick{
             $c->close();
         }
         return FALSE;
+    }
+    
+    private function updateActivityInDb($id, $date, $persons){
+        $c = new AJConnection();
+        
+        try{
+            $sql = "UPDATE activity_in_stay "
+                 . "SET date='$date', persons = '$persons' "
+                 . "WHERE id_activity=$id AND id_stay=$this->id;";
+            $c->executeNonQuery($sql);
+            $c->close();
+            return TRUE;
+        } catch (Exception $ex) {
+            $c->close();
+            return FALSE;
+        }
     }
     
     private function removeActivityFromDb($idActivity){
@@ -231,8 +264,8 @@ class Stay implements ItineraryBrick{
             if($table){
                 foreach($table as $row){
                     $activity = new Activity($row->ID, $row->template, $row->name, $row->address, $row->expected_duration, $row->location, $row->description, $row->available_from, $row->available_to);
-                    $activity->setStartDate($row->start_date);
-                    $activity->setEndDate($row->end_date);
+                    $activity->setDate($row->date);
+                    $activity->setPersons($row->persons);
                     
                     $this->setSelectedActivities($activity);
                 }
