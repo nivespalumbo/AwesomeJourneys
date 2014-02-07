@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 03, 2014 alle 10:39
+-- Generation Time: Feb 07, 2014 alle 13:47
 -- Versione del server: 5.6.15
 -- PHP Version: 5.4.17
 
@@ -132,6 +132,8 @@ CREATE TABLE IF NOT EXISTS `activity` (
 INSERT INTO `activity` (`ID`, `template`) VALUES
 (15, 2),
 (14, 4),
+(20, 4),
+(21, 4),
 (13, 6),
 (5, 7),
 (6, 8),
@@ -146,8 +148,8 @@ INSERT INTO `activity` (`ID`, `template`) VALUES
 CREATE TABLE IF NOT EXISTS `activity_in_stay` (
   `id_stay` int(11) NOT NULL,
   `id_activity` int(11) NOT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `persons` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_stay`,`id_activity`),
   KEY `id_activity` (`id_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -156,9 +158,10 @@ CREATE TABLE IF NOT EXISTS `activity_in_stay` (
 -- Dump dei dati per la tabella `activity_in_stay`
 --
 
-INSERT INTO `activity_in_stay` (`id_stay`, `id_activity`, `start_date`, `end_date`) VALUES
+INSERT INTO `activity_in_stay` (`id_stay`, `id_activity`, `date`, `persons`) VALUES
 (50, 5, NULL, NULL),
-(50, 15, NULL, NULL);
+(50, 15, NULL, NULL),
+(56, 21, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -282,14 +285,16 @@ CREATE TABLE IF NOT EXISTS `itinerary_brick` (
   `id_itinerary` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `id_itinerary` (`id_itinerary`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
 
 --
 -- Dump dei dati per la tabella `itinerary_brick`
 --
 
 INSERT INTO `itinerary_brick` (`ID`, `start_location`, `end_location`, `start_date`, `end_date`, `type`, `id_itinerary`) VALUES
-(50, 'Champoluc', 'Champoluc', NULL, NULL, 0, 45);
+(50, 'Champoluc', 'Champoluc', NULL, NULL, 0, 45),
+(55, 'Champoluc', 'Frachey', NULL, NULL, 1, 45),
+(56, 'Stoccolma', 'Stoccolma', NULL, NULL, 0, 45);
 
 -- --------------------------------------------------------
 
@@ -363,7 +368,8 @@ CREATE TABLE IF NOT EXISTS `stay` (
 --
 
 INSERT INTO `stay` (`ID`, `template_id`, `accomodation_id`) VALUES
-(50, 8, NULL);
+(50, 8, 3),
+(56, 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -401,7 +407,7 @@ CREATE TABLE IF NOT EXISTS `stay_template_component` (
   `type` int(11) NOT NULL,
   `is_composite` tinyint(4) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
 -- Dump dei dati per la tabella `stay_template_component`
@@ -422,7 +428,9 @@ INSERT INTO `stay_template_component` (`ID`, `type`, `is_composite`) VALUES
 (16, 3, 0),
 (17, 3, 0),
 (18, 3, 0),
-(19, 3, 0);
+(19, 3, 0),
+(20, 1, 0),
+(21, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -449,6 +457,13 @@ CREATE TABLE IF NOT EXISTS `transfer` (
   PRIMARY KEY (`ID`),
   KEY `transport_id` (`transport_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `transfer`
+--
+
+INSERT INTO `transfer` (`ID`, `transport_id`) VALUES
+(55, 19);
 
 -- --------------------------------------------------------
 
