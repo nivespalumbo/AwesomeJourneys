@@ -125,7 +125,7 @@ abstract class ItineraryState{
         }
     }
 
-    public function insertInOrder(ItineraryBrick $brick){
+    protected function insertInOrder(ItineraryBrick $brick){
         if(count($this->bricks, COUNT_NORMAL) == 0){
             array_push($this->bricks, $brick);
             return;
@@ -144,34 +144,6 @@ abstract class ItineraryState{
         }
     }
     
-    
-
-//    protected function updateInDB(){
-//        $sql = "UPDATE itinerary SET state = '".$this->type."'";
-//        
-//        if($this->name != NULL){
-//            $sql .= ", name = '".$this->name."'";
-//        }
-//        
-//        if($this->descrpiption){
-//            $sql .= ", description = '".$this->description."'";
-//        }
-//        
-//        $sql .= " WHERE ID = ".$this->id.";";
-//        
-//        $db = new Connection();
-//        
-//        if(!$db->execute_non_query($sql)){
-//            $db->close();
-//            return FALSE;
-//        }
-//        $db->close();
-//        return TRUE;
-//    }
-//
-//    abstract function save(ItineraryContext $itineraryContext);
-//    
-//    abstract function newJourney();
     public static function removeItinerary($id){
         $c = new AJConnection();
         try{
@@ -216,9 +188,13 @@ abstract class ItineraryState{
     protected function updateInDb(){
         $c = new AJConnection();
         try{
-            
+            $sql = "UPDATE itinerary SET state = '".$this->getType()."' WHERE ID =$this->id;";
+            $c->executeNonQuery($sql);
+            $c->close();
+            return TRUE;
         } catch (Exception $ex) {
-
+            $c->close();
+            return FALSE;
         }
     }
 
