@@ -5,7 +5,7 @@ if($this->model){
          . "<h2>".$this->model->getName()."</h2>"
          . "<p>".$this->model->getDescription()."</p>";
     if($this->model->getPhoto() != NULL){
-        echo "<div><img src='accomodations/".$this->model->getPhoto()."' /></div>";
+        echo "<div><img src='images/accomodations/".$this->model->getPhoto()."' /></div>";
     }
     echo "<div>"
             . "<span><label>Address: </label>".$this->model->getAddress()."</span>"

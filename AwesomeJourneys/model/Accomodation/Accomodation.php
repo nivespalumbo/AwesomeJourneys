@@ -6,6 +6,7 @@ class Accomodation extends AccomodationTemplate implements StayTemplateLeaf{
     private $id;
     
     private $numeroDisponibilita;
+    
     private $startDate;
     private $duration;
     
