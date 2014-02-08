@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.4
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 07, 2014 alle 13:47
--- Versione del server: 5.6.15
--- PHP Version: 5.4.17
+-- Generato il: Feb 08, 2014 alle 16:07
+-- Versione del server: 5.6.12-log
+-- Versione PHP: 5.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `awesome_journeys`
 --
+CREATE DATABASE IF NOT EXISTS `awesome_journeys` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `awesome_journeys`;
 
 -- --------------------------------------------------------
 
@@ -40,23 +42,13 @@ CREATE TABLE IF NOT EXISTS `accomodation` (
 
 INSERT INTO `accomodation` (`ID`, `template`, `numero_disponibilita`) VALUES
 (3, 7, 7),
-(4, 8, 7);
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `accomodation_booking`
---
-
-CREATE TABLE IF NOT EXISTS `accomodation_booking` (
-  `id_stay` int(11) NOT NULL,
-  `id_accomodation` int(11) NOT NULL,
-  `start_date` date DEFAULT NULL,
-  `duration` time DEFAULT NULL,
-  PRIMARY KEY (`id_stay`,`id_accomodation`),
-  KEY `id_stay` (`id_stay`,`id_accomodation`),
-  KEY `id_accomodation` (`id_accomodation`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+(4, 8, 7),
+(22, 1, NULL),
+(23, 2, NULL),
+(24, 3, NULL),
+(25, 4, NULL),
+(26, 5, NULL),
+(27, 6, NULL);
 
 -- --------------------------------------------------------
 
@@ -77,7 +69,13 @@ CREATE TABLE IF NOT EXISTS `accomodation_in_stay_template` (
 
 INSERT INTO `accomodation_in_stay_template` (`stay_template`, `accomodation_id`) VALUES
 (8, 3),
-(8, 4);
+(8, 4),
+(9, 22),
+(9, 23),
+(9, 24),
+(10, 25),
+(10, 26),
+(10, 27);
 
 -- --------------------------------------------------------
 
@@ -104,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `accomodation_template` (
 
 INSERT INTO `accomodation_template` (`ID`, `address`, `type`, `description`, `category`, `name`, `link`, `photo`, `location`) VALUES
 (1, '2199 Kalia Road, Oahu, HI 96815 (Waikiki)', 'Hotel', 'Halekulani has been hosting visitors to Waikiki Beach for nearly 100 years. Today its reputation for gracious hospitality, impeccable service and magnificent cuisine is unequaled on Oahu and renowned throughout the world.', '5', 'Halekulani', 'http://www.halekulani.com/', 'halekulani.jpg', 'Honolulu'),
-(2, '129 Paoakalani Avenue, Oahu, HI 96815 (Waikiki)', 'Hotel', 'Located steps from Waikiki Beach and world-class shopping and dining, Hotel Renew by Aston offers guests a personalized and intimate experience that leaves them feeling renewed and rejuvenated. As Oahu’s only true designer boutique hotel, Hotel Renew by Aston is casually elegant oasis of tranquility – a subtle and calming contrast to the vibrant energy of Waikiki. Balance and harmony are the hallmarks of the overall design vision, which is immediately evident upon entering the property. Hotel Renew by Aston provides guests a beautiful and elegant beachside retreat that places their well-being ahead of everything else. The 72-room hotel echoes the natural environment of Oahu, incorporating basic natural elements such as water, earth, and fire into the overall design.', '3', 'Hotel Renew by Aston', 'http://www.hotelrenew.com/', 'renew.jpg', 'Honolulu'),
+(2, '129 Paoakalani Avenue, Oahu, HI 96815 (Waikiki)', 'Hotel', 'Located steps from Waikiki Beach and world-class shopping and dining, Hotel Renew by Aston offers guests a personalized and intimate experience that leaves them feeling renewed and rejuvenated. As Oahu’s only true designer boutique hotel, Hotel Renew by Aston is casually elegant oasis of tranquility – a subtle and calming contrast to the vibrant energy of Waikiki. Balance and harmony are the hallmarks of the overall design vision, which is immediately evident upon entering the property. Hotel Renew by Aston provides guests a beautiful and elegant beachside retreat that places their well-being ahead of everything else. The 72-room hotel echoes the natural environment of Oahu, incorporating basic natural elements such as water, earth, and fire into the overall design.', '3', 'Hotel Renew by Aston', 'http://www.hotelrenew.com/', NULL, 'Honolulu'),
 (3, '2569 Cartwright Rd, Oahu, HI 96815', 'Ostello', NULL, NULL, 'Waikiki Backpackers Hostel', NULL, NULL, 'Honolulu'),
 (4, 'Radmansgatan 69, 11360, Svezia (Norrmalm)', 'Hotel', NULL, '2', 'Hotel Bakfickan', NULL, NULL, 'Stoccolma'),
 (5, 'Grona gangen 1 | Box 1616, SE-111 86 , Svezia', 'Hotel', NULL, '5', 'Hotel Skeppsholmen', 'http://www.hotelskeppsholmen.com/index.asp', 'skeppsholmen.jpg', 'Stoccolma'),
@@ -159,9 +157,8 @@ CREATE TABLE IF NOT EXISTS `activity_in_stay` (
 --
 
 INSERT INTO `activity_in_stay` (`id_stay`, `id_activity`, `date`, `persons`) VALUES
-(50, 5, NULL, NULL),
-(50, 15, NULL, NULL),
-(56, 21, NULL, NULL);
+(50, 5, '2014-07-27', 2),
+(50, 7, '2014-08-01', 2);
 
 -- --------------------------------------------------------
 
@@ -292,9 +289,7 @@ CREATE TABLE IF NOT EXISTS `itinerary_brick` (
 --
 
 INSERT INTO `itinerary_brick` (`ID`, `start_location`, `end_location`, `start_date`, `end_date`, `type`, `id_itinerary`) VALUES
-(50, 'Champoluc', 'Champoluc', NULL, NULL, 0, 45),
-(55, 'Champoluc', 'Frachey', NULL, NULL, 1, 45),
-(56, 'Stoccolma', 'Stoccolma', NULL, NULL, 0, 45);
+(50, 'Champoluc', 'Champoluc', '2014-07-16 00:00:00', '2014-08-15 00:00:00', 0, 45);
 
 -- --------------------------------------------------------
 
@@ -358,6 +353,8 @@ CREATE TABLE IF NOT EXISTS `stay` (
   `ID` int(11) NOT NULL,
   `template_id` int(11) NOT NULL,
   `accomodation_id` int(11) DEFAULT NULL,
+  `accomodation_date` date DEFAULT NULL,
+  `accomodation_duration` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `template_id` (`template_id`),
   KEY `accomodation_id` (`accomodation_id`)
@@ -367,9 +364,8 @@ CREATE TABLE IF NOT EXISTS `stay` (
 -- Dump dei dati per la tabella `stay`
 --
 
-INSERT INTO `stay` (`ID`, `template_id`, `accomodation_id`) VALUES
-(50, 8, 3),
-(56, 10, NULL);
+INSERT INTO `stay` (`ID`, `template_id`, `accomodation_id`, `accomodation_date`, `accomodation_duration`) VALUES
+(50, 8, 3, '2014-07-16', 15);
 
 -- --------------------------------------------------------
 
@@ -407,7 +403,7 @@ CREATE TABLE IF NOT EXISTS `stay_template_component` (
   `type` int(11) NOT NULL,
   `is_composite` tinyint(4) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Dump dei dati per la tabella `stay_template_component`
@@ -430,7 +426,13 @@ INSERT INTO `stay_template_component` (`ID`, `type`, `is_composite`) VALUES
 (18, 3, 0),
 (19, 3, 0),
 (20, 1, 0),
-(21, 1, 0);
+(21, 1, 0),
+(22, 2, 0),
+(23, 2, 0),
+(24, 2, 0),
+(25, 2, 0),
+(26, 2, 0),
+(27, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -457,13 +459,6 @@ CREATE TABLE IF NOT EXISTS `transfer` (
   PRIMARY KEY (`ID`),
   KEY `transport_id` (`transport_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dump dei dati per la tabella `transfer`
---
-
-INSERT INTO `transfer` (`ID`, `transport_id`) VALUES
-(55, 19);
 
 -- --------------------------------------------------------
 
@@ -561,13 +556,6 @@ CREATE TABLE IF NOT EXISTS `travel_booking` (
 ALTER TABLE `accomodation`
   ADD CONSTRAINT `accomodation_ibfk_1` FOREIGN KEY (`template`) REFERENCES `accomodation_template` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `accomodation_ibfk_3` FOREIGN KEY (`ID`) REFERENCES `stay_template_component` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Limiti per la tabella `accomodation_booking`
---
-ALTER TABLE `accomodation_booking`
-  ADD CONSTRAINT `accomodation_booking_ibfk_1` FOREIGN KEY (`id_stay`) REFERENCES `stay` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `accomodation_booking_ibfk_2` FOREIGN KEY (`id_accomodation`) REFERENCES `accomodation` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `accomodation_in_stay_template`
