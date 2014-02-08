@@ -8,15 +8,15 @@ class NavigationController {
 
     public function invoke(){
         if(isset($_GET['op']))
-            $this->gestioneGET();
+            $this->gestioneGET($_GET['op']);
         else if(isset($_POST['op']))
-            $this->gestionePOST();
+            $this->gestionePOST($_POST['op']);
         else
             $this->home();
     }
 
-    public function gestioneGET(){
-        switch ($_GET['op']){
+    public function gestioneGET($op){
+        switch ($op){
             // LOG
             case 'openLogin' :
                 $this->openLogin();
@@ -120,8 +120,8 @@ class NavigationController {
         }
     }
 
-    public function gestionePOST(){
-        switch ($_POST['op']){
+    public function gestionePOST($op){
+        switch ($op){
             case 'login' :
                 $this->login();
                 break;
