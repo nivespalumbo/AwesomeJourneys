@@ -23,11 +23,11 @@ include_once 'partials/_personalmenu.php'
         <table>
             <tr>
                 <td>Quando vuoi prenotare l'attivit&agrave;?</td>
-                <td><input type='text' class="datepicker" name='date' required /></td>
+                <td><input type='text' class="datepicker" name='date' value="<?php echo $activity->getDate(); ?>" required /></td>
             </tr>
             <tr>
                 <td>Quante persone parteciperanno?</td>
-                <td><input type='number' name='persons' required /></td>
+                <td><input type='number' name='persons' value="<?php echo $activity->getPersons(); ?>" required /></td>
             </tr>
         </table>
         <button type='submit' name='op' value='modifyActivity' >Salva</button>

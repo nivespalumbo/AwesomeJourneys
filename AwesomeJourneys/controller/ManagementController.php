@@ -167,9 +167,9 @@ class ManagementController {
             return FALSE;
         }
         $user = unserialize($_SESSION['utente']);
-        $user->modifyActivity($idStay, $idActivity, $_POST['date'], $_POST['persons']);
+        $model = $user->modifyActivity($idStay, $idActivity, $_POST['date'], $_POST['persons']);
         $_SESSION['utente'] = serialize($user);
-        
+        return $model;
     }
     
     public function removeActivity($idStay, $idActivity){

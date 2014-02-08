@@ -84,6 +84,14 @@ class Transfer implements ItineraryBrick{
         return false;
     }
     
+    public function updateActivity($idActivity, $date, $persons) {
+        return FALSE;
+    }
+    
+    public function updateAccomodation() {
+        return FALSE;
+    }
+    
     public function addTransport(\Transport $t) {
         if($this->saveTransportInDb($t->getId())){
             $this->selectedTransport = $t;

@@ -15,9 +15,11 @@ interface ItineraryBrick {
     public function setEndDate($endDate);
     
     public function addActivity(Activity $a);
+    public function updateActivity($idActivity, $date, $persons);
     public function removeActivity($id);
     
     public function addAccomodation(Accomodation $a);
+    public function updateAccomodation();
     public function removeAccomodation();
     
     public function addTransport(Transport $t);

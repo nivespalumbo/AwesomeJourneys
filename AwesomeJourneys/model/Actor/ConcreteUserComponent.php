@@ -206,6 +206,12 @@ class ConcreteUserComponent extends UserComponent{
         return $itinerary->addActivityFromTemplate($idStay, $activityTemplate);
     }
     
+    public function modifyActivity($idStay, $idActivity, $date, $persons){
+        $brick = $this->itineraryContext->getItinerary()->getBrick($idStay);
+        $brick->updateActivity($idActivity, $date, $persons);
+        return $brick->getSelectedActivities()[$idActivity];
+    }
+    
     public function removeActivity($idStay, $idActivity){
         $itinerary = $this->itineraryContext->getItinerary();
         $brick = $itinerary->getBrick($idStay);
@@ -225,17 +231,5 @@ class ConcreteUserComponent extends UserComponent{
         $brick = $itinerary->getBrick($idStay);
         $brick->removeActivity();
     }
-    
-//    public function configureStayParameter($optId, $valId){
-//        $this->itineraryContext->configureStayParameter($optId, $valId);
-//    }
-//    
-//    public function manageActivityInStay($stayId){
-//        $this->context->manageActivityInStay($stayId);
-//    }
-//    
-//    public function saveStay(){
-//        $this->context->saveStay($this->stay);
-//    }
 }
 ?>

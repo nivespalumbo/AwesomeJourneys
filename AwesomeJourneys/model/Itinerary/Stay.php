@@ -116,7 +116,7 @@ class Stay implements ItineraryBrick{
         }
     }
     
-    public function updateAccomodation($id ){
+    public function updateAccomodation(){
         
     }
     
@@ -181,7 +181,7 @@ class Stay implements ItineraryBrick{
         
         try{
             $sql = "UPDATE activity_in_stay "
-                 . "SET date='$date', persons = '$persons' "
+                 . "SET date='$date', persons = $persons "
                  . "WHERE id_activity=$id AND id_stay=$this->id;";
             $c->executeNonQuery($sql);
             $c->close();
@@ -263,7 +263,7 @@ class Stay implements ItineraryBrick{
             $c->close();
             if($table){
                 foreach($table as $row){
-                    $activity = new Activity($row->ID, $row->template, $row->name, $row->address, $row->expected_duration, $row->location, $row->description, $row->available_from, $row->available_to);
+                    $activity = new Activity($row->id_activity, $row->template, $row->name, $row->address, $row->expected_duration, $row->location, $row->description, $row->available_from, $row->available_to);
                     $activity->setDate($row->date);
                     $activity->setPersons($row->persons);
                     

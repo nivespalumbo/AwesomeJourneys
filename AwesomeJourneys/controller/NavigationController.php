@@ -382,7 +382,8 @@ class NavigationController {
     
     private function addActivity(){
         $c = new ManagementController();
-        if($this->model = $c->addActivity($_GET['idStay'], $_GET['id'])){
+        if($this->model['activity'] = $c->addActivity($_GET['idStay'], $_GET['id'])){
+            $this->model['idStay'] = $_GET['idStay'];
             require_once 'view/personalize_activity.php';
         }
         else {
@@ -392,7 +393,8 @@ class NavigationController {
     
     private function addActivityFromTemplate(){
         $c = new ManagementController();
-        if($this->model = $c->addActivityFromTemplate($_GET['idStay'], $_GET['id'])){
+        if($this->model['activity'] = $c->addActivityFromTemplate($_GET['idStay'], $_GET['id'])){
+            $this->model['idStay'] = $_GET['idStay'];
             require_once 'view/personalize_activity.php';
         }
         else {
@@ -413,7 +415,8 @@ class NavigationController {
     
     private function modifyActivity(){
         $c = new ManagementController();
-        if($this->model = $c->modifyActivity($_POST['idStay'], $_POST['idActivity'])){
+        if($this->model['activity'] = $c->modifyActivity($_POST['idStay'], $_POST['idActivity'])){
+            $this->model['idStay'] = $_POST['idStay'];
             require_once 'view/personalize_activity.php';
         }
         else {
@@ -433,7 +436,8 @@ class NavigationController {
     
     private function addAccomodation(){
         $c = new ManagementController();
-        if($this->model = $c->addAccomodation($_GET['idStay'], $_GET['id'])){
+        if($this->model['accomodation'] = $c->addAccomodation($_GET['idStay'], $_GET['id'])){
+            $this->model['idStay'] = $_GET['idStay'];
             require_once 'view/personalize_accomodation.php';
         }
         else {
@@ -443,7 +447,8 @@ class NavigationController {
     
     private function openFormAccomodation(){
         $c = new ManagementController();
-        if($this->model = $c->getBrickAccomodation($_GET['id'])){
+        if($this->model['accomodation'] = $c->getBrickAccomodation($_GET['id'])){
+            $this->model['idStay'] = $_GET['id'];
             require_once 'view/personalize_accomodation.php';
         }
         else {
@@ -453,7 +458,8 @@ class NavigationController {
     
     private function modifyAccomodation(){
         $c = new ManagementController();
-        if($this->model = $c->modifyAccomodation($_POST['idStay'], $_POST['idAccomodation'])){
+        if($this->model['accomodation'] = $c->modifyAccomodation($_POST['idStay'], $_POST['idAccomodation'])){
+            $this->model['idStay'] = $_POST['idStay'];
             require_once 'view/personalize_accomodation.php';
         }
         else {
