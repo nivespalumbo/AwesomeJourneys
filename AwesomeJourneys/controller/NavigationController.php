@@ -458,7 +458,7 @@ class NavigationController {
     
     private function modifyAccomodation(){
         $c = new ManagementController();
-        if($this->model['accomodation'] = $c->modifyAccomodation($_POST['idStay'], $_POST['idAccomodation'])){
+        if($this->model['accomodation'] = $c->modifyAccomodation($_POST['idStay'])){
             $this->model['idStay'] = $_POST['idStay'];
             require_once 'view/personalize_accomodation.php';
         }

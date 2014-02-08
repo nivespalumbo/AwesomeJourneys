@@ -226,6 +226,12 @@ class ConcreteUserComponent extends UserComponent{
         return $brick->getSelectedAccomodation();
     }
     
+    public function modifyAccomodation($idStay, $date, $duration){
+        $brick = $this->itineraryContext->getItinerary()->getBrick($idStay);
+        $brick->updateAccomodation($date, $duration);
+        return $brick->getSelectedAccomodation();
+    }
+    
     public function removeAccomodation($idStay){
         $itinerary = $this->itineraryContext->getItinerary();
         $brick = $itinerary->getBrick($idStay);

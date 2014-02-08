@@ -88,7 +88,7 @@ class Transfer implements ItineraryBrick{
         return FALSE;
     }
     
-    public function updateAccomodation() {
+    public function updateAccomodation($date, $duration) {
         return FALSE;
     }
     

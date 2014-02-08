@@ -116,8 +116,13 @@ class Stay implements ItineraryBrick{
         }
     }
     
-    public function updateAccomodation(){
-        
+    public function updateAccomodation($date, $duration){
+        if($this->updateAccomodationInDb($date, $duration)){
+            $this->selectedAccomodation->setStartDate($date);
+            $this->selectedAccomodation->setDuration($duration);
+            return TRUE;
+        }
+        return FALSE;
     }
     
     public function removeAccomodation(){
@@ -218,6 +223,19 @@ class Stay implements ItineraryBrick{
         return FALSE;
     }
     
+    private function updateAccomodationInDb($date, $duration){
+        $c = new AJConnection();
+        if($c){
+            $query = "UPDATE stay SET accomodation_date='$date', accomodation_duration=$duration WHERE ID=$this->id;";
+            if($c->executeNonQuery($query)){
+                $c->close();
+                return TRUE;
+            }
+            $c->close();
+        }
+        return FALSE;
+    }
+    
     private function removeAccomodationFromDb(){
         $c = new AJConnection();
         if($c){
@@ -243,6 +261,10 @@ class Stay implements ItineraryBrick{
                 if($template = $searchTemplate->fetchObject()){
                     $stay = new Stay($table[0]->ID, $table[0]->start_location, $table[0]->end_location, $template);
                     $stay->setSelectedAccomodation($template->getComponent($table[0]->accomodation_id));
+                    if($stay->getSelectedAccomodation() != NULL){
+                        $stay->getSelectedAccomodation()->setStartDate($table[0]->accomodation_date);
+                        $stay->getSelectedAccomodation()->setDuration($table[0]->accomodation_duration);
+                    }
                     $stay->setStartDate($table[0]->start_date);
                     $stay->setEndDate($table[0]->end_date);
                     $stay->searchSelectedActivities();

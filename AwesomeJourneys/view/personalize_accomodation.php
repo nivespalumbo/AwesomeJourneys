@@ -22,11 +22,11 @@ $idStay = $this->model['idStay'];
         <table>
             <tr>
                 <td>Quando vuoi prenotare il pernottamento?</td>
-                <td><input type='text' class="datepicker" name='date' value="<?php echo $activity->getDate(); ?>" required /></td>
+                <td><input type='text' class="datepicker" name='date' value="<?php echo $accomodation->getStartDate(); ?>" required /></td>
             </tr>
             <tr>
-                <td>Per quante persone?</td>
-                <td><input type='number' name='persons' value="<?php echo $activity->getPersons(); ?>" required /></td>
+                <td>Per quanti giorni?</td>
+                <td><input type='number' name='duration' value="<?php echo $accomodation->getDuration(); ?>" required /></td>
             </tr>
         </table>
         <button type='submit' name='op' value='modifyAccomodation' >Salva</button>

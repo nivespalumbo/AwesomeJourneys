@@ -192,8 +192,14 @@ class ManagementController {
         return $model;
     }
     
-    public function modifyAccomodation($idStay, $idAccomodation){
-        
+    public function modifyAccomodation($idStay){
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        $model = $user->modifyAccomodation($idStay, $_POST['date'], $_POST['duration']);
+        $_SESSION['utente'] = serialize($user);
+        return $model;
     }
     
     public function removeAccomodation($idStay){
