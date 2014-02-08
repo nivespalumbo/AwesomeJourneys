@@ -26,13 +26,13 @@ include_once 'partials/_personalmenu.php'
                     .  "<div class='add_remove_to_stage'><a href='index.php?op=setOptionStay&id=".$tappa->getId()."' >Modifica tappa</a>"
                     .  "<a href='index.php?op=removeStay&id=".$tappa->getId()."' >Elimina tappa</a></div>"
                     ."</div>";
-                echo "<a href='index.php?op=searchTransport&from=".$tappa->getEndLocation()."' title='Scegli un trasporto per la tappa successiva'>T</a>";
+                echo "<a style='float:left;' href='index.php?op=searchTransport&from=".$tappa->getEndLocation()."' title='Scegli un trasporto per la tappa successiva'><img style='width:40%;' src='css/van.png'/></a>";
             }
             else {
                 echo "<div class='transport'>";
                 echo "<a href='index.php?op=modifyTransport&id=".$tappa->getId()."'>Modifica</a>";
                 echo "</div>";
-                echo "<a href='index.php?op=searchTransport&from=".$tappa->getEndLocation()."' title='Scegli un trasporto per la tappa successiva'>T</a>";
+                echo "<a style='float:left; width:2em;' href='index.php?op=searchTransport&from=".$tappa->getEndLocation()."' title='Scegli un trasporto per la tappa successiva'><img src='css/van.png'/></a>";
             }
         }
     }
