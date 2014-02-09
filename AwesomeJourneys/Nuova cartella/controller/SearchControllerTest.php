@@ -27,28 +27,6 @@ class SearchControllerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers SearchController::searchJourneys
-     * @todo   Implement testSearchJourneys().
-     */
-    public function testSearchJourneys() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers SearchController::searchItineraries
-     * @todo   Implement testSearchItineraries().
-     */
-    public function testSearchItineraries() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @covers SearchController::searchStays
      * @todo   Implement testSearchStays().
      */
@@ -58,82 +36,4 @@ class SearchControllerTest extends PHPUnit_Framework_TestCase {
                 'This test has not been implemented yet.'
         );
     }
-
-    /**
-     * @covers SearchController::searchActivities
-     * @todo   Implement testSearchActivities().
-     */
-    public function testSearchActivities() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers SearchController::searchTransport
-     * @todo   Implement testSearchTransport().
-     */
-    public function testSearchTransport() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers SearchController::searchMyItineraries
-     * @todo   Implement testSearchMyItineraries().
-     */
-    public function testSearchMyItineraries() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers SearchController::searchMyJourneys
-     * @todo   Implement testSearchMyJourneys().
-     */
-    public function testSearchMyJourneys() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers SearchController::search
-     * @todo   Implement testSearch().
-     */
-    public function testSearch() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers SearchController::getJourney
-     * @todo   Implement testGetJourney().
-     */
-    public function testGetJourney() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers SearchController::getItinerary
-     * @todo   Implement testGetItinerary().
-     */
-    public function testGetItinerary() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
 }

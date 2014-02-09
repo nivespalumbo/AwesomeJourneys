@@ -152,6 +152,16 @@ class ConcreteUserComponent extends UserComponent{
         return ItineraryState::removeItinerary($id);
     }
     
+    public function completeItinerary($id){
+        $this->itineraryContext = new ItineraryContext($this->searchResultItinerary->getObject($id));
+        $itinerary = $this->itineraryContext->getItinerary();
+        if($newitin = $itinerary->complete()){
+            $this->itineraryContext = new ItineraryContext($newitin);
+            return $newitin;
+        }
+        return FALSE;
+    }
+    
     public function searchStays(){
         $this->searchResultStay = new StaySearchResult();
         $this->searchResultStay->searchStay();

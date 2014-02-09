@@ -25,20 +25,7 @@ interface ItineraryBrick {
     public function addTransport(Transport $t);
     public function removeTransport();
     
-//    public function selectGoing($transport);
-//    public function selectReturn($transport);
-//    public function setItineraryId($id);
-    
-//    public function save();
-//    public function saveByConnection($db);
-    
 //    public function isContiguous($location, $date = NULL);
 
-    
-//    public function getReturn();
-//    public function getGoing();
-//    public function getSelectedTransport();
-    
-//    public function getStay($stayId);
 }
 

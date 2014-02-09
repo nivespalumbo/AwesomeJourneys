@@ -47,7 +47,7 @@ abstract class ItineraryState{
     public function setPhoto($photo) { $this->photo = $photo; }
     public function setStartLocation($startLocation) { $this->startLocation = $startLocation; }
     public function setEndLocation($endLocation) { $this->endLocation = $endLocation; }
-
+    protected function setBricks($bricks){ $this->bricks = $bricks; }
  
  
     
@@ -233,5 +233,54 @@ abstract class ItineraryState{
             }
         }
         return FALSE;
+    }
+    
+    public function complete(){
+        if($this->isContiguous()){
+            if($this->getType() == PARTIAL){
+                if($this->changeStateInDb()){
+                    $itin = new CompleteItinerary($this->creator, $this->name, $this->description, $this->id);
+                    $itin->setStartLocation($this->startLocation);
+                    $itin->setEndLocation($this->endLocation);
+                    $itin->setPhoto($this->photo);
+                    $itin->setBricks($this->bricks);
+                    return $itin;
+                }
+                else {
+                    return FALSE;
+                }
+            }
+            return $this;
+        }
+        return FALSE;
+    }
+    
+    protected function isContiguous(){
+        $i = 0;
+        $num_bricks = count($this->bricks, COUNT_NORMAL);
+        
+        while($i < $num_bricks && $this->bricks[$i]->getEndLocation() == $this->bricks[$i+1]->getStartLocation()){
+            $i++;
+        }
+        
+        if($i < $num_bricks){
+            return FALSE;
+        }
+        else {
+            return TRUE;
+        }
+    }
+    
+    protected function changeStateInDb(){
+        $c = new AJConnection();
+        try{
+            $sql = "UPDATE itinerary SET state=1 WHERE ID=$this->id";
+            $c->executeNonQuery($sql);
+            $c->close();
+            return TRUE;
+        } catch (Exception $ex) {
+            $c->close();
+            return FALSE;
+        }
     }
 }
