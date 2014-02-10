@@ -27,6 +27,23 @@ class CompleteItinerary extends ItineraryState{
     public function getType() {
         return COMPLETE;
     }
+    
+    public function complete(){
+        if(!$this->isContiguous()){
+            if($this->changeStateInDb(PARTIAL)){
+                $itin = new PartialItinerary($this->creator, $this->name, $this->description, $this->id);
+                $itin->setStartLocation($this->startLocation);
+                $itin->setEndLocation($this->endLocation);
+                $itin->setPhoto($this->photo);
+                $itin->setBricks($this->bricks);
+                return $itin;
+            }
+            else {
+                return FALSE;
+            }
+        }
+        return $this;
+    }
 
 //    public function manageActivityInStay($stayId) {
 //        if(!isset($this->itineraryBricks[$stayId])){

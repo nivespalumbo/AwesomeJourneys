@@ -26,6 +26,22 @@ class PartialItinerary extends ItineraryState{
         return PARTIAL;
     }
 
+    public function complete(){
+        if($this->isContiguous()){
+            if($this->changeStateInDb(COMPLETE)){
+                $itin = new PartialItinerary($this->creator, $this->name, $this->description, $this->id);
+                $itin->setStartLocation($this->startLocation);
+                $itin->setEndLocation($this->endLocation);
+                $itin->setPhoto($this->photo);
+                $itin->setBricks($this->bricks);
+                return $itin;
+            }
+            else {
+                return FALSE;
+            }
+        }
+        return $this;
+    }
 //    public function manageActivityInStay($stayId) {
 //        if(!array_key_exists($stayId, $this->itineraryBricks)){
 //            return FALSE;

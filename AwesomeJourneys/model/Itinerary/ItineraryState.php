@@ -20,6 +20,7 @@ abstract class ItineraryState{
     public function getPhoto() { return $this->photo; }
     public function getBricks() { return $this->bricks; }
     abstract function getType();
+    abstract function complete();
     
     
     
@@ -235,26 +236,6 @@ abstract class ItineraryState{
         return FALSE;
     }
     
-    public function complete(){
-        if($this->isContiguous()){
-            if($this->getType() == PARTIAL){
-                if($this->changeStateInDb()){
-                    $itin = new CompleteItinerary($this->creator, $this->name, $this->description, $this->id);
-                    $itin->setStartLocation($this->startLocation);
-                    $itin->setEndLocation($this->endLocation);
-                    $itin->setPhoto($this->photo);
-                    $itin->setBricks($this->bricks);
-                    return $itin;
-                }
-                else {
-                    return FALSE;
-                }
-            }
-            return $this;
-        }
-        return FALSE;
-    }
-    
     protected function isContiguous(){
         $i = 0;
         $num_bricks = count($this->bricks, COUNT_NORMAL);
@@ -271,10 +252,10 @@ abstract class ItineraryState{
         }
     }
     
-    protected function changeStateInDb(){
+    protected function changeStateInDb($state){
         $c = new AJConnection();
         try{
-            $sql = "UPDATE itinerary SET state=1 WHERE ID=$this->id";
+            $sql = "UPDATE itinerary SET state=$state WHERE ID=$this->id";
             $c->executeNonQuery($sql);
             $c->close();
             return TRUE;
