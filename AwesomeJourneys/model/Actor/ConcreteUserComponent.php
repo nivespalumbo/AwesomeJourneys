@@ -146,17 +146,17 @@ class ConcreteUserComponent extends UserComponent{
     public function createItinerary($name, $description){
         $itinerary = new PartialItinerary($this->mail, $name, $description);
         $this->itineraryContext = new ItineraryContext($itinerary);
+        return $itinerary;
     }
     
     public function removeItinerary($id){
         return ItineraryState::removeItinerary($id);
     }
     
-    public function completeItinerary($id){
-        $this->itineraryContext = new ItineraryContext($this->searchResultItinerary->getObject($id));
+    public function completeItinerary(){
         $itinerary = $this->itineraryContext->getItinerary();
         if($newitin = $itinerary->complete()){
-            $this->itineraryContext = new ItineraryContext($newitin);
+            $this->itineraryContext->setItinerary($newitin);
             return $newitin;
         }
         return FALSE;

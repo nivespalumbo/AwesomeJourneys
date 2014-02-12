@@ -21,4 +21,8 @@ class ItineraryContext {
     public function getItinerary(){
         return $this->itinerary;
     }
+    
+    public function setItinerary($itinerary){
+        $this->itinerary = $itinerary;
+    }
 }

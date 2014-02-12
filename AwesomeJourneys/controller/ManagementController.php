@@ -25,9 +25,9 @@ class ManagementController {
             return FALSE;
         }
         $user = unserialize($_SESSION['utente']);
-        $user->createItinerary($name, $description);
+        $model = $user->createItinerary($name, $description);
         $_SESSION['utente'] = serialize($user);
-        return $user->getItinerary();
+        return $model;
     }
     
     

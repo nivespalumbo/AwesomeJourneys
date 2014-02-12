@@ -4,7 +4,7 @@ include_once 'partials/_login.php';
 include_once 'partials/_personalmenu.php' 
 ?>
 <div id="content">
-    
+
     <h2><?php echo $this->model->getTemplate()->getName(); ?></h2>
     <p><?php echo $this->model->getTemplate()->getDescription(); ?></p>
 
