@@ -80,6 +80,9 @@ class NavigationController {
             case 'removeItinerary':
                 $this->removeItinerary();
                 break;
+            case 'saveItinerary':
+                $this->saveItinerary();
+                break;
             
             case 'addStay' :
                 $this->addStay();
@@ -91,6 +94,9 @@ class NavigationController {
                 $this->removeStay();
                 break;
             
+            case 'openFormTransport':
+                $this->openFormTransport();
+                break;
             case 'addTransport':
                 $this->addTransport();
                 break;
@@ -139,6 +145,9 @@ class NavigationController {
                 break;
             case 'modifyAccomodation' :
                 $this->modifyAccomodation();
+                break;
+            case 'modifyTransport' :
+                $this->modifyTransport();
                 break;
         }
     }
@@ -299,6 +308,16 @@ class NavigationController {
         }
     }
     
+    private function saveItinerary(){
+        $c = new ManagementController();
+        if($this->model = $c->saveItinerary()){
+            require_once 'view/my_itineraries.php';
+        }
+        else {
+            $this->error("Errore");
+        }
+    }
+    
     private function searchStays(){
         $c = new SearchController();
         if($this->model = $c->searchStays()){
@@ -342,7 +361,7 @@ class NavigationController {
     
     private function addTransport(){
         $c = new ManagementController();
-        if($this->model = $c->addStay($_GET['id'])){
+        if($this->model = $c->addTransport($_GET['id'])){
             require_once 'view/personalize_transport.php';
         }
         else {
@@ -354,6 +373,16 @@ class NavigationController {
         $c = new ManagementController();
         if($this->model = $c->getBrick($_GET['id'])){
             require_once 'view/personalize_stay.php';
+        }
+        else {
+            $this->error("Sessione inesistente.");
+        }
+    }
+    
+    private function openFormTransport(){
+        $c = new ManagementController();
+        if($this->model = $c->getBrick($_GET['id'])){
+            require_once 'view/personalize_transport.php';
         }
         else {
             $this->error("Sessione inesistente.");
@@ -475,6 +504,10 @@ class NavigationController {
         else {
             $this->error("Errore");
         }
+    }
+    
+    private function modifyTransport(){
+        $this->error("Funzionalità non implementata.");
     }
     
     

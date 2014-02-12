@@ -30,7 +30,7 @@ include_once 'partials/_personalmenu.php'
             }
             else {
                 echo "<div class='transport'>";
-                echo "<a href='index.php?op=modifyTransport&id=".$tappa->getId()."'>Modifica</a>";
+                echo "<a href='index.php?op=openFormTransport&id=".$tappa->getId()."'>Modifica</a>";
                 echo "</div>";
                 echo "<a style='float:left; width:2em;' href='index.php?op=searchTransport&from=".$tappa->getEndLocation()."' title='Scegli un trasporto per la tappa successiva'><img src='css/van.png'/></a>";
             }
@@ -38,4 +38,6 @@ include_once 'partials/_personalmenu.php'
     }
     ?>
     </div>
+    
+    <a href="index.php?op=saveItinerary" >Salva</a>
 </div>

@@ -50,6 +50,20 @@ class ManagementController {
         return $user->removeItinerary($id);
     }
     
+    public function saveItinerary(){
+        if(!isset($_SESSION['utente'])){
+            return FALSE;
+        }
+        $user = unserialize($_SESSION['utente']);
+        if($ris = $user->completeItinerary()){
+            $result['itineraries'] = $user->getSearchResultItinerary();
+            $result['journeys'] = $user->getSearchResultJourney();
+            $_SESSION['utente'] = serialize($user);
+            return $result;
+        }
+        return FALSE;
+    }
+    
     public function getStay($id){
         if(!isset($_SESSION['utente'])){
             return FALSE;
@@ -117,9 +131,9 @@ class ManagementController {
             return FALSE;
         }
         $user = unserialize($_SESSION['utente']);
-        $user->addBrick($id);
+        $model = $user->addBrick($id);
         $_SESSION['utente'] = serialize($user);
-        return $user->getItinerary();
+        return $model;
     }
     
     public function modifyStay($idStay, $startDate, $endDate){
