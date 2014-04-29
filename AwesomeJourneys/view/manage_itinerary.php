@@ -32,12 +32,12 @@ include_once 'partials/_personalmenu.php'
                 echo "<div class='transport'>";
                 echo "<a href='index.php?op=openFormTransport&id=".$tappa->getId()."'>Modifica</a>";
                 echo "</div>";
-                echo "<a style='float:left; width:2em;' href='index.php?op=searchTransport&from=".$tappa->getEndLocation()."' title='Scegli un trasporto per la tappa successiva'><img src='css/van.png'/></a>";
+                echo "<a style='float:left; width:2em;' href='index.php?op=searchTransport&from=".$tappa->getEndLocation()."' title='Scegli un trasporto per la tappa successiva'><img style='width:40%;'src='css/van.png'/></a>";
             }
         }
     }
     ?>
     </div>
     
-    <a href="index.php?op=saveItinerary" >Salva</a>
+    <div  class="add_remove_to_stage" style="float:left;"><a href="index.php?op=saveItinerary" >Salva</a></div>
 </div>

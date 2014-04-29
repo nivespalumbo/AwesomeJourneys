@@ -240,7 +240,7 @@ abstract class ItineraryState{
         $i = 0;
         $num_bricks = count($this->bricks, COUNT_NORMAL);
         
-        while($i < $num_bricks && $this->bricks[$i]->getEndLocation() == $this->bricks[$i+1]->getStartLocation()){
+        while($i < $num_bricks-1 && $this->bricks[$i]->getEndLocation() == $this->bricks[$i+1]->getStartLocation()){
             $i++;
         }
         
